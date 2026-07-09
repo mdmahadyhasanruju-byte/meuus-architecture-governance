@@ -1,8 +1,8 @@
 Document: 04_authority_flow_and_decision_rights.md
 Title: meUus Authority Flow and Decision Rights
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -25,7 +25,7 @@ This document defines the conceptual flow of authority and the boundaries of dec
 
 It explains how higher authority constrains lower authority, how evidence and proposals may move upward for review, which decisions may be made within inherited boundaries, which decisions require review or escalation, and which decisions are forbidden.
 
-This document is Ready for Review. Its sections are declared complete and now await formal Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 ---
 
@@ -112,7 +112,7 @@ Changes to Frozen governance follow the Freeze Rule. This document cannot create
 
 Architectural Authority belongs to Frozen architecture documents.
 
-Frozen Documents 01-03 are current Architectural Authority. Document 04 is Ready for Review and remains non-canonical until it completes the governance lifecycle.
+Frozen Documents 01-03 and this document are current Architectural Authority.
 
 Draft, Working, and Ready for Review documents may be developed or reviewed according to their status, but they do not become canonical merely because they exist.
 
@@ -276,7 +276,7 @@ The Freeze Rule is triggered when a proposed decision would:
 
 The Freeze Rule requires the process defined in `00_READ_FIRST.md`, including a decision record, justification, Founder approval, Architecture Review confirmation, version increment, and change-log treatment.
 
-This Ready for Review document does not create a Decision Register entry or modify a Frozen document.
+This initial Freeze does not create a Decision Register entry or modify another Frozen document.
 
 ### What Implementation May Decide
 
@@ -400,7 +400,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-03 remain controlling Architectural Authority for master roles, topology, and responsibility.
 
-While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
+This document is canonical Architectural Authority under the authority hierarchy established by `00_READ_FIRST.md`. Changes require the Freeze Rule process.
 
 This document cannot:
 
@@ -414,7 +414,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Ready for Review document are:
+The inputs to this Frozen document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -431,7 +431,7 @@ Implementation state may provide evidence. It does not assign or expand authorit
 
 ## Outputs
 
-If reviewed and Frozen through the governance lifecycle, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - A canonical conceptual authority-flow map.
 - A decision-right matrix.
@@ -439,7 +439,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Explicit implementation decision limits.
 - Decision boundaries for public expression, canonical knowledge, runtime evidence, status, and future systems.
 
-At Ready for Review status, these outputs are declared complete but remain non-canonical pending formal review.
+As Frozen architecture, these outputs are canonical within the scope of this document.
 
 ---
 
@@ -456,7 +456,7 @@ This document depends on:
 
 It inherits the authority hierarchy, lifecycle, topology, responsibility map, truth taxonomy, and evidence discipline established by those documents.
 
-If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
+If this document conflicts with a higher-authority Frozen dependency, the higher-authority dependency governs and the conflict must be documented for review. Later documents may inherit this Frozen authority-flow map but acquire canonical authority only after passing their own governance lifecycle.
 
 ---
 
@@ -604,7 +604,7 @@ This document does not:
 
 ## Review Criteria
 
-During formal Founder Review and Architecture Review, reviewers should confirm:
+The following criteria governed formal review and remain part of the recorded basis for Freeze:
 
 ### Constitutional and Governance Integrity
 
@@ -648,4 +648,4 @@ During formal Founder Review and Architecture Review, reviewers should confirm:
 - All required sections are substantially complete.
 - Dependencies and non-goals remain explicit.
 - Unresolved questions are resolved or explicitly accepted for formal review.
-- Founder Review and Architecture Review have not been presumed.
+- Founder Review and Architecture Review were completed before Freeze.
