@@ -1,8 +1,8 @@
 Document: 05_evidence_status_and_truth_taxonomy.md
 Title: meUus Evidence, Status, and Truth Taxonomy
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -13,7 +13,7 @@ Depends on:
 - 04_authority_flow_and_decision_rights.md
 Supersedes: None
 Purpose: Define how evidence, status labels, and truth claims are classified, constrained, reviewed, and communicated across the meUus ecosystem.
-Last Updated: 2026-07-09
+Last Updated: 2026-07-10
 Reviewed by:
 - Founder: Y
 - Architecture: Y
@@ -32,7 +32,7 @@ Claim <= Evidence
 
 A claim must never be broader, stronger, newer, or more certain than the evidence that supports it.
 
-This is a Ready for Review document. Its sections are complete enough for Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation or public claims.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`. It must not be treated as authority for implementation or public claims beyond its approved architectural scope.
 
 ---
 
@@ -377,7 +377,7 @@ Escalation does not approve the claim. It pauses stronger expression until the a
 
 ### Current Classification Preservation
 
-This Ready for Review document does not strengthen the classifications in Frozen Documents 01-04.
+This Frozen document does not strengthen the classifications in Frozen Documents 01-04.
 
 In particular:
 
@@ -403,7 +403,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-04 remain controlling Architectural Authority.
 
-While its status is Ready for Review, this document may be referenced as review-candidate architecture but is not canonical and remains subject to change until Frozen.
+This document is Frozen and canonical within its architectural scope. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 This document cannot:
 
@@ -418,7 +418,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Ready for Review document are:
+The inputs to this Frozen document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -436,7 +436,7 @@ The existence of evidence does not determine its authority, interpretation, or a
 
 ## Outputs
 
-If reviewed and Frozen through the governance lifecycle, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - A canonical conceptual evidence taxonomy.
 - Status and verification taxonomies.
@@ -446,7 +446,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Rules for missing, outdated, conflicting, and unverifiable evidence.
 - Prohibited-claim and escalation boundaries.
 
-At Ready for Review status, these outputs are complete enough for formal review but remain non-canonical.
+At Frozen status, these outputs are canonical within this document's approved architectural scope.
 
 ---
 
@@ -464,7 +464,7 @@ This document depends on:
 
 It inherits the authority hierarchy, lifecycle, topology, responsibility, decision rights, status language, and evidence discipline established by those documents.
 
-If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
+If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Frozen document.
 
 ---
 
@@ -617,7 +617,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Ready for Review to Frozen, reviewers should confirm:
+Before this document was Frozen, reviewers confirmed:
 
 ### Constitutional and Governance Integrity
 
@@ -662,4 +662,4 @@ Before this document may move from Ready for Review to Frozen, reviewers should 
 - All required sections are substantially complete.
 - Dependencies and non-goals remain explicit.
 - Unresolved questions are resolved or explicitly accepted for formal review.
-- Founder Review and Architecture Review have not been presumed.
+- Founder Review and Architecture Review have been completed and recorded.
