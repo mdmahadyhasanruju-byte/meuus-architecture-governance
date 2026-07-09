@@ -1,8 +1,8 @@
 Document: 07_canonical_knowledge_and_provenance.md
 Title: meUus Canonical Knowledge and Provenance
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -15,7 +15,7 @@ Depends on:
 - 06_public_institutional_expression.md
 Supersedes: None
 Purpose: Define how canonical knowledge is identified, preserved, referenced, reviewed, and protected from dilution, marketing drift, runtime distortion, or unsupported authority claims.
-Last Updated: 2026-07-09
+Last Updated: 2026-07-10
 Reviewed by:
 - Founder: Y
 - Architecture: Y
@@ -30,7 +30,7 @@ It explains how knowledge may become canonical, how provenance must travel with 
 
 The primary knowledge surface considered by this document is `meuussoul.com`. Other knowledge surfaces may be referenced conceptually, but this document does not create content for `meuussoul.com`, write book content, write religious content, create learning materials, or define implementation.
 
-This is a Ready for Review document. It is not Frozen and not canonical.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 ---
 
@@ -328,7 +328,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-06 remain Architectural Authority.
 
-This Ready for Review document cannot:
+This Frozen document cannot:
 
 - modify or reinterpret a Frozen dependency.
 - create actual canonical content.
@@ -362,7 +362,7 @@ The existence of knowledge material does not prove canonical status.
 
 ## Outputs
 
-If reviewed and Frozen through the governance lifecycle, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - conceptual rules for canonical knowledge.
 - provenance expectations.
@@ -373,7 +373,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - prohibited-claim and escalation boundaries.
 - Amanah expectations for knowledge stewardship.
 
-At Ready for Review status, these outputs are complete enough for formal review but remain non-canonical.
+At Frozen status, these outputs are canonical within this document's approved architectural scope.
 
 ---
 
@@ -543,7 +543,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Ready for Review to Frozen, reviewers should confirm:
+Before this document was Frozen, reviewers confirmed:
 
 ### Governance Integrity
 
@@ -585,4 +585,4 @@ Before this document may move from Ready for Review to Frozen, reviewers should 
 
 - all required sections are substantially complete.
 - unresolved questions are visible and dispositioned.
-- Founder Review and Architecture Review have not been presumed.
+- Founder Review and Architecture Review have been completed and recorded.
