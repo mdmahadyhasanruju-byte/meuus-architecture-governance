@@ -1,6 +1,6 @@
 Document: 05_evidence_status_and_truth_taxonomy.md
 Title: meUus Evidence, Status, and Truth Taxonomy
-Status: Working
+Status: Ready for Review
 Authority: Architectural Authority
 Version: 0.1
 Depends on:
@@ -32,7 +32,7 @@ Claim <= Evidence
 
 A claim must never be broader, stronger, newer, or more certain than the evidence that supports it.
 
-This is a Working document. Its sections are substantially developed but remain subject to Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation or public claims.
+This is a Ready for Review document. Its sections are complete enough for Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation or public claims.
 
 ---
 
@@ -377,7 +377,7 @@ Escalation does not approve the claim. It pauses stronger expression until the a
 
 ### Current Classification Preservation
 
-This Working document does not strengthen the classifications in Frozen Documents 01-04.
+This Ready for Review document does not strengthen the classifications in Frozen Documents 01-04.
 
 In particular:
 
@@ -418,7 +418,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Working document are:
+The inputs to this Ready for Review document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -446,7 +446,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Rules for missing, outdated, conflicting, and unverifiable evidence.
 - Prohibited-claim and escalation boundaries.
 
-At Working status, these outputs are substantially developed but remain non-canonical.
+At Ready for Review status, these outputs are complete enough for formal review but remain non-canonical.
 
 ---
 
@@ -464,7 +464,7 @@ This document depends on:
 
 It inherits the authority hierarchy, lifecycle, topology, responsibility, decision rights, status language, and evidence discipline established by those documents.
 
-If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Working document.
+If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
 
 ---
 
@@ -617,7 +617,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Working to Ready for Review, reviewers should confirm:
+Before this document may move from Ready for Review to Frozen, reviewers should confirm:
 
 ### Constitutional and Governance Integrity
 
