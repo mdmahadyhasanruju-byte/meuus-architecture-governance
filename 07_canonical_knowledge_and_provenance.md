@@ -1,6 +1,6 @@
 Document: 07_canonical_knowledge_and_provenance.md
 Title: meUus Canonical Knowledge and Provenance
-Status: Working
+Status: Ready for Review
 Authority: Architectural Authority
 Version: 0.1
 Depends on:
@@ -30,7 +30,7 @@ It explains how knowledge may become canonical, how provenance must travel with 
 
 The primary knowledge surface considered by this document is `meuussoul.com`. Other knowledge surfaces may be referenced conceptually, but this document does not create content for `meuussoul.com`, write book content, write religious content, create learning materials, or define implementation.
 
-This is a Working document. It is not Ready for Review, not Frozen, and not canonical.
+This is a Ready for Review document. It is not Frozen and not canonical.
 
 ---
 
@@ -328,7 +328,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-06 remain Architectural Authority.
 
-This Working document cannot:
+This Ready for Review document cannot:
 
 - modify or reinterpret a Frozen dependency.
 - create actual canonical content.
@@ -373,7 +373,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - prohibited-claim and escalation boundaries.
 - Amanah expectations for knowledge stewardship.
 
-At Working status, these outputs are substantially developed but remain non-canonical.
+At Ready for Review status, these outputs are complete enough for formal review but remain non-canonical.
 
 ---
 
@@ -543,7 +543,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Working to Ready for Review, reviewers should confirm:
+Before this document may move from Ready for Review to Frozen, reviewers should confirm:
 
 ### Governance Integrity
 
