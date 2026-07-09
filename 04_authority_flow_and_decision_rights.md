@@ -15,7 +15,7 @@ Purpose: Define how authority flows and how decision rights are assigned, constr
 Last Updated: 2026-07-09
 Reviewed by:
 - Founder: Y
-- Architecture: N
+- Architecture: Y
 
 ---
 
