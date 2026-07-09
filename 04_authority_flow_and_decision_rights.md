@@ -14,7 +14,7 @@ Supersedes: None
 Purpose: Define how authority flows and how decision rights are assigned, constrained, escalated, and reviewed across the meUus ecosystem.
 Last Updated: 2026-07-09
 Reviewed by:
-- Founder: N
+- Founder: Y
 - Architecture: N
 
 ---
