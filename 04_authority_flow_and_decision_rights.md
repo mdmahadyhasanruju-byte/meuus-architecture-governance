@@ -1,6 +1,6 @@
 Document: 04_authority_flow_and_decision_rights.md
 Title: meUus Authority Flow and Decision Rights
-Status: Working
+Status: Ready for Review
 Authority: Architectural Authority
 Version: 0.1
 Depends on:
@@ -25,7 +25,7 @@ This document defines the conceptual flow of authority and the boundaries of dec
 
 It explains how higher authority constrains lower authority, how evidence and proposals may move upward for review, which decisions may be made within inherited boundaries, which decisions require review or escalation, and which decisions are forbidden.
 
-This is a Working document. Its sections are substantially developed but remain subject to Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
+This document is Ready for Review. Its sections are declared complete and now await formal Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
 
 ---
 
@@ -112,7 +112,7 @@ Changes to Frozen governance follow the Freeze Rule. This document cannot create
 
 Architectural Authority belongs to Frozen architecture documents.
 
-Frozen Documents 01-03 are current Architectural Authority. Document 04 remains Working and non-canonical until it completes the governance lifecycle.
+Frozen Documents 01-03 are current Architectural Authority. Document 04 is Ready for Review and remains non-canonical until it completes the governance lifecycle.
 
 Draft, Working, and Ready for Review documents may be developed or reviewed according to their status, but they do not become canonical merely because they exist.
 
@@ -276,7 +276,7 @@ The Freeze Rule is triggered when a proposed decision would:
 
 The Freeze Rule requires the process defined in `00_READ_FIRST.md`, including a decision record, justification, Founder approval, Architecture Review confirmation, version increment, and change-log treatment.
 
-This initial Working document does not create a Decision Register entry or modify a Frozen document.
+This Ready for Review document does not create a Decision Register entry or modify a Frozen document.
 
 ### What Implementation May Decide
 
@@ -400,7 +400,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-03 remain controlling Architectural Authority for master roles, topology, and responsibility.
 
-While its status is Working, this document may be referenced as developing architecture but is not canonical and remains subject to change.
+While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
 
 This document cannot:
 
@@ -414,7 +414,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Working document are:
+The inputs to this Ready for Review document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -439,7 +439,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Explicit implementation decision limits.
 - Decision boundaries for public expression, canonical knowledge, runtime evidence, status, and future systems.
 
-At Working status, these outputs are substantially developed but remain non-canonical.
+At Ready for Review status, these outputs are declared complete but remain non-canonical pending formal review.
 
 ---
 
@@ -456,7 +456,7 @@ This document depends on:
 
 It inherits the authority hierarchy, lifecycle, topology, responsibility map, truth taxonomy, and evidence discipline established by those documents.
 
-If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Working document.
+If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
 
 ---
 
@@ -604,7 +604,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Working to Ready for Review, reviewers should confirm:
+During formal Founder Review and Architecture Review, reviewers should confirm:
 
 ### Constitutional and Governance Integrity
 
