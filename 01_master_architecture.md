@@ -1,8 +1,8 @@
 Document: 01_master_architecture.md
 Title: meUus Ecosystem Master Architecture
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -29,7 +29,7 @@ It establishes the roles, boundaries, relationships, and authority flow among:
 
 It gives future contributors a shared map for understanding where governance, institutional expression, canonical knowledge, and runtime action belong. It also provides the architectural dependency point from which later architecture documents may inherit after this document completes the governance lifecycle.
 
-This document is Ready for Review. Its content is declared complete and now awaits formal Founder Review and Architecture Review. It is not Frozen and must not be cited as canonical Architectural Authority.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 ---
 
@@ -72,7 +72,7 @@ This snapshot applies the truth and status taxonomy to the evidence available to
 | `meuussoul.com` | Planned as the canonical knowledge and learning domain; operational status not Verified here | Founder direction establishes the intended role. No evidence inspected for this document establishes that the full platform or its described capabilities are Existing or live. |
 | `meuus.app` | Existing as an established ecosystem domain; Phase Zero operational status not Verified here; later runtime roles are Future | Founder direction establishes the domain and Phase Zero role. Evidence sufficient to verify the prototype's present operation or live status has not been reviewed for this document. Later runtime roles remain subject to governance approval. |
 
-This snapshot is current only to the evidence reviewed for this Ready for Review document. A broader or more current classification requires explicit evidence and review; absence of verification must not be converted into a claim that a system is live or not live.
+This snapshot is current only to the evidence reviewed for this Frozen document. A broader or more current classification requires explicit evidence and review; absence of verification must not be converted into a claim that a system is live or not live.
 
 ### Ecosystem Roles
 
@@ -167,7 +167,7 @@ This document is subordinate to:
 2. `00_READ_FIRST.md` as Governance Authority.
 3. `README.md` as Frozen Governance Orientation.
 
-This document is classified under Architectural Authority. While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
+This document is canonical Architectural Authority under the authority hierarchy established by `00_READ_FIRST.md`. Changes require the Freeze Rule process.
 
 This document cannot:
 
@@ -208,7 +208,7 @@ Lower-authority systems may provide evidence upward, but they do not acquire hig
 
 ## Inputs
 
-The discoverable inputs to this Ready for Review document are:
+The discoverable inputs to this Frozen document are:
 
 - Book Zero as Foundational Authority.
 - `00_READ_FIRST.md` as Governance Authority.
@@ -223,7 +223,7 @@ Later review must distinguish inherited authority from contextual evidence. A cu
 
 ## Outputs
 
-When reviewed and Frozen, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - The master conceptual map of the meUus ecosystem.
 - Stable responsibility and exclusion boundaries for each principal domain.
@@ -259,7 +259,7 @@ Later architecture documents should:
 - Keep unresolved matters open unless resolved through discoverable evidence and the governance process.
 - Record any proposed conflict rather than silently overriding this document.
 
-No later document derives canonical authority from this Ready for Review document. Formal inheritance begins only after the relevant documents pass their required governance lifecycle.
+Later documents may inherit the canonical boundaries established by this Frozen document. They acquire canonical authority only after passing their own required governance lifecycle.
 
 ---
 
@@ -405,7 +405,7 @@ Architectural response: define conceptual responsibilities and interfaces only; 
 
 ### Premature Dependency
 
-Later documents could treat this Ready for Review document as Frozen authority.
+Later documents could treat dependency on this Frozen document as granting themselves canonical authority.
 
 Architectural response: require explicit status awareness and prohibit canonical inheritance until governance approval is complete.
 
@@ -439,7 +439,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move to Ready for Review, reviewers should confirm:
+The following criteria governed formal review and remain part of the recorded basis for Freeze:
 
 ### Constitutional Integrity
 
@@ -481,5 +481,5 @@ Before this document may move to Ready for Review, reviewers should confirm:
 - All required sections are substantially complete.
 - Dependencies and status are accurate.
 - Remaining questions are resolved or explicitly accepted for formal review.
-- Founder Review and Architecture Review have not been presumed.
-- The document is not marked Frozen before approval.
+- Founder Review and Architecture Review were completed before Freeze.
+- The document was marked Frozen only after approval.
