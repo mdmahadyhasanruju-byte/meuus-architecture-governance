@@ -61,6 +61,19 @@ The ecosystem is organized into four distinct architectural domains:
 
 These domains are separate so that no implementation surface silently acquires governance, institutional, or canonical knowledge authority merely by publishing content or operating software.
 
+### System Status Snapshot
+
+This snapshot applies the truth and status taxonomy to the evidence available to this document. It distinguishes an established architectural role from verified operational status.
+
+| Domain | Current classification | Evidence boundary |
+| --- | --- | --- |
+| `meuus-architecture-governance` | Existing; Verified within this repository | The repository and its governance documents can be directly inspected. Verification here is limited to their presence and recorded status; it does not verify any implementation repository. |
+| `meuus.org` | Existing as an established ecosystem domain; operational status not Verified here | Frozen governance orientation and Founder direction establish its institutional role. This document has not inspected evidence sufficient to classify its current public capabilities or live status. |
+| `meuussoul.com` | Planned as the canonical knowledge and learning domain; operational status not Verified here | Founder direction establishes the intended role. No evidence inspected for this document establishes that the full platform or its described capabilities are Existing or live. |
+| `meuus.app` | Existing as an established ecosystem domain; Phase Zero operational status not Verified here; later runtime roles are Future | Founder direction establishes the domain and Phase Zero role. Evidence sufficient to verify the prototype's present operation or live status has not been reviewed for this document. Later runtime roles remain subject to governance approval. |
+
+This snapshot is current only to the evidence reviewed for this Working draft. A broader or more current classification requires explicit evidence and review; absence of verification must not be converted into a claim that a system is live or not live.
+
 ### Ecosystem Roles
 
 #### `meuus-architecture-governance`
@@ -112,7 +125,7 @@ It does not:
 
 Its Phase Zero role is a browser-local reflection prototype. This statement defines the approved role boundary; any claim about the prototype's present operational state still requires verification.
 
-Its future role may include user journeys, reflection artifacts, responsible next steps, DLAS runtime, and other action systems only after governance approval. Future roles are not live capabilities and must not be represented as operational before verification.
+Its future role may include user journeys, reflection artifacts, responsible next steps, DLAS runtime, and other action systems only after governance approval. DLAS is currently treated in this document as a conceptual future runtime family and architecture subject whose exact definition, scope, and authority remain unresolved until later Founder-approved architecture work. Future roles, including DLAS, are not live capabilities and must not be represented as operational before verification.
 
 `meuus.app` does not:
 
@@ -330,16 +343,25 @@ This is a flow of responsibility and review, not a prescribed technical data flo
 The following questions remain open and must not be resolved through implementation assumptions:
 
 - What Founder-approved evidence is required to classify the Phase Zero browser-local reflection prototype as Existing, Verified, or Not live?
+  - **Disposition:** Requires evidence before resolution.
 - Which specific institutional statements belong only on `meuus.org`, and which may be reproduced with provenance on other surfaces?
+  - **Disposition:** Deferred to later architecture document.
 - What review authority and evidence threshold should govern promotion of runtime observations into candidate knowledge?
+  - **Disposition:** Deferred to later architecture document.
 - What privacy and consent principles must be established before any private runtime reflection may contribute to aggregated evidence?
+  - **Disposition:** Deferred to Founder Review.
 - What is the approved conceptual definition and scope of DLAS before any later architecture document treats it as a runtime family?
+  - **Disposition:** Deferred to later architecture document.
 - Which later architecture documents should inherit directly from this master document, and in what approved order?
+  - **Disposition:** Deferred to Founder Review.
 - Which terms require inclusion in the future glossary to prevent differing interpretations across repositories?
+  - **Disposition:** Deferred to later architecture document.
 - What mechanism should identify and reconcile status differences when a claim is verified at one time but later becomes outdated?
+  - **Disposition:** Deferred to Architecture Review.
 - What minimum provenance must accompany canonical knowledge when it is summarized by `meuus.org` or used contextually by `meuus.app`?
+  - **Disposition:** Deferred to later architecture document.
 
-These questions do not prevent Working status because they are explicit and bounded. They must be resolved or formally deferred before this document is considered Ready for Review.
+These questions do not prevent Working status because they are explicit and bounded. Their dispositions must be accepted through the appropriate review before this document is considered Ready for Review. A disposition records where resolution belongs; it does not resolve the underlying question or authorize creation of another document.
 
 ---
 
