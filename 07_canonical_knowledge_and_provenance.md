@@ -17,7 +17,7 @@ Supersedes: None
 Purpose: Define how canonical knowledge is identified, preserved, referenced, reviewed, and protected from dilution, marketing drift, runtime distortion, or unsupported authority claims.
 Last Updated: 2026-07-09
 Reviewed by:
-- Founder: N
+- Founder: Y
 - Architecture: N
 
 ---
