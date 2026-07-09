@@ -1,8 +1,8 @@
 Document: 02_ecosystem_topology.md
 Title: meUus Ecosystem Topology
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -23,7 +23,7 @@ This document refines the Frozen Master Architecture into a detailed conceptual 
 
 It explains how the four principal domains are positioned in relation to one another, what each domain owns, what may move between domains, what must not move, and what requires explicit review. It provides more structural detail than `01_master_architecture.md` without restating or replacing the master architecture.
 
-This document is Ready for Review. Its sections are declared complete and now await formal Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 ---
 
@@ -253,7 +253,7 @@ Current classifications inherited from Frozen Document 01:
 | `meuussoul.com` | Planned canonical knowledge and learning domain | Full platform existence and operation are not Verified here. |
 | `meuus.app` | Existing as an established domain; later runtime roles are Future | Phase Zero operation and live status are not Verified here. |
 
-This Ready for Review document does not strengthen those classifications.
+This Frozen document does not strengthen those classifications.
 
 ### Public-to-Knowledge Relationship
 
@@ -334,12 +334,12 @@ This document is subordinate to:
 - `README.md`.
 - `01_master_architecture.md`.
 
-While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
+This document is canonical Architectural Authority under the authority hierarchy established by `00_READ_FIRST.md`. Changes require the Freeze Rule process.
 
 This document cannot:
 
 - Modify or reinterpret a Frozen dependency.
-- Grant itself Frozen status.
+- Change its Frozen status outside the Freeze Rule process.
 - Transfer authority among domains.
 - Authorize implementation work.
 - Begin or authorize Document 03.
@@ -348,7 +348,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Ready for Review document are:
+The inputs to this Frozen document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -363,7 +363,7 @@ Implementation state may provide evidence about what exists. It does not determi
 
 ## Outputs
 
-If reviewed and Frozen through the governance lifecycle, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - A canonical conceptual topology for the four principal domains.
 - A domain responsibility matrix.
@@ -372,7 +372,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Separation rules for later architecture documents.
 - An explicit boundary between ecosystem topology and later architectural concerns.
 
-At Ready for Review status, these outputs are declared complete but remain non-canonical pending formal review.
+As Frozen architecture, these outputs are canonical within the scope of this document.
 
 ---
 
@@ -387,7 +387,7 @@ This document depends on:
 
 It inherits the authority hierarchy, domain roles, truth taxonomy, evidence discipline, and unresolved boundaries established by those documents.
 
-If this document appears to conflict with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
+If this document appears to conflict with a higher-authority Frozen dependency, the higher-authority dependency governs and the conflict must be documented for review. Later documents may inherit this Frozen topology but acquire canonical authority only after passing their own governance lifecycle.
 
 ---
 
@@ -521,7 +521,7 @@ This document does not:
 
 ## Review Criteria
 
-During formal Founder Review and Architecture Review, reviewers should confirm:
+The following criteria governed formal review and remain part of the recorded basis for Freeze:
 
 ### Constitutional and Governance Integrity
 
@@ -560,4 +560,4 @@ During formal Founder Review and Architecture Review, reviewers should confirm:
 - All required sections are substantially complete.
 - Dependencies and non-goals remain explicit.
 - Unresolved questions are resolved or explicitly accepted for formal review.
-- Founder Review and Architecture Review have not been presumed.
+- Founder Review and Architecture Review were completed before Freeze.
