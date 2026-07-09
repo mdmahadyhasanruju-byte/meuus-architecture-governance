@@ -1,6 +1,6 @@
 Document: 01_master_architecture.md
 Title: meUus Ecosystem Master Architecture
-Status: Working
+Status: Ready for Review
 Authority: Architectural Authority
 Version: 0.1
 Depends on:
@@ -29,7 +29,7 @@ It establishes the roles, boundaries, relationships, and authority flow among:
 
 It gives future contributors a shared map for understanding where governance, institutional expression, canonical knowledge, and runtime action belong. It also provides the architectural dependency point from which later architecture documents may inherit after this document completes the governance lifecycle.
 
-This is a Working document. Its content is substantially complete but remains subject to Founder Review and Architecture Review. It is not Frozen and must not be cited as canonical Architectural Authority.
+This document is Ready for Review. Its content is declared complete and now awaits formal Founder Review and Architecture Review. It is not Frozen and must not be cited as canonical Architectural Authority.
 
 ---
 
@@ -72,7 +72,7 @@ This snapshot applies the truth and status taxonomy to the evidence available to
 | `meuussoul.com` | Planned as the canonical knowledge and learning domain; operational status not Verified here | Founder direction establishes the intended role. No evidence inspected for this document establishes that the full platform or its described capabilities are Existing or live. |
 | `meuus.app` | Existing as an established ecosystem domain; Phase Zero operational status not Verified here; later runtime roles are Future | Founder direction establishes the domain and Phase Zero role. Evidence sufficient to verify the prototype's present operation or live status has not been reviewed for this document. Later runtime roles remain subject to governance approval. |
 
-This snapshot is current only to the evidence reviewed for this Working draft. A broader or more current classification requires explicit evidence and review; absence of verification must not be converted into a claim that a system is live or not live.
+This snapshot is current only to the evidence reviewed for this Ready for Review document. A broader or more current classification requires explicit evidence and review; absence of verification must not be converted into a claim that a system is live or not live.
 
 ### Ecosystem Roles
 
@@ -167,7 +167,7 @@ This document is subordinate to:
 2. `00_READ_FIRST.md` as Governance Authority.
 3. `README.md` as Frozen Governance Orientation.
 
-This document is classified under Architectural Authority. While its status is Working, it can be referenced as a developing architecture document but is not canonical and remains subject to change.
+This document is classified under Architectural Authority. While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
 
 This document cannot:
 
@@ -208,7 +208,7 @@ Lower-authority systems may provide evidence upward, but they do not acquire hig
 
 ## Inputs
 
-The discoverable inputs to this Working document are:
+The discoverable inputs to this Ready for Review document are:
 
 - Book Zero as Foundational Authority.
 - `00_READ_FIRST.md` as Governance Authority.
@@ -259,7 +259,7 @@ Later architecture documents should:
 - Keep unresolved matters open unless resolved through discoverable evidence and the governance process.
 - Record any proposed conflict rather than silently overriding this document.
 
-No later document derives canonical authority from this Working draft. Formal inheritance begins only after the relevant documents pass their required governance lifecycle.
+No later document derives canonical authority from this Ready for Review document. Formal inheritance begins only after the relevant documents pass their required governance lifecycle.
 
 ---
 
@@ -361,7 +361,7 @@ The following questions remain open and must not be resolved through implementat
 - What minimum provenance must accompany canonical knowledge when it is summarized by `meuus.org` or used contextually by `meuus.app`?
   - **Disposition:** Deferred to later architecture document.
 
-These questions do not prevent Working status because they are explicit and bounded. Their dispositions must be accepted through the appropriate review before this document is considered Ready for Review. A disposition records where resolution belongs; it does not resolve the underlying question or authorize creation of another document.
+These questions remain explicit and bounded, and their dispositions are presented for formal review. A disposition records where resolution belongs; it does not resolve the underlying question or authorize creation of another document.
 
 ---
 
@@ -405,7 +405,7 @@ Architectural response: define conceptual responsibilities and interfaces only; 
 
 ### Premature Dependency
 
-Later documents could treat this Working draft as Frozen authority.
+Later documents could treat this Ready for Review document as Frozen authority.
 
 Architectural response: require explicit status awareness and prohibit canonical inheritance until governance approval is complete.
 
