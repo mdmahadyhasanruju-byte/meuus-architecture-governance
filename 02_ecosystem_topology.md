@@ -85,7 +85,7 @@ This is a conceptual authority and responsibility map. It is not a network, depl
 Topology role:
 
 - Sits above implementation domains in the authority hierarchy.
-- Preserves constitutional and architectural judgment.
+- Preserves the governed architecture record and architectural judgment under inherited Foundational Authority.
 - Defines approved architecture boundaries through governed documents.
 - Receives proposed evidence or change requests only through explicit review.
 
@@ -148,7 +148,7 @@ DLAS remains a conceptual future runtime family and architecture subject. Its de
 
 | Responsibility | Governance repository | `meuus.org` | `meuussoul.com` | `meuus.app` |
 | --- | --- | --- | --- | --- |
-| Preserve foundational and architectural judgment | Owns architecture record within inherited authority | Does not own | Does not own | Does not own |
+| Preserve governed architecture record and architectural judgment | Owns architecture record within inherited authority | Does not own | Does not own | Does not own |
 | Express approved institutional truth publicly | Governs applicable boundaries | Owns public expression | May supply canonical source material | May display approved contextual boundaries |
 | Preserve canonical knowledge and provenance | Governs applicable boundaries | May summarize with provenance | Owns canonical knowledge role | May use approved knowledge contextually |
 | Hold private reflection and journey context | Does not own | Does not own | Does not own private runtime data | Owns runtime role within future approved boundaries |
