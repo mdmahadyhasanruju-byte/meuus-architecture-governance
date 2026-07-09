@@ -1,6 +1,6 @@
 Document: 02_ecosystem_topology.md
 Title: meUus Ecosystem Topology
-Status: Working
+Status: Ready for Review
 Authority: Architectural Authority
 Version: 0.1
 Depends on:
@@ -23,7 +23,7 @@ This document refines the Frozen Master Architecture into a detailed conceptual 
 
 It explains how the four principal domains are positioned in relation to one another, what each domain owns, what may move between domains, what must not move, and what requires explicit review. It provides more structural detail than `01_master_architecture.md` without restating or replacing the master architecture.
 
-This is a Working document. Its sections are substantially developed but remain subject to Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
+This document is Ready for Review. Its sections are declared complete and now await formal Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
 
 ---
 
@@ -253,7 +253,7 @@ Current classifications inherited from Frozen Document 01:
 | `meuussoul.com` | Planned canonical knowledge and learning domain | Full platform existence and operation are not Verified here. |
 | `meuus.app` | Existing as an established domain; later runtime roles are Future | Phase Zero operation and live status are not Verified here. |
 
-This Working document does not strengthen those classifications.
+This Ready for Review document does not strengthen those classifications.
 
 ### Public-to-Knowledge Relationship
 
@@ -334,7 +334,7 @@ This document is subordinate to:
 - `README.md`.
 - `01_master_architecture.md`.
 
-While its status is Working, it may be referenced as a developing architecture document but is not canonical and remains subject to change.
+While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
 
 This document cannot:
 
@@ -348,7 +348,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Working document are:
+The inputs to this Ready for Review document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -372,7 +372,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Separation rules for later architecture documents.
 - An explicit boundary between ecosystem topology and later architectural concerns.
 
-At Working status, these outputs are substantially developed but remain non-canonical.
+At Ready for Review status, these outputs are declared complete but remain non-canonical pending formal review.
 
 ---
 
@@ -387,7 +387,7 @@ This document depends on:
 
 It inherits the authority hierarchy, domain roles, truth taxonomy, evidence discipline, and unresolved boundaries established by those documents.
 
-If this document appears to conflict with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Working document.
+If this document appears to conflict with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
 
 ---
 
@@ -521,7 +521,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Working to Ready for Review, reviewers should confirm:
+During formal Founder Review and Architecture Review, reviewers should confirm:
 
 ### Constitutional and Governance Integrity
 
