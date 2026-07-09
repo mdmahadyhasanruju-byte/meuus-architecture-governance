@@ -403,7 +403,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-04 remain controlling Architectural Authority.
 
-While its status is Working, this document may be referenced as developing architecture but is not canonical and remains subject to change.
+While its status is Ready for Review, this document may be referenced as review-candidate architecture but is not canonical and remains subject to change until Frozen.
 
 This document cannot:
 
