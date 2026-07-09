@@ -1,6 +1,6 @@
 Document: 06_public_institutional_expression.md
 Title: meUus Public Institutional Expression
-Status: Working
+Status: Ready for Review
 Authority: Architectural Authority
 Version: 0.1
 Depends on:
@@ -29,7 +29,7 @@ It governs how meUus may publicly represent its reality, purpose, status, bounda
 
 The primary public surface considered by this document is `meuus.org`. Other public surfaces may be referenced conceptually, but this document does not create website content, page copy, routes, components, deployment, or implementation.
 
-This is a Working document. It is not Ready for Review, not Frozen, and not canonical.
+This is a Ready for Review document. It is not Frozen and not canonical.
 
 ---
 
@@ -294,7 +294,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-05 remain Architectural Authority.
 
-This Working document cannot:
+This Ready for Review document cannot:
 
 - modify or reinterpret a Frozen dependency.
 - create public copy for `meuus.org`.
@@ -338,7 +338,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - public correction and retraction expectations.
 - Amanah expectations for public communication.
 
-At Working status, these outputs are substantially developed but remain non-canonical.
+At Ready for Review status, these outputs are complete enough for formal review but remain non-canonical.
 
 ---
 
@@ -496,7 +496,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Working to Ready for Review, reviewers should confirm:
+Before this document may move from Ready for Review to Frozen, reviewers should confirm:
 
 ### Governance Integrity
 
