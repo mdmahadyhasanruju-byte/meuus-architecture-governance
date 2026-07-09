@@ -15,7 +15,7 @@ Supersedes: None
 Purpose: Define how evidence, status labels, and truth claims are classified, constrained, reviewed, and communicated across the meUus ecosystem.
 Last Updated: 2026-07-09
 Reviewed by:
-- Founder: N
+- Founder: Y
 - Architecture: N
 
 ---
