@@ -1,8 +1,8 @@
 Document: 06_public_institutional_expression.md
 Title: meUus Public Institutional Expression
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -14,7 +14,7 @@ Depends on:
 - 05_evidence_status_and_truth_taxonomy.md
 Supersedes: None
 Purpose: Define how meUus may express public institutional truth across public surfaces without exceeding evidence, authority, or approved governance boundaries.
-Last Updated: 2026-07-09
+Last Updated: 2026-07-10
 Reviewed by:
 - Founder: Y
 - Architecture: Y
@@ -29,7 +29,7 @@ It governs how meUus may publicly represent its reality, purpose, status, bounda
 
 The primary public surface considered by this document is `meuus.org`. Other public surfaces may be referenced conceptually, but this document does not create website content, page copy, routes, components, deployment, or implementation.
 
-This is a Ready for Review document. It is not Frozen and not canonical.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 ---
 
@@ -294,7 +294,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01-05 remain Architectural Authority.
 
-This Ready for Review document cannot:
+This Frozen document cannot:
 
 - modify or reinterpret a Frozen dependency.
 - create public copy for `meuus.org`.
@@ -327,7 +327,7 @@ The existence of a public surface does not prove that any public claim is true, 
 
 ## Outputs
 
-If reviewed and Frozen through the governance lifecycle, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - conceptual rules for public institutional expression.
 - boundaries for public claims.
@@ -338,7 +338,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - public correction and retraction expectations.
 - Amanah expectations for public communication.
 
-At Ready for Review status, these outputs are complete enough for formal review but remain non-canonical.
+At Frozen status, these outputs are canonical within this document's approved architectural scope.
 
 ---
 
@@ -496,7 +496,7 @@ This document does not:
 
 ## Review Criteria
 
-Before this document may move from Ready for Review to Frozen, reviewers should confirm:
+Before this document was Frozen, reviewers confirmed:
 
 ### Governance Integrity
 
@@ -538,4 +538,4 @@ Before this document may move from Ready for Review to Frozen, reviewers should 
 
 - all required sections are substantially complete.
 - unresolved questions are visible and dispositioned.
-- Founder Review and Architecture Review have not been presumed.
+- Founder Review and Architecture Review have been completed and recorded.
