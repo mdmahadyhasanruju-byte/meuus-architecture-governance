@@ -16,7 +16,7 @@ Supersedes: None
 Purpose: Define how meUus may express public institutional truth across public surfaces without exceeding evidence, authority, or approved governance boundaries.
 Last Updated: 2026-07-09
 Reviewed by:
-- Founder: N
+- Founder: Y
 - Architecture: N
 
 ---
