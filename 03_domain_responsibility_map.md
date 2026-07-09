@@ -1,8 +1,8 @@
 Document: 03_domain_responsibility_map.md
 Title: meUus Domain Responsibility Map
-Status: Ready for Review
+Status: Frozen
 Authority: Architectural Authority
-Version: 0.1
+Version: v1.0
 Depends on:
 - Book Zero
 - 00_READ_FIRST.md
@@ -24,7 +24,7 @@ This document defines the conceptual responsibility map for the four principal m
 
 It refines the Frozen Master Architecture and Frozen Ecosystem Topology by distinguishing what each domain owns, does not own, may express, may reference, may receive, may propose, may approve, must never silently absorb, and must escalate for review.
 
-This document is Ready for Review. Its sections are declared complete and now await formal Founder Review and Architecture Review. It is not Frozen, is not canonical, and must not be treated as authority for implementation.
+This document is Frozen and is canonical Architectural Authority. Future changes require the Freeze Rule process defined in `00_READ_FIRST.md`.
 
 ---
 
@@ -315,7 +315,7 @@ This document is subordinate to:
 
 Book Zero remains Foundational Authority. `00_READ_FIRST.md` remains Governance Authority. Frozen Documents 01 and 02 remain controlling Architectural Authority for master roles and topology.
 
-While its status is Ready for Review, it awaits formal review, is not canonical, and remains subject to change through the review process.
+This document is canonical Architectural Authority under the authority hierarchy established by `00_READ_FIRST.md`. Changes require the Freeze Rule process.
 
 This document cannot:
 
@@ -329,7 +329,7 @@ This document cannot:
 
 ## Inputs
 
-The inputs to this Ready for Review document are:
+The inputs to this Frozen document are:
 
 - Book Zero.
 - `00_READ_FIRST.md`.
@@ -345,7 +345,7 @@ Implementation state may provide evidence about what exists. It does not assign 
 
 ## Outputs
 
-If reviewed and Frozen through the governance lifecycle, this document is intended to provide:
+As a Frozen document, this document provides:
 
 - A canonical conceptual responsibility map for the four principal domains.
 - Explicit ownership and exclusion boundaries.
@@ -353,7 +353,7 @@ If reviewed and Frozen through the governance lifecycle, this document is intend
 - Protection against silent responsibility absorption.
 - A responsibility reference for later architecture documents.
 
-At Ready for Review status, these outputs are declared complete but remain non-canonical pending formal review.
+As Frozen architecture, these outputs are canonical within the scope of this document.
 
 ---
 
@@ -369,7 +369,7 @@ This document depends on:
 
 It inherits the authority hierarchy, domain roles, topology, movement rules, truth taxonomy, and evidence discipline established by those documents.
 
-If this document conflicts with a Frozen dependency, the Frozen dependency governs and the conflict must be documented for review. No later document acquires authority merely by depending on this Ready for Review document.
+If this document conflicts with a higher-authority Frozen dependency, the higher-authority dependency governs and the conflict must be documented for review. Later documents may inherit this Frozen responsibility map but acquire canonical authority only after passing their own governance lifecycle.
 
 ---
 
@@ -508,7 +508,7 @@ This document does not:
 
 ## Review Criteria
 
-During formal Founder Review and Architecture Review, reviewers should confirm:
+The following criteria governed formal review and remain part of the recorded basis for Freeze:
 
 ### Constitutional and Governance Integrity
 
@@ -549,4 +549,4 @@ During formal Founder Review and Architecture Review, reviewers should confirm:
 - All required sections are substantially complete.
 - Dependencies and non-goals remain explicit.
 - Unresolved questions are resolved or explicitly accepted for formal review.
-- Founder Review and Architecture Review have not been presumed.
+- Founder Review and Architecture Review were completed before Freeze.
