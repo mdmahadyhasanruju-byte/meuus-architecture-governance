@@ -1,0 +1,9 @@
+﻿Phase 4 A8 Data Portability – LOCAL-ONLY – 592.97kB <=596kB PASS – 3.03kB headroom
+- DataPort.tsx 3545B – Export JSON blob {v:1, exportedAt, dlas, scores} – download meuus-export-{ts}.json
+- Import: validate shape – DLAS values must be 0/21/50/75/100 – scores v1 – localStorage only – no network
+- Clear: individual DLAS_KEY=meuus_dlas_full100 + SCORE_KEY=meuus_gamehub_scores_v1 + BOTH with confirm()
+- StudioHub.tsx 3640B – 8 views – dlas, gamehub, port, bookZero105, capability60, vocab10, pillars5, dlasFull100 – hash #studio
+- Build: App-BtEt3EGA.js 592.97kB gzip 159.97kB 1.73s – +2.74kB from 590.23kB – target <=596kB PASS – headroom 3.03kB
+- Chain: 7947dae A6 CLOSED (590.38kB) -> 57e1538 A7 recon -> A8 DataPort 592.97kB
+- LOCAL-ONLY – exportSchema v1 – no destructive migration – no PII – Network tab empty
+- Access: http://127.0.0.1:5173/#studio -> Data Port button -> Export/Import/Clear
