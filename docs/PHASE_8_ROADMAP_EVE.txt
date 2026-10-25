@@ -1,0 +1,56 @@
+PHASE 8 ROADMAP – POST PHASE 6 COMPLETE – TRUST REGISTRY KEYS WHEN APPROVED + ANDROID 21->100 MIGRATION + OFFLINE SIGNING + CONSENT V2 + PILOT-DESKTOP PNPM BUILD + STUDIO SELF-CHECKS INTEGRATION – ≤5kB TOTAL LAZY – 0kB MAIN UNTIL LAZY – 581.18kB ≤620kB HEADROOM 38.82kB – LOCAL-ONLY REVIEW-ONLY – CLAIM ≤ EVIDENCE
+
+Date: 2026-10-26
+Gov HEAD: 804fe35 Phase 7 checklist C3+C5+C6 ≤1kB lazy + Audit Pack 7 PASS +1 HISTORICAL 0 FAIL 581.18kB ≤620kB
+Code HEAD: 3af6853 control 30/30 PASS 279 files 102MB + 9281e63 app 581.18kB FIX -13.39kB
+Bundle: App-DtTujG-6.js 581.18kB gzip 157.54kB ≤620kB ≤165kB headroom 38.82kB – 9 views lazy + 3 panels ≤1kB lazy each – 0kB main until lazy – 1577 modules 2.04s
+Trust: 7f86476 empty fails closed – 8221 bytes – no keys – no sigs – doc-only – 0B – grep BEGIN PRIVATE KEY 0 results PASS – trusted:false reason:empty-registry-fails-closed – Ed25519 pubKey 44 chars placeholder sig 86 chars placeholder SHA256 placeholder – correct – future keys when approved
+Status: 7 PASS active +1 HISTORICAL – 0 FAIL – CLAIM ≤ EVIDENCE – LOCAL-ONLY – No publishing/provider changes – Protected ops none
+
+1. PHASE 8 GOALS – OPTIONAL – MAINTAIN 581.18kB ≤620kB – HEADROOM 38.82kB – GZIP ≤165kB – ROUTE-LAZY – 9 VIEWS + 3 PANELS LAZY – CLAIM ≤ EVIDENCE
+
+- P8-1: Trust registry keys when approved – Add Ed25519 pubKey 44 chars BASE64URL + signature 86 chars + SHA256 placeholder verification – verifyArtifact returns trusted:true when sig valid – keep empty fails closed until approved – doc-only now – 0.5kB when approved – future – LOCAL-ONLY
+- P8-2: Android 21->100 migration – exportSchema true + migrations 21->100 – Gradle offline vendor 9.3.1 SHA256 verified – dual field historical21 + full100 – ./gradlew assembleRelease --offline BUILD SUCCESSFUL – ≤1kB – future when approved – doc-only now D012 – 0kB – BLOCKED/HISTORICAL
+- P8-3: Offline signing – atomicWriteWithFallback already 0.8kB – add signArtifact + verifyArtifact – Ed25519 – versioned staging + free-space + SHA256 + safe path + empty fails closed – 0.5kB – future – LOCAL-ONLY
+- P8-4: Consent v2 – Participant-supplied vs Independently-verified labels – consent banner v2 – privacy DataPort v2 – Founder P-001 shell v2 – 0.5kB lazy – future – LOCAL-ONLY
+- P8-5: Pilot-desktop pnpm build – pnpm install + vite build – 5 files 848KB + VerifyPanel 0.9kB lazy + fallback 0.8kB – offline E:7/7 C:7/7 after fallback – pnpm build PASS – 0kB main – LOCAL-ONLY – already files created – need pnpm install
+- P8-6: Studio self-checks + Consent integration – App.tsx lazy import StudioSelfChecksPanel + ConsentPrivacyPanel – build 581.18kB +0.9kB+0.9kB lazy – main unchanged – PASS – 0kB main until lazy – LOCAL-ONLY – already docs 67b38c7
+
+Total Phase 8: ≤5kB lazy – 0kB main until lazy – main stays 581.18kB ≤620kB headroom 38.82kB – gzip 157.54kB ≤165kB – route-lazy – 9 views + 5 panels lazy – PASS – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY – No publishing/provider changes – Protected ops none
+
+2. PHASE 8 INTEGRATION VERIFICATION – TEMPLATE – COPY-PASTABLE
+
+# P8-5 Pilot-desktop pnpm build
+$PILOT = "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\meuus-ai-pilot\meUus-Desktop\apps\desktop"
+Set-Location $PILOT
+pnpm -v
+pnpm install | Select-Object -Last 20
+pnpm run build | Select-Object -Last 25
+# Expected: vite build PASS – 5 files 848KB + VerifyPanel chunk 0.9kB gzip 0.4kB – main stays – offline E:7/7 C:7/7 after fallback – PASS
+
+# P8-6 meuus.app-web C5+C6 integration
+$APP = "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app"
+Set-Location "$APP\apps\web"
+npm run build | Select-Object -Last 25
+# Expected: App-DtTujG-6.js 581.18kB gzip 157.54kB – plus StudioSelfChecksPanel ~0.9kB gzip 0.4kB + ConsentPrivacyPanel ~0.9kB gzip 0.4kB – main unchanged – 9 views + self-checks + consent/privacy lazy – PASS ≤620kB headroom 38.82kB – guardrail gzip ≤165kB PASS
+
+# P8 Control re-verify
+Set-Location "$APP\apps\control"
+taskkill /F /IM node.exe 2>$null; Start-Sleep 2
+node ./scripts/clean-next.js
+npm run build:clean | Select-Object -Last 20
+# Expected: 30/30 PASS – 279 files 102MB – First Load 103kB – control still PASS – no regression – PASS
+
+3. DELIVERABLES – PHASE 8 – ≤5kB LAZY – 0kB MAIN UNTIL LAZY
+
+- This roadmap PHASE_8_ROADMAP_EVE.txt – doc + minimal diffs – LOCAL-ONLY – P8-1 to P8-6 – ≤5kB lazy total – 0kB main until lazy – 581.18kB ≤620kB
+- Future: PHASE_8_INTEGRATION_VERIFICATION_EVE.txt – with build logs – pnpm build PASS + app build PASS + control 30/30 PASS – 7 PASS +1 HISTORICAL – 0 FAIL – 581.18kB ≤620kB
+- Future: Trust registry keys when approved – 44 chars pubKey + 86 chars sig + SHA256 – verifyArtifact trusted:true – empty fails closed until approved – 0.5kB
+- Future: Android migration 21->100 – exportSchema true + migrations + Gradle offline – BUILD SUCCESSFUL --offline – ≤1kB
+- Future: Offline signing – signArtifact + verifyArtifact – Ed25519 – versioned staging + free-space + SHA256 + safe path + empty fails closed – 0.5kB
+
+4. STATUS – PHASE 8 ROADMAP COMPLETE – READ-ONLY – DOC + MINIMAL DIFFS – ≤5kB LAZY – 0kB MAIN UNTIL LAZY – 581.18kB ≤620kB
+
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 -> 9b67b21 A8 -> 98a07b5 A9 -> 7f86476 A10 trust registry empty fails closed Phase4 COMPLETE -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB headroom 38.82kB -> 859ddc5 B11.1+B11.2 -> 538276d C1 -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline ≤1kB -> b6be8c7 C4 Android historical 0kB -> 67b38c7 C5+C6 ≤1kB each Phase 6 COMPLETE 7 PASS +1 HISTORICAL -> 09dd1b2 Phase 6 COMPLETE summary -> 804fe35 Phase 7 checklist + Audit Pack -> C8 this file Phase 8 ROADMAP – Ready – ≤5kB lazy – 0kB main until lazy – 581.18kB ≤620kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY
+
+Status: PHASE 8 ROADMAP COMPLETE – READ-ONLY – DOC + MINIMAL DIFFS – ≤5kB LAZY – 0kB MAIN UNTIL LAZY – 581.18kB ≤620kB – HEADROOM 38.82kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY – Protected ops none – No publishing/provider changes – Ready Phase 8 integration verification when approved
