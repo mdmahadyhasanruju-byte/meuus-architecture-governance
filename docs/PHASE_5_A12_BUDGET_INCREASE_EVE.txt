@@ -1,0 +1,25 @@
+﻿Phase 5 A12 Budget Increase – 596kB -> 620kB – Governance – Rationale + Guardrails – 581.18kB current – headroom 14.82kB -> would be 38.82kB
+
+Rationale:
+- Phase 4 COMPLETE: DLAS non-scoring 0/21/50/75/100 meuus_dlas_full100, GameHub local-only meuus_gamehub_scores_v1, DataPort Export/Import/Clear, Founder P-001 read-only meuus_founder_shell_v1, A10 Ed25519 trust registry empty fails closed
+- Phase 5 A11 FIX: Main 581.18kB gzip 157.54kB – lazy chunks – regained 13.39kB – headroom 14.82kB at 596kB ceiling
+- Anticipated Studio growth: education content, accessibility tweaks, P-001 real data import-light, offline trust verifier script verify-trust.mjs ≤1kB, future Book Zero/Capability content updates – will exceed 596kB even with lazy – current lazy already applied – further shaving requires manualChunks or route split beyond Studio
+- LOCAL-ONLY contract intact – no network – no PII – non-scoring DLAS – exportSchema v1 – no destructive migration
+- Raising to 620kB adds resilience – 24kB buffer – while keeping gzip ≤165kB and main ≤420kB? Actually main now 581kB – note: gzip currently 157.54kB <165kB PASS – main 581kB <596kB PASS – 620kB still small for Vite React app
+
+Guardrails (acceptance criteria):
+- Main bundle ceiling: ≤620kB (was 596kB) – gzip ≤165kB (was ~160kB) – current 581.18kB / 157.54kB PASS both
+- New bytes must be route-lazy: any addition >2kB must be in lazy chunk (Studio views, datasets async) – not in App root – keep App-*.js growth minimal
+- DLAS non-scoring contract: values must stay in [0,21,50,75,100] – key meuus_dlas_full100 – no scoring
+- GameHub local-only: key meuus_gamehub_scores_v1 – no fetch – Network tab empty
+- Founder synthetic label: P-001 synthetic:true unless marked participant – read-only – no edits – no publish
+- Trust registry: empty fails closed – Ed25519 template – no keys in repo – no signatures until offline hardware signing
+- Audit: Phase 5 build must stay ≤620kB – gzip ≤165kB – LOCAL-ONLY – 9 views – hash #studio
+
+Deliverable: This file PHASE_5_A12_BUDGET_INCREASE_EVE.txt – doc-only – 0B bundle impact – approval to raise ceiling 596kB -> 620kB
+
+If approved: Update governance ceiling in docs to 620kB – keep current build 581.18kB – headroom becomes 38.82kB (620-581.18) – allows Phase 5 B11 trust verifier + B12 P-001 real import-light without immediate code-split beyond A11
+
+Status: Ready for approval – if approved, Phase 5 continues with B11 verify-trust.mjs offline verifier ≤1kB lazy
+
+Chain: 7947dae A6 590.38kB -> 57e1538 A7 recon 590.23kB -> 9b67b21 A8 DataPort 592.97kB -> 98a07b5 A9 Founder 594.57kB -> 7f86476 A10 Trust registry template -> 9281e63 A11 FIX 581.18kB -> A12 Budget 596->620kB governance
