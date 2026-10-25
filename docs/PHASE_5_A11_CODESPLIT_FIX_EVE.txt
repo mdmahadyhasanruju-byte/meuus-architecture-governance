@@ -1,0 +1,8 @@
+﻿Phase 5 A11 CODE-SPLIT SUCCESS – 594.57kB -> 581.18kB – -13.39kB – headroom 14.82kB – PASS ≤596kB
+- Main: App-DtTujG-6.js 581.18kB gzip 157.54kB 1.84s – before 594.57kB gzip 160.41kB
+- Lazy chunks (loaded only on #studio):
+  vocab.10 0.27kB, dlasGrid 0.48kB, FounderShellView 1.43kB, capability.60 1.47kB, DLASStudioView 1.52kB, bookZero.105 2.45kB, dlas.full100 2.53kB, DataPort 2.57kB, GameHubWire 3.16kB
+- Fix: gameHubDatasetsAsync.ts path ../data/bookZero.105.json etc (dot names) + StudioHub GameHubWire ../GameHubWire + lazy() + COUNTS not DATASETS in main
+- 9 views: dlas, gamehub, port, founder, 5 datasets async – DLAS 0/21/50/75/100 meuus_dlas_full100 non-scoring, GameHub meuus_gamehub_scores_v1 local-only, DataPort Export/Import/Clear, Founder P-001 read-only
+- LOCAL-ONLY – Network empty until #studio opened – empty trust registry fails closed – Phase 4 COMPLETE 7f86476
+- Chain: 7947dae A6 590.38kB -> 9b67b21 A8 592.97kB -> 98a07b5 A9 594.57kB -> a1ab0b7 A11 attempt -> 581.18kB FIX
