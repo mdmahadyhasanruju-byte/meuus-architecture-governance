@@ -1,0 +1,10 @@
+﻿Phase 4 A9 Founder P-001 Shell – Read-Only – LOCAL-ONLY – 594.57kB <=596kB PASS – 1.43kB headroom
+- FounderShellView.tsx 1675B – read-only – key meuus_founder_shell_v1 – no edits – no publish – no PII changes
+- Consent banner placeholder: synthetic/demo unless marked participant – P-001 is synthetic/demo – future participant separation
+- No evidence: shows expected key + instructions: localStorage.setItem('meuus_founder_shell_v1', JSON.stringify({v:1, id:'P-001', status:'recovery-shell', synthetic:true}))
+- Real path future: apps/web/src/data/founder.p001.json – import-light read-only
+- StudioHub.tsx 3996B – 9 views – dlas (100), gamehub 6, port Export/Import/Clear, founder P-001, bookZero105 105, capability60 60, vocab10 10, pillars5 5, dlasFull100 list
+- Build: App-CCQfXUlY.js 594.57kB gzip 160.41kB 1.72s – +1.60kB from 592.97kB – target <=596kB PASS – headroom 1.43kB
+- Chain: 7947dae A6 590.38kB CLOSED -> 57e1538 A7 recon 590.23kB -> 9b67b21 A8 DataPort 592.97kB -> A9 Founder 594.57kB
+- LOCAL-ONLY – Network tab empty – no destructive migration – exportSchema v1
+- Access: http://127.0.0.1:5173/#studio -> Founder P-001
