@@ -1,0 +1,31 @@
+A4 – DLAS Full-100 Grid Toggler – LOCAL-ONLY – Non-Scoring Coverage
+
+Action: Implement lightweight React grid toggler that persists each item's non-scoring coverage portion (0/21/50/75/100) to localStorage under key meuus_dlas_full100
+Why: A4 requires non-scoring toggler with persistence, tight size budget, no backend
+Files:
+- apps/web/src/lib/dlasGrid.ts (~2-3 kB) – loadState, saveState, nextState, getClassForValue, STORAGE_KEY, STATES
+- apps/web/src/styles/dlasGrid.css (~0.6 kB) – grid + s0/s21/s50/s75/s100 + legend
+- apps/web/src/components/studio/DLASStudioView.tsx – React implementation – cycles 0->21->50->75->100->0 – persists – reset + export – LOCAL-ONLY
+
+Expected outcome:
+- 100-cell grid renders from dlas.full100.json
+- Click cycles coverage 0/21/50/75/100
+- State persists to localStorage meuus_dlas_full100 and restores on reload
+- UI explicitly says Non-scoring: coverage portion only
+- Bundle delta <5 kB minified – overall ≤590 kB target PASS – current 576.32 kB + ~3 kB = ~579 kB
+
+Verification:
+- Click any cell cycles 0→21→50→75→100→0
+- Reload persists
+- localStorage.getItem('meuus_dlas_full100') returns JSON with 100 keys
+- Non-scoring: legend + aria-label mention coverage not score
+- Size: JS+CSS <10 kB pre-minify, <5 kB minified – ≤590 kB PASS
+- Accessibility: Enter/Space toggles, aria-label updates
+
+Risks/Rollback:
+- Minimal – local UI only – no server calls
+- Rollback: delete dlasGrid.ts/css and revert DLASStudioView.tsx to scaffold
+
+Evidence base: b87ee80 A2 + 62fef85 A3 + 52c2e48 governance – build 576.32 kB – headroom 23.68 kB – target ≤590 kB
+
+Status: A4 READY – React adapted from Eve vanilla ES module
