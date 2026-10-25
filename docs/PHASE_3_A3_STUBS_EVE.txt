@@ -1,0 +1,1139 @@
+# PHASE 3 A3 STUBS – LOCAL-ONLY – 7902 bytes – 5 tables
+# Generated 2026-10-26 – Evidence b7642b9 + b87ee80 + 3182da7 – build 576.32 kB
+# Budget: Overall 8131 bytes – each ≤8 kB – target ≤585 kB
+
+{
+  "generatedAt": "2026-10-26T03:30:00+06:00",
+  "evidenceBase": "b7642b9 + b87ee80 + 3182da7 \u2013 build 576.32 kB \u2013 headroom 23.68 kB",
+  "budget": "Overall 7902 bytes \u2013 each table \u22648 kB \u2013 target \u2264585 kB",
+  "bookZero105": [
+    {
+      "id": "BZ-001",
+      "title": ""
+    },
+    {
+      "id": "BZ-002",
+      "title": ""
+    },
+    {
+      "id": "BZ-003",
+      "title": ""
+    },
+    {
+      "id": "BZ-004",
+      "title": ""
+    },
+    {
+      "id": "BZ-005",
+      "title": ""
+    },
+    {
+      "id": "BZ-006",
+      "title": ""
+    },
+    {
+      "id": "BZ-007",
+      "title": ""
+    },
+    {
+      "id": "BZ-008",
+      "title": ""
+    },
+    {
+      "id": "BZ-009",
+      "title": ""
+    },
+    {
+      "id": "BZ-010",
+      "title": ""
+    },
+    {
+      "id": "BZ-011",
+      "title": ""
+    },
+    {
+      "id": "BZ-012",
+      "title": ""
+    },
+    {
+      "id": "BZ-013",
+      "title": ""
+    },
+    {
+      "id": "BZ-014",
+      "title": ""
+    },
+    {
+      "id": "BZ-015",
+      "title": ""
+    },
+    {
+      "id": "BZ-016",
+      "title": ""
+    },
+    {
+      "id": "BZ-017",
+      "title": ""
+    },
+    {
+      "id": "BZ-018",
+      "title": ""
+    },
+    {
+      "id": "BZ-019",
+      "title": ""
+    },
+    {
+      "id": "BZ-020",
+      "title": ""
+    },
+    {
+      "id": "BZ-021",
+      "title": ""
+    },
+    {
+      "id": "BZ-022",
+      "title": ""
+    },
+    {
+      "id": "BZ-023",
+      "title": ""
+    },
+    {
+      "id": "BZ-024",
+      "title": ""
+    },
+    {
+      "id": "BZ-025",
+      "title": ""
+    },
+    {
+      "id": "BZ-026",
+      "title": ""
+    },
+    {
+      "id": "BZ-027",
+      "title": ""
+    },
+    {
+      "id": "BZ-028",
+      "title": ""
+    },
+    {
+      "id": "BZ-029",
+      "title": ""
+    },
+    {
+      "id": "BZ-030",
+      "title": ""
+    },
+    {
+      "id": "BZ-031",
+      "title": ""
+    },
+    {
+      "id": "BZ-032",
+      "title": ""
+    },
+    {
+      "id": "BZ-033",
+      "title": ""
+    },
+    {
+      "id": "BZ-034",
+      "title": ""
+    },
+    {
+      "id": "BZ-035",
+      "title": ""
+    },
+    {
+      "id": "BZ-036",
+      "title": ""
+    },
+    {
+      "id": "BZ-037",
+      "title": ""
+    },
+    {
+      "id": "BZ-038",
+      "title": ""
+    },
+    {
+      "id": "BZ-039",
+      "title": ""
+    },
+    {
+      "id": "BZ-040",
+      "title": ""
+    },
+    {
+      "id": "BZ-041",
+      "title": ""
+    },
+    {
+      "id": "BZ-042",
+      "title": ""
+    },
+    {
+      "id": "BZ-043",
+      "title": ""
+    },
+    {
+      "id": "BZ-044",
+      "title": ""
+    },
+    {
+      "id": "BZ-045",
+      "title": ""
+    },
+    {
+      "id": "BZ-046",
+      "title": ""
+    },
+    {
+      "id": "BZ-047",
+      "title": ""
+    },
+    {
+      "id": "BZ-048",
+      "title": ""
+    },
+    {
+      "id": "BZ-049",
+      "title": ""
+    },
+    {
+      "id": "BZ-050",
+      "title": ""
+    },
+    {
+      "id": "BZ-051",
+      "title": ""
+    },
+    {
+      "id": "BZ-052",
+      "title": ""
+    },
+    {
+      "id": "BZ-053",
+      "title": ""
+    },
+    {
+      "id": "BZ-054",
+      "title": ""
+    },
+    {
+      "id": "BZ-055",
+      "title": ""
+    },
+    {
+      "id": "BZ-056",
+      "title": ""
+    },
+    {
+      "id": "BZ-057",
+      "title": ""
+    },
+    {
+      "id": "BZ-058",
+      "title": ""
+    },
+    {
+      "id": "BZ-059",
+      "title": ""
+    },
+    {
+      "id": "BZ-060",
+      "title": ""
+    },
+    {
+      "id": "BZ-061",
+      "title": ""
+    },
+    {
+      "id": "BZ-062",
+      "title": ""
+    },
+    {
+      "id": "BZ-063",
+      "title": ""
+    },
+    {
+      "id": "BZ-064",
+      "title": ""
+    },
+    {
+      "id": "BZ-065",
+      "title": ""
+    },
+    {
+      "id": "BZ-066",
+      "title": ""
+    },
+    {
+      "id": "BZ-067",
+      "title": ""
+    },
+    {
+      "id": "BZ-068",
+      "title": ""
+    },
+    {
+      "id": "BZ-069",
+      "title": ""
+    },
+    {
+      "id": "BZ-070",
+      "title": ""
+    },
+    {
+      "id": "BZ-071",
+      "title": ""
+    },
+    {
+      "id": "BZ-072",
+      "title": ""
+    },
+    {
+      "id": "BZ-073",
+      "title": ""
+    },
+    {
+      "id": "BZ-074",
+      "title": ""
+    },
+    {
+      "id": "BZ-075",
+      "title": ""
+    },
+    {
+      "id": "BZ-076",
+      "title": ""
+    },
+    {
+      "id": "BZ-077",
+      "title": ""
+    },
+    {
+      "id": "BZ-078",
+      "title": ""
+    },
+    {
+      "id": "BZ-079",
+      "title": ""
+    },
+    {
+      "id": "BZ-080",
+      "title": ""
+    },
+    {
+      "id": "BZ-081",
+      "title": ""
+    },
+    {
+      "id": "BZ-082",
+      "title": ""
+    },
+    {
+      "id": "BZ-083",
+      "title": ""
+    },
+    {
+      "id": "BZ-084",
+      "title": ""
+    },
+    {
+      "id": "BZ-085",
+      "title": ""
+    },
+    {
+      "id": "BZ-086",
+      "title": ""
+    },
+    {
+      "id": "BZ-087",
+      "title": ""
+    },
+    {
+      "id": "BZ-088",
+      "title": ""
+    },
+    {
+      "id": "BZ-089",
+      "title": ""
+    },
+    {
+      "id": "BZ-090",
+      "title": ""
+    },
+    {
+      "id": "BZ-091",
+      "title": ""
+    },
+    {
+      "id": "BZ-092",
+      "title": ""
+    },
+    {
+      "id": "BZ-093",
+      "title": ""
+    },
+    {
+      "id": "BZ-094",
+      "title": ""
+    },
+    {
+      "id": "BZ-095",
+      "title": ""
+    },
+    {
+      "id": "BZ-096",
+      "title": ""
+    },
+    {
+      "id": "BZ-097",
+      "title": ""
+    },
+    {
+      "id": "BZ-098",
+      "title": ""
+    },
+    {
+      "id": "BZ-099",
+      "title": ""
+    },
+    {
+      "id": "BZ-100",
+      "title": ""
+    },
+    {
+      "id": "BZ-101",
+      "title": ""
+    },
+    {
+      "id": "BZ-102",
+      "title": ""
+    },
+    {
+      "id": "BZ-103",
+      "title": ""
+    },
+    {
+      "id": "BZ-104",
+      "title": ""
+    },
+    {
+      "id": "BZ-105",
+      "title": ""
+    }
+  ],
+  "capability60": [
+    {
+      "id": "CAP-001",
+      "title": ""
+    },
+    {
+      "id": "CAP-002",
+      "title": ""
+    },
+    {
+      "id": "CAP-003",
+      "title": ""
+    },
+    {
+      "id": "CAP-004",
+      "title": ""
+    },
+    {
+      "id": "CAP-005",
+      "title": ""
+    },
+    {
+      "id": "CAP-006",
+      "title": ""
+    },
+    {
+      "id": "CAP-007",
+      "title": ""
+    },
+    {
+      "id": "CAP-008",
+      "title": ""
+    },
+    {
+      "id": "CAP-009",
+      "title": ""
+    },
+    {
+      "id": "CAP-010",
+      "title": ""
+    },
+    {
+      "id": "CAP-011",
+      "title": ""
+    },
+    {
+      "id": "CAP-012",
+      "title": ""
+    },
+    {
+      "id": "CAP-013",
+      "title": ""
+    },
+    {
+      "id": "CAP-014",
+      "title": ""
+    },
+    {
+      "id": "CAP-015",
+      "title": ""
+    },
+    {
+      "id": "CAP-016",
+      "title": ""
+    },
+    {
+      "id": "CAP-017",
+      "title": ""
+    },
+    {
+      "id": "CAP-018",
+      "title": ""
+    },
+    {
+      "id": "CAP-019",
+      "title": ""
+    },
+    {
+      "id": "CAP-020",
+      "title": ""
+    },
+    {
+      "id": "CAP-021",
+      "title": ""
+    },
+    {
+      "id": "CAP-022",
+      "title": ""
+    },
+    {
+      "id": "CAP-023",
+      "title": ""
+    },
+    {
+      "id": "CAP-024",
+      "title": ""
+    },
+    {
+      "id": "CAP-025",
+      "title": ""
+    },
+    {
+      "id": "CAP-026",
+      "title": ""
+    },
+    {
+      "id": "CAP-027",
+      "title": ""
+    },
+    {
+      "id": "CAP-028",
+      "title": ""
+    },
+    {
+      "id": "CAP-029",
+      "title": ""
+    },
+    {
+      "id": "CAP-030",
+      "title": ""
+    },
+    {
+      "id": "CAP-031",
+      "title": ""
+    },
+    {
+      "id": "CAP-032",
+      "title": ""
+    },
+    {
+      "id": "CAP-033",
+      "title": ""
+    },
+    {
+      "id": "CAP-034",
+      "title": ""
+    },
+    {
+      "id": "CAP-035",
+      "title": ""
+    },
+    {
+      "id": "CAP-036",
+      "title": ""
+    },
+    {
+      "id": "CAP-037",
+      "title": ""
+    },
+    {
+      "id": "CAP-038",
+      "title": ""
+    },
+    {
+      "id": "CAP-039",
+      "title": ""
+    },
+    {
+      "id": "CAP-040",
+      "title": ""
+    },
+    {
+      "id": "CAP-041",
+      "title": ""
+    },
+    {
+      "id": "CAP-042",
+      "title": ""
+    },
+    {
+      "id": "CAP-043",
+      "title": ""
+    },
+    {
+      "id": "CAP-044",
+      "title": ""
+    },
+    {
+      "id": "CAP-045",
+      "title": ""
+    },
+    {
+      "id": "CAP-046",
+      "title": ""
+    },
+    {
+      "id": "CAP-047",
+      "title": ""
+    },
+    {
+      "id": "CAP-048",
+      "title": ""
+    },
+    {
+      "id": "CAP-049",
+      "title": ""
+    },
+    {
+      "id": "CAP-050",
+      "title": ""
+    },
+    {
+      "id": "CAP-051",
+      "title": ""
+    },
+    {
+      "id": "CAP-052",
+      "title": ""
+    },
+    {
+      "id": "CAP-053",
+      "title": ""
+    },
+    {
+      "id": "CAP-054",
+      "title": ""
+    },
+    {
+      "id": "CAP-055",
+      "title": ""
+    },
+    {
+      "id": "CAP-056",
+      "title": ""
+    },
+    {
+      "id": "CAP-057",
+      "title": ""
+    },
+    {
+      "id": "CAP-058",
+      "title": ""
+    },
+    {
+      "id": "CAP-059",
+      "title": ""
+    },
+    {
+      "id": "CAP-060",
+      "title": ""
+    }
+  ],
+  "vocab10": [
+    {
+      "id": "VOC-001",
+      "title": ""
+    },
+    {
+      "id": "VOC-002",
+      "title": ""
+    },
+    {
+      "id": "VOC-003",
+      "title": ""
+    },
+    {
+      "id": "VOC-004",
+      "title": ""
+    },
+    {
+      "id": "VOC-005",
+      "title": ""
+    },
+    {
+      "id": "VOC-006",
+      "title": ""
+    },
+    {
+      "id": "VOC-007",
+      "title": ""
+    },
+    {
+      "id": "VOC-008",
+      "title": ""
+    },
+    {
+      "id": "VOC-009",
+      "title": ""
+    },
+    {
+      "id": "VOC-010",
+      "title": ""
+    }
+  ],
+  "pillars5": [
+    {
+      "id": "PIL-001",
+      "title": ""
+    },
+    {
+      "id": "PIL-002",
+      "title": ""
+    },
+    {
+      "id": "PIL-003",
+      "title": ""
+    },
+    {
+      "id": "PIL-004",
+      "title": ""
+    },
+    {
+      "id": "PIL-005",
+      "title": ""
+    }
+  ],
+  "dlasFull100": [
+    {
+      "id": "DLAS-001",
+      "title": ""
+    },
+    {
+      "id": "DLAS-002",
+      "title": ""
+    },
+    {
+      "id": "DLAS-003",
+      "title": ""
+    },
+    {
+      "id": "DLAS-004",
+      "title": ""
+    },
+    {
+      "id": "DLAS-005",
+      "title": ""
+    },
+    {
+      "id": "DLAS-006",
+      "title": ""
+    },
+    {
+      "id": "DLAS-007",
+      "title": ""
+    },
+    {
+      "id": "DLAS-008",
+      "title": ""
+    },
+    {
+      "id": "DLAS-009",
+      "title": ""
+    },
+    {
+      "id": "DLAS-010",
+      "title": ""
+    },
+    {
+      "id": "DLAS-011",
+      "title": ""
+    },
+    {
+      "id": "DLAS-012",
+      "title": ""
+    },
+    {
+      "id": "DLAS-013",
+      "title": ""
+    },
+    {
+      "id": "DLAS-014",
+      "title": ""
+    },
+    {
+      "id": "DLAS-015",
+      "title": ""
+    },
+    {
+      "id": "DLAS-016",
+      "title": ""
+    },
+    {
+      "id": "DLAS-017",
+      "title": ""
+    },
+    {
+      "id": "DLAS-018",
+      "title": ""
+    },
+    {
+      "id": "DLAS-019",
+      "title": ""
+    },
+    {
+      "id": "DLAS-020",
+      "title": ""
+    },
+    {
+      "id": "DLAS-021",
+      "title": ""
+    },
+    {
+      "id": "DLAS-022",
+      "title": ""
+    },
+    {
+      "id": "DLAS-023",
+      "title": ""
+    },
+    {
+      "id": "DLAS-024",
+      "title": ""
+    },
+    {
+      "id": "DLAS-025",
+      "title": ""
+    },
+    {
+      "id": "DLAS-026",
+      "title": ""
+    },
+    {
+      "id": "DLAS-027",
+      "title": ""
+    },
+    {
+      "id": "DLAS-028",
+      "title": ""
+    },
+    {
+      "id": "DLAS-029",
+      "title": ""
+    },
+    {
+      "id": "DLAS-030",
+      "title": ""
+    },
+    {
+      "id": "DLAS-031",
+      "title": ""
+    },
+    {
+      "id": "DLAS-032",
+      "title": ""
+    },
+    {
+      "id": "DLAS-033",
+      "title": ""
+    },
+    {
+      "id": "DLAS-034",
+      "title": ""
+    },
+    {
+      "id": "DLAS-035",
+      "title": ""
+    },
+    {
+      "id": "DLAS-036",
+      "title": ""
+    },
+    {
+      "id": "DLAS-037",
+      "title": ""
+    },
+    {
+      "id": "DLAS-038",
+      "title": ""
+    },
+    {
+      "id": "DLAS-039",
+      "title": ""
+    },
+    {
+      "id": "DLAS-040",
+      "title": ""
+    },
+    {
+      "id": "DLAS-041",
+      "title": ""
+    },
+    {
+      "id": "DLAS-042",
+      "title": ""
+    },
+    {
+      "id": "DLAS-043",
+      "title": ""
+    },
+    {
+      "id": "DLAS-044",
+      "title": ""
+    },
+    {
+      "id": "DLAS-045",
+      "title": ""
+    },
+    {
+      "id": "DLAS-046",
+      "title": ""
+    },
+    {
+      "id": "DLAS-047",
+      "title": ""
+    },
+    {
+      "id": "DLAS-048",
+      "title": ""
+    },
+    {
+      "id": "DLAS-049",
+      "title": ""
+    },
+    {
+      "id": "DLAS-050",
+      "title": ""
+    },
+    {
+      "id": "DLAS-051",
+      "title": ""
+    },
+    {
+      "id": "DLAS-052",
+      "title": ""
+    },
+    {
+      "id": "DLAS-053",
+      "title": ""
+    },
+    {
+      "id": "DLAS-054",
+      "title": ""
+    },
+    {
+      "id": "DLAS-055",
+      "title": ""
+    },
+    {
+      "id": "DLAS-056",
+      "title": ""
+    },
+    {
+      "id": "DLAS-057",
+      "title": ""
+    },
+    {
+      "id": "DLAS-058",
+      "title": ""
+    },
+    {
+      "id": "DLAS-059",
+      "title": ""
+    },
+    {
+      "id": "DLAS-060",
+      "title": ""
+    },
+    {
+      "id": "DLAS-061",
+      "title": ""
+    },
+    {
+      "id": "DLAS-062",
+      "title": ""
+    },
+    {
+      "id": "DLAS-063",
+      "title": ""
+    },
+    {
+      "id": "DLAS-064",
+      "title": ""
+    },
+    {
+      "id": "DLAS-065",
+      "title": ""
+    },
+    {
+      "id": "DLAS-066",
+      "title": ""
+    },
+    {
+      "id": "DLAS-067",
+      "title": ""
+    },
+    {
+      "id": "DLAS-068",
+      "title": ""
+    },
+    {
+      "id": "DLAS-069",
+      "title": ""
+    },
+    {
+      "id": "DLAS-070",
+      "title": ""
+    },
+    {
+      "id": "DLAS-071",
+      "title": ""
+    },
+    {
+      "id": "DLAS-072",
+      "title": ""
+    },
+    {
+      "id": "DLAS-073",
+      "title": ""
+    },
+    {
+      "id": "DLAS-074",
+      "title": ""
+    },
+    {
+      "id": "DLAS-075",
+      "title": ""
+    },
+    {
+      "id": "DLAS-076",
+      "title": ""
+    },
+    {
+      "id": "DLAS-077",
+      "title": ""
+    },
+    {
+      "id": "DLAS-078",
+      "title": ""
+    },
+    {
+      "id": "DLAS-079",
+      "title": ""
+    },
+    {
+      "id": "DLAS-080",
+      "title": ""
+    },
+    {
+      "id": "DLAS-081",
+      "title": ""
+    },
+    {
+      "id": "DLAS-082",
+      "title": ""
+    },
+    {
+      "id": "DLAS-083",
+      "title": ""
+    },
+    {
+      "id": "DLAS-084",
+      "title": ""
+    },
+    {
+      "id": "DLAS-085",
+      "title": ""
+    },
+    {
+      "id": "DLAS-086",
+      "title": ""
+    },
+    {
+      "id": "DLAS-087",
+      "title": ""
+    },
+    {
+      "id": "DLAS-088",
+      "title": ""
+    },
+    {
+      "id": "DLAS-089",
+      "title": ""
+    },
+    {
+      "id": "DLAS-090",
+      "title": ""
+    },
+    {
+      "id": "DLAS-091",
+      "title": ""
+    },
+    {
+      "id": "DLAS-092",
+      "title": ""
+    },
+    {
+      "id": "DLAS-093",
+      "title": ""
+    },
+    {
+      "id": "DLAS-094",
+      "title": ""
+    },
+    {
+      "id": "DLAS-095",
+      "title": ""
+    },
+    {
+      "id": "DLAS-096",
+      "title": ""
+    },
+    {
+      "id": "DLAS-097",
+      "title": ""
+    },
+    {
+      "id": "DLAS-098",
+      "title": ""
+    },
+    {
+      "id": "DLAS-099",
+      "title": ""
+    },
+    {
+      "id": "DLAS-100",
+      "title": ""
+    }
+  ]
+}
