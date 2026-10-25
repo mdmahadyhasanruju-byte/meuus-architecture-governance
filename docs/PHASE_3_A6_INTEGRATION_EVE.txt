@@ -1,0 +1,8 @@
+﻿Phase 3 A6 Integration – StudioHub #studio – 590.38kB <=596kB PASS – Phase 3 CLOSED
+- StudioHub.tsx 3335B – hash #studio – 7 views – DLAS + GameHub + 5 datasets
+- DLASStudioView.tsx 2249B – 0/21/50/75/100 – meuus_dlas_full100 – non-scoring
+- GameHubWire.tsx 3237B – 6 games – meuus_gamehub_scores_v1 – DLAS guard
+- gameHubDatasets.ts 1002B – unified accessors – counts 105/60/10/5/100
+- Build: 590.38kB gzip 159.24kB – 1.74s – target <=596kB PASS – +14.06kB delta from 576.32kB – headroom 5.62kB
+- Access: http://localhost:5173/#studio or ?studio=1 – LOCAL-ONLY – no network
+- Chain: b87ee80 A2 -> 62fef85 A3 -> 0fd974b A4 -> 40865d2 A5 -> A6 CLOSED
