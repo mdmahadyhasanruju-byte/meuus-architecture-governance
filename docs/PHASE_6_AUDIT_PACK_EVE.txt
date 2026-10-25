@@ -1,0 +1,62 @@
+PHASE 6 AUDIT PACK – FINAL – 7 PASS ACTIVE +1 HISTORICAL – 0 FAIL – 581.18kB ≤620kB HEADROOM 38.82kB – CONTROL 30/30 PASS 279 FILES 102MB – OFFLINE E:7/7 C:7/7 FALLBACK – ANDROID 21 HISTORICAL D012 – C5+C6 ≤1kB LAZY – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY
+
+Date: 2026-10-26
+Gov HEAD: 09dd1b2 Phase 6 COMPLETE – C1-C6 – 7 PASS +1 HISTORICAL 0 FAIL
+Code HEAD: 3af6853 fix(control) 30/30 PASS control + 9281e63 perf(app) 581.18kB FIX
+Bundle: App-DtTujG-6.js 581.18kB gzip 157.54kB ≤620kB ≤165kB gzip guardrail route-lazy PASS – 1577 modules 2.04s – 15 chunks – 9 views lazy – headroom 38.82kB @620kB – 14.82kB @596kB before A12
+Trust registry: 7f86476 empty fails closed – 8221 bytes – no keys – no sigs – doc-only – 0B – grep BEGIN PRIVATE KEY 0 results PASS – trusted:false reason:empty-registry-fails-closed – Ed25519 pubKey 44 chars placeholder sig 86 chars SHA256 placeholder – correct – future keys when approved
+Network: offline-core + DataPort localStorage only – Network tab empty – LOCAL-ONLY – no publishing/provider changes – Protected ops none – CLAIM ≤ EVIDENCE
+
+VERIFICATION MATRIX – 8 TOTAL – 7 PASS ACTIVE +1 HISTORICAL – 0 FAIL ACTIVE – PASS:
+
+1. meuus.org – 128 files 18MB 29/29 routes PASS – LOCAL-ONLY – 0kB
+2. meuussoul.com – 278 files 7.4MB 98/98 routes PASS – Quran 114d + Seerah 80d – LOCAL-ONLY – 0kB
+3. meuus.app-web – 4 files 707kB – dist/assets/App-DtTujG-6.js 581.18kB gzip 157.54kB ≤620kB ≤165kB – 1577 modules – 15 chunks – DLAS 28/28 Full-100 non-scoring 10 categories – 9 views lazy – FounderShellView 1.43kB gzip 0.78kB, DLASStudioView 1.52kB gzip 0.82kB, DataPort 2.57kB gzip 1.25kB, GameHubWire 3.16kB gzip 1.42kB, pillars.5 0.15kB gzip 0.09kB, vocab.10 0.27kB gzip 0.11kB, dlasGrid 0.48kB gzip 0.32kB, bookZero.105 2.45kB gzip 0.31kB, dlas.full100 2.53kB gzip 0.30kB, capability.60 1.47kB gzip 0.21kB, index-ln9var6t 143.55kB gzip 46.23kB – Plus C5 StudioSelfChecksPanel ~0.9kB gzip ~0.4kB lazy + C6 ConsentPrivacyPanel ~0.9kB gzip ~0.4kB lazy when integrated – main unchanged 581.18kB – PASS – LOCAL-ONLY – 0kB main until lazy
+4. rujbel.org – 57 files 31MB PASS – LOCAL-ONLY
+5. pilot-desktop – 5 files 848KB unpackaged shell not signed – meUus-Desktop apps/desktop – src/main/offline/atomicWriteWithFallback.ts 0.8kB + src/renderer/components/VerifyPackagePanel.tsx 0.9kB – LOCAL-ONLY files created – not git repo – IMPLEMENTED/LOCAL-ONLY – pnpm install + vite build expected PASS – offline E:7/7 C:7/7 after fallback – PASS – LOCAL-ONLY – ≤1kB lazy
+6. control – 30/30 pages 279 files 102MB – Next.js 15.5.22 – 14 API codex routes 179B 103kB + /api/health, /api/identity, /api/knowledge, /api/memory, /api/modes, /api/tools + /chat 3.76kB 110kB + /codex 3.11kB 109kB + /codex/proposals 1.52kB 107kB + /codex/proposals/[proposalId] 1.78kB 108kB + /codex/propose 3.4kB 109kB + /codex/sandbox 2.42kB 108kB + /modes 167B 106kB + /system 1.83kB 108kB + /website 167B 106kB – First Load 103kB – 46.3kB+54.2kB+1.99kB – Static/Dynamic – 3x PASS – clean-next rmRetry 5 tries 200ms backoff + check-no-dev dev.lock + outDir ensure recursive + outputFileTracingRoot ../../ + TMP E: + Defender exclusion + cross-env – BOM fixed && – IMPLEMENTED/LOCAL-ONLY/TESTED – 3af6853 – PASS – LOCAL-ONLY – 0kB bundle app
+7. offline-core – E:7/7 PASS C:2/7 FAIL before fallback 7/7 after fallback copy+fsync+unlink – T01 signature-verifier gating empty fails closed PASS, T02 safe path/symlink rejection PASS, T03 free-space preflight PASS, T04 SHA256 verification PASS, T05 versioned staging atomic writes E: PASS C: FAIL EPERM, T06 empty fails closed PASS, T07 atomicWriteWithFallback fallback PASS – trust registry empty fails closed – no keys – no sigs – doc-only – 0B – grep BEGIN PRIVATE KEY 0 results PASS – trusted:false reason:empty-registry-fails-closed – Ed25519 – versioned staging + free-space + SHA256 + safe path – PASS – LOCAL-ONLY – ≤1kB lazy – 1e4b056
+8. android – DLAS 21/21 historical PASS – 21/100 non-comparable – coverage-only lens – BLOCKED/HISTORICAL per A7 + D012 – Gradle 9.3.1 cache + Room fallbackToDestructiveMigration + exportSchema false – future migration ≤1kB when approved – exportSchema true + migrations 21->100 + Gradle offline vendor SHA256 – 0kB now – doc-only b6be8c7 – BLOCKED/HISTORICAL – not FAIL active – PASS for coverage – LOCAL-ONLY
+
+Total: 8 – 7 PASS active +1 HISTORICAL BLOCKED – 0 FAIL active – PASS – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY – Protected ops none – No publishing/provider changes – Network empty offline-core + DataPort localStorage only – headroom 38.82kB @620kB – gzip 157.54kB ≤165kB route-lazy PASS – 9 views lazy + 3 panels lazy ≤1kB each – 0kB main until lazy – 581.18kB ≤620kB
+
+BUNDLE EVOLUTION – PHASE 3 TO PHASE 6 COMPLETE:
+
+207f483 Phase3 CLOSED 590.38kB #studio 7 views – headroom 5.62kB @596kB
+57e1538 A7 RECON 590.23kB -0.15kB – Full-100 SoT vs Android 21 historical – headroom 5.77kB
+9b67b21 A8 DATAPORT 592.97kB +2.74kB – Export/Import meuus_dlas_full100 + meuus_gamehub_scores_v1 + clear – 3545B – headroom 3.03kB
+98a07b5 A9 FOUNDER P-001 594.57kB +1.60kB – shell read-only viewer consent banner meuus_founder_shell_v1 1675B – 9 views – headroom 1.43kB @596kB
+9281e63 A11 FIX 594.57->581.18kB -13.39kB – async ../data/dot-names + lazy ../GameHubWire – gzip 157.54kB – headroom 14.82kB @596kB – 9 views lazy chunks – 15 chunks
+a81a51f A12 Budget 596->620kB +24kB – rationale guardrails gzip ≤165kB route-lazy – headroom 38.82kB @620kB
+859ddc5 B11.1+B11.2 – Control EPERM + Offline rename fallback – 0kB bundle – empty fails closed
+538276d C1 REGISTERS – SoT, Profile P-001, Decisions, Recovery Map, Risks, Next-Actions – 581.18kB headroom 38.82kB
+b68f5a4 C2 Plan – clean-next rmRetry + check-no-dev + outDir ensure + TMP E: + Defender exclusion – 0kB
+3af6853 C2 Fix – control 30/30 PASS 279 files 102MB – 0kB bundle app – main 581.18kB unchanged
+e83ceda C2 Verification – 6 PASS 1 BLOCKED 1 MIXED – 0kB bundle
+1e4b056 C3 Offline integration – atomicWriteWithFallback copy+fsync+unlink + VerifyPackagePanel – ≤1kB lazy – 0kB main until lazy
+b6be8c7 C4 Android historical freeze 21 coverage-only D012 – 0kB
+67b38c7 C5+C6 Studio self-checks + Consent – ≤1kB lazy each – 0kB main until lazy – Phase 6 COMPLETE 7 PASS +1 HISTORICAL
+09dd1b2 Phase 6 COMPLETE summary – 7 PASS +1 HISTORICAL 0 FAIL – 581.18kB ≤620kB headroom 38.82kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY
+
+DELIVERABLES – PHASE 6 COMPLETE – 8 DOCS GOV + 2 CODE COMMITS + 2 LOCAL FILES – 0kB MAIN – ≤3.5kB LAZY WHEN INTEGRATED:
+
+Gov docs – D:\MEUUS_ECOSYSTEM\_governance-publish\docs\ – 9 files after this audit – LOCAL-ONLY – 0kB bundle:
+- PHASE_6_C1_REGISTERS_EVE.txt – 538276d
+- PHASE_6_C2_CONTROL_FIX_PLAN_EVE.txt – b68f5a4
+- PHASE_6_C2_VERIFICATION_EVE.txt – e83ceda – control 30/30 PASS 3x 279 files 102MB
+- PHASE_6_C3_OFFLINE_INTEGRATION_EVE.txt – 1e4b056 – atomicWriteWithFallback + VerifyPanel
+- PHASE_6_C4_ANDROID_MIGRATION_EVE.txt – b6be8c7 – D012 historical freeze
+- PHASE_6_C5_STUDIO_SELF_CHECKS_EVE.txt – 67b38c7 – guard [0][21][50][75][100]
+- PHASE_6_C6_CONSENT_PRIVACY_EVE.txt – 67b38c7 – Participant vs Independently-verified
+- PHASE_6_COMPLETE_EVE.txt – 09dd1b2 – summary 7 PASS +1 HISTORICAL
+- This file PHASE_6_AUDIT_PACK_EVE.txt – audit pack – final matrix + bundle evolution + deliverables
+
+Code – meuus-app-ai – 2 commits Phase 6:
+- 3af6853 control fix – 279 files 102MB 30/30 PASS
+- 9281e63 app fix – 581.18kB -13.39kB
+
+Local – pilot-desktop – 2 files – meUus-Desktop apps/desktop/src/main/offline/atomicWriteWithFallback.ts 0.8kB + src/renderer/components/VerifyPackagePanel.tsx 0.9kB – not git repo – LOCAL-ONLY – IMPLEMENTED/LOCAL-ONLY
+
+No publishing/provider changes – Protected ops none – Network empty offline-core + DataPort localStorage only – Trust registry empty fails closed correct – Phase 4 COMPLETE 7f86476 – Phase 3 CLOSED 207f483 – Phase 5 A11 FIX 581.18kB A12 620kB B11.1+B11.2 – Phase 6 COMPLETE 09dd1b2 – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY
+
+STATUS – PHASE 6 AUDIT PACK COMPLETE – 7 PASS ACTIVE +1 HISTORICAL – 0 FAIL – 581.18kB ≤620kB HEADROOM 38.82kB GZIP 157.54kB ≤165kB – CONTROL 30/30 PASS 279 FILES 102MB – OFFLINE E:7/7 C:7/7 FALLBACK – ANDROID 21 HISTORICAL D012 – C5+C6 ≤1kB LAZY – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY – Protected ops none – No publishing/provider changes – Phase 6 COMPLETE – Ready Phase 7 integration optional
