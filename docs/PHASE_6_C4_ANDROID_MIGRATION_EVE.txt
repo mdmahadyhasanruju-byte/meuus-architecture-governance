@@ -1,0 +1,89 @@
+PHASE 6 C4 ANDROID HISTORICAL MIGRATION – DOC-ONLY – FREEZE DLAS 21 AS HISTORICAL NON-COMPARABLE – COVERAGE-ONLY LENS – 0kB BUNDLE – LOCAL-ONLY REVIEW-ONLY
+
+Date: 2026-10-26
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER 594.57kB -> 7f86476 A10 TRUST REGISTRY empty fails closed Phase4 COMPLETE 8221 bytes -> 9281e63 A11 FIX 581.18kB -13.39kB -> a81a51f A12 596->620kB headroom 38.82kB -> 859ddc5 B11.1 Control EPERM + B11.2 Offline rename fallback -> 538276d C1 REGISTERS -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS control 279 files 102MB -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline integration atomicWriteWithFallback + VerifyPackagePanel ≤1kB lazy
+Current: Android BLOCKED – Gradle 9.3.1 cache + Room fallbackToDestructiveMigration + exportSchema false + DLAS 21 vs Full-100 CONFLICT – Keep BLOCKED per A7 – SoT Full-100 (Pillar 70/30/10/5/100) – App scores Full-100 non-scoring 10 categories – Android scores 21 historical partial – Gradle wrapper 9.3.1 not reproducible offline – Room destructive migration loses scores – Status BLOCKED/HISTORICAL – 0kB bundle – LOCAL-ONLY
+Goal: Freeze Android 21 as historical non-comparable – doc-only – coverage-only lens – no code changes to scored categories – keep BLOCKED until migration approved – 0kB bundle – CLAIM ≤ EVIDENCE – No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY
+
+1. ANDROID STATE – FROM A7 RECON + B11 VERIFIER
+
+Path search: Get-ChildItem -Path "E:\CREATION_meUus" -Recurse -File -Filter "build.gradle*" -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like "*android*" } | Select FullName -First 10
+Found likely:
+- E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\...\android\app\build.gradle
+- E:\CREATION_meUus\...\android\gradle\wrapper\gradle-wrapper.properties – distributionUrl https\://services.gradle.org/distributions/gradle-9.3.1-bin.zip – cache – not reproducible offline
+- Room: @Database(entities=[...], version=21, exportSchema=false) + fallbackToDestructiveMigration() – destructive on version bump – loses DLAS scores – not acceptable for Full-100 migration
+- DLAS: 21 questions historical partial – vs SoT Full-100 100 questions Pillar 70 Knowledge 30 Memory 10 Evidence 5 Modes 100 Website – categories 10 – non-scoring 10 – 21 vs 100 CONFLICT – cannot compare – freeze as historical non-comparable
+- App-web: 581.18kB 4 files 707kB DLAS 28/28 Full-100 non-scoring – PASS – 9 views lazy – App-DtTujG-6.js 581.18kB gzip 157.54kB headroom 38.82kB @620kB
+
+2. DECISION – D012 – ANDROID HISTORICAL FREEZE – COVERAGE-ONLY
+
+D012: Freeze Android DLAS 21 as historical non-comparable – keep BLOCKED per A7 RECON – no migration to Full-100 until explicit approval – coverage-only lens – doc-only – 0kB bundle – LOCAL-ONLY – CLAIM ≤ EVIDENCE
+
+Rationale:
+- Gradle 9.3.1 cache – offline not reproducible – violates LOCAL-ONLY – needs Gradle wrapper verification + offline cache – blocked
+- Room fallbackToDestructiveMigration + exportSchema false – loses user scores on upgrade – violates DataPort – needs exportSchema true + migration scripts 21->100 – blocked
+- DLAS 21 vs Full-100 100 – different schema – cannot auto-migrate scores – 21 rated vs 28 non-scoring vs Full-100 100 – historical freeze correct – coverage-only lens shows 21/21 coverage historical, not 21/100
+- No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none
+
+Coverage lens:
+- Android historical: 21/21 PASS historical – 100% coverage of historical scope – but 21/100 non-comparable to Full-100 – mark as HISTORICAL – not included in Full-100 verification matrix for scoring – included for coverage count only
+- Full-100 SoT: 100/100 – 70/30/10/5/100 – 28 non-scoring 10 categories – meuus.app-web 28/28 PASS – meuus.org + meuussoul.com + rujbel.org + pilot-desktop + control + offline-core after fallback 7/7 – PASS
+- Android after freeze: BLOCKED/HISTORICAL – not counted as FAIL in B11 – counted as coverage-only – 7 PASS (6 previous + offline-core after fallback) + 1 HISTORICAL BLOCKED = 8 total – 7 PASS active + 1 HISTORICAL
+
+3. MIGRATION PATH – FUTURE – NOT NOW – DOC-ONLY – ≤1kB WHEN APPROVED
+
+When approved (future Phase):
+- Step 1: Export Room schema – exportSchema true – generate schemas 21->22...->100 – versioned JSON – no fallbackToDestructiveMigration – add Migration(21,22) ... Migration(99,100) – preserve scores – test migration 21->100 – 0.5kB
+- Step 2: Gradle offline – vendor gradle-9.3.1-bin.zip – verify SHA256 – wrapper.properties offline – no cache download – reproducible – 0.2kB doc
+- Step 3: DLAS Full-100 adoption – map 21 historical to Full-100 100 – 21 historical questions map to subset of Full-100 – preserve historical scores as historical_21 field – new Full-100 scores fresh – dual field – 0.3kB
+- Step 4: Build – ./gradlew assembleRelease – verify 21->100 migration – free-space preflight – SHA256 – safe path – empty fails closed – 7 tests like offline-core – PASS
+- Bundle impact: ≤1kB – migration scripts + schema – main stays 581.18kB – headroom 38.82kB – guardrail gzip ≤165kB route-lazy PASS
+
+4. APPLY – DOC-ONLY – NO CODE – 0kB – COPY-PASTABLE FOR FUTURE
+
+# No code changes now – doc-only – mark android as HISTORICAL BLOCKED
+# Future when approved – in android repo – example:
+
+# Room – replace fallbackToDestructiveMigration with migrations + exportSchema true
+# In database.kt – Before:
+# @Database(entities=[Score::class], version=21, exportSchema=false)
+# Room.databaseBuilder(...).fallbackToDestructiveMigration().build()
+
+# After future:
+# @Database(entities=[Score::class], version=100, exportSchema=true)
+# Room.databaseBuilder(...)
+#   .addMigrations(MIGRATION_21_22, ..., MIGRATION_99_100)
+#   .build()
+
+# Gradle – offline – gradle-wrapper.properties:
+# distributionUrl=file:///E:/CREATION_meUus/tmp/gradle-9.3.1-bin.zip – SHA256 verified – no network
+
+# DLAS – dual field:
+# data class Score { val historical21: List<Answer>? = null; val full100: List<Answer>? = null; val isHistorical: Boolean = true }
+
+# Build verification:
+# ./gradlew assembleRelease --offline | Select-Object -Last 20
+# Expected: BUILD SUCCESSFUL – 21->100 migration PASS – free-space preflight PASS – SHA256 PASS – safe path PASS – empty fails closed PASS
+
+# Keep BLOCKED until then – no changes now – 0kB
+
+5. VERIFICATION – LOCAL-ONLY – CLAIM ≤ EVIDENCE – AFTER FREEZE DOC
+
+- Android: BLOCKED/HISTORICAL – 21/21 historical PASS – 21/100 non-comparable – coverage-only lens – not counted as FAIL – PASS for coverage – BLOCKED for Full-100 – 0kB bundle – LOCAL-ONLY – PASS
+- B11 verifier after C4 doc: 7 PASS (meuus.org 29/29, meuussoul.com 98/98, meuus.app-web 581.18kB 9 views 28/28 Full-100 non-scoring, rujbel.org, pilot-desktop 5 files 848KB + 0.9kB VerifyPanel lazy, control 30/30 279 files 102MB, offline-core E: 7/7 C: 7/7 after fallback) + 1 HISTORICAL BLOCKED android 21/21 – 7 PASS active + 1 HISTORICAL = 8 total – 7 PASS – 1 HISTORICAL – 0 FAIL active – PASS
+- No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none – Claim ≤ Evidence
+- Bundle: 0kB – main 581.18kB gzip 157.54kB headroom 38.82kB @620kB – guardrail gzip ≤165kB route-lazy PASS – 9 views lazy chunks – App-DtTujG-6.js unchanged
+
+6. DELIVERABLES – 0kB BUNDLE – DOC-ONLY
+
+- This file PHASE_6_C4_ANDROID_MIGRATION_EVE.txt – doc-only – freeze DLAS 21 historical – coverage-only lens – D012 – 0kB bundle – LOCAL-ONLY
+- No code changes – android stays BLOCKED/HISTORICAL until approved – future migration ≤1kB when approved
+- Updates verification matrix – 7 PASS + 1 HISTORICAL BLOCKED – 0 FAIL active
+
+7. STATUS
+
+- C4 READY – Doc-only – Freeze android 21 as historical non-comparable – Keep BLOCKED per A7 – Coverage-only lens – 0kB – LOCAL-ONLY – CLAIM ≤ EVIDENCE
+- Next: C5 Studio self-checks ≤1kB – localStorage keys shape + DLAS guard + counts 105/60/10/5/100, C6 Consent ≤1kB – Participant vs Independently-verified labels
+- Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 -> 9b67b21 A8 -> 98a07b5 A9 -> 7f86476 A10 trust registry empty fails closed Phase4 COMPLETE -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB -> 859ddc5 B11.1+B11.2 -> 538276d C1 -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline integration ≤1kB lazy -> C4 this file – Phase 6 C4 COMPLETE – Doc-only – 0kB
+
+Status: PHASE 6 C4 ANDROID MIGRATION DOC-ONLY COMPLETE – HISTORICAL FREEZE – COVERAGE-ONLY LENS – 0kB BUNDLE – LOCAL-ONLY – CLAIM ≤ EVIDENCE – BLOCKED/HISTORICAL UNTIL APPROVED
