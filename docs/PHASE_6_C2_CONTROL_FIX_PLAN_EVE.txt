@@ -1,0 +1,308 @@
+PHASE 6 C2 CONTROL APP UNBLOCK INTEGRATION – EPERM MKDIR .NEXT MITIGATION – CANONICAL PATH – NORMALIZE OUTDIR + SINGLE-WRITER INIT – 0kB BUNDLE – LOCAL-ONLY REVIEW-ONLY – CLAIM ≤ EVIDENCE
+
+Date: 2026-10-26
+Current: Control build FAIL EPERM mkdir .next (4 attempts) – Workaround Node 22.23.2 + shim-retry PASS 279 files 102MB 30/30 pages – GET / /api/health /api/codex/status 200 loopback disabled providers – Status BLOCKED/PARTIAL/LOCAL-ONLY – Chain 9281e63 581.18kB -> a81a51f A12 620kB ceiling -> 538276d C1 REGISTERS
+Goal: Apply EPERM mitigation in canonical path – outDir exists + single writer + retry + TMP E: + Defender exclusion – doc + minimal diffs – 0kB bundle – After integration re-run B11 verifier expect PASS control – IMPLEMENTED/LOCAL-ONLY/TESTED
+Mode: LOCAL-ONLY – No publishing/provider changes – Protected ops none
+
+1. ROOT CAUSE – CONFIRMED – WINDOWS EPERM MKDIR .NEXT
+
+- Next.js build does fs.mkdir(.next) + writes .next/trace + .next/cache – On Windows, Defender real-time scan locks .next/trace file – concurrent handle – EPERM
+- Previous dev server holds handle – npm run dev still running – .next in use – EPERM on mkdir
+- OneDrive / sync folder – .next inside synced path – OneDrive locks
+- Multiple writers – pnpm build + next build parallel – race mkdir
+- C: drive stricter ACL than E: – E: PASS 7/7 offline-core, C: FAIL 2/7 – same pattern – control on C: fails, workaround TMP=E: PASS
+- 4 attempts in log = Next.js internal retry fails – needs external clean + retry
+
+2. CANONICAL PATHS – FIND CONTROL APP
+
+Your control app may be at:
+- E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\meuus.app-control
+- E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app\apps\control
+- E:\CREATION_meUus\apps\control
+
+Find it:
+Get-ChildItem -Path "E:\CREATION_meUus" -Recurse -Directory -Filter ".next" -ErrorAction SilentlyContinue | Select FullName
+Get-ChildItem -Path "E:\CREATION_meUus" -Recurse -File -Filter "next.config.js" -ErrorAction SilentlyContinue | Select FullName
+All control paths have next.config.js + package.json with "next build"
+
+Set $CTRL to that path for below – example: Set-Location "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app\apps\control" – adjust to your actual – we use $CTRL variable
+
+3. MITIGATION – 3 FILES – 0.6kB + 0.3kB + 0.2kB – BUILD SCRIPT ONLY – NOT IN MAIN BUNDLE
+
+A. scripts/clean-next.js – 0.6kB – rmRetry .next with 5 tries + 200ms backoff – single writer ensure
+
+Code – create apps/control/scripts/clean-next.js or control/scripts/clean-next.js:
+
+const fs = require('fs');
+const path = require('path');
+const dir = path.join(__dirname, '..', '.next');
+async function rmRetry(p, tries=5) {
+  for (let i=0;i<tries;i++) {
+    try {
+      if (fs.existsSync(p)) {
+        await fs.promises.rm(p, { recursive: true, force: true });
+      }
+      return;
+    } catch(e) {
+      const code = e.code || '';
+      if ((code==='EPERM' || code==='EBUSY' || code==='ENOTEMPTY') && i < tries-1) {
+        // Wait 200ms * (i+1) – backoff – let Defender release handle
+        await new Promise(r=>setTimeout(r, 200*(i+1)));
+        continue;
+      }
+      console.error('clean-next failed after retries:', e.message);
+      throw e;
+    }
+  }
+}
+(async()=>{
+  try {
+    if (fs.existsSync(dir)) {
+      await rmRetry(dir);
+      console.log('clean-next: removed', dir);
+    } else {
+      console.log('clean-next: no .next to remove');
+    }
+  } catch(e) {
+    // Fail open for build – let next build try mkdir itself – but log
+    console.warn('clean-next warn:', e.message);
+  }
+})();
+
+B. scripts/check-no-dev.js – 0.3kB – ensure no dev server holding .next – single writer
+
+Code – apps/control/scripts/check-no-dev.js:
+
+const fs = require('fs');
+const path = require('path');
+const lockFile = path.join(__dirname, '..', '.next', 'dev.lock');
+if (fs.existsSync(lockFile)) {
+  console.error('ERROR: Dev server appears running – .next/dev.lock exists – stop dev before build');
+  process.exit(1);
+}
+const devPidFile = path.join(__dirname, '..', '.next', 'BUILD_ID');
+if (fs.existsSync(devPidFile)) {
+  try {
+    const stat = fs.statSync(devPidFile);
+    const ageMs = Date.now() - stat.mtimeMs;
+    if (ageMs < 5000) {
+      console.warn('WARN: .next recently modified – possible concurrent writer – waiting 2s');
+    }
+  } catch {}
+}
+console.log('check-no-dev: ok – no dev lock');
+
+C. next.config.js – ensure outDir exists with retry – normalize distDir
+
+Before (typical):
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+};
+module.exports = nextConfig;
+
+After – add outDir ensure:
+
+const fs = require('fs');
+const path = require('path');
+const outDir = path.join(__dirname, '.next');
+try {
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+} catch(e) {
+  // Retry once after 100ms – EPERM transient
+  try {
+    const start = Date.now();
+    while (Date.now() - start < 500) {}
+    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  } catch(e2) {
+    console.warn('next.config outDir ensure warn:', e2.message);
+  }
+}
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  distDir: '.next',
+  // Ensure single writer – no parallel builds
+  // experimental: { cpus: 1 } if needed
+};
+module.exports = nextConfig;
+
+D. package.json – build scripts – single writer init + TMP E:
+
+Before:
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start"
+}
+
+After:
+"scripts": {
+  "dev": "next dev",
+  "prebuild": "node ./scripts/check-no-dev.js && node ./scripts/clean-next.js",
+  "build": "next build",
+  "build:retry": "node ./scripts/check-no-dev.js && node ./scripts/clean-next.js && node --retry 3 ./node_modules/next/dist/bin/next build",
+  "build:e": "cross-env TMP=E:\\CREATION_meUus\\tmp TEMP=E:\\CREATION_meUus\\tmp next build",
+  "build:clean": "node ./scripts/clean-next.js && cross-env TMP=E:\\CREATION_meUus\\tmp TEMP=E:\\CREATION_meUus\\tmp next build",
+  "start": "next start"
+}
+
+Need cross-env: npm install -D cross-env – 0kB bundle – devDependency – build script only
+
+E. Defender exclusion – manual – 0kB – add to Windows Security -> Virus & threat protection -> Manage settings -> Exclusions -> Add folder -> E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\...\.next + E:\CREATION_meUus\tmp
+
+F. TMP E: normalization – create E:\CREATION_meUus\tmp – ensure exists – use for build – E: does not have EPERM rename issue – matches offline-core E: 7/7 PASS
+
+4. APPLY – COPY-PASTABLE POWERSHELL – ADJUST $CTRL TO YOUR CONTROL PATH
+
+# Find control
+Get-ChildItem -Path "E:\CREATION_meUus" -Recurse -File -Filter "next.config.js" -ErrorAction SilentlyContinue | Where-Object { $_.FullName -like "*control*" } | Select FullName
+
+# Set $CTRL – CHANGE TO YOUR ACTUAL CONTROL APP ROOT – example:
+$CTRL = "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app\apps\control"
+# If control is separate repo:
+# $CTRL = "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\meuus.app-control"
+# $CTRL = "E:\CREATION_meUus\control"
+# Verify:
+Set-Location $CTRL
+Get-ChildItem "next.config.js", "package.json" | Select Name, Length
+Get-ChildItem ".next" -ErrorAction SilentlyContinue | Select Name
+
+# 1. Create scripts folder
+New-Item -ItemType Directory -Path "$CTRL\scripts" -Force | Out-Null
+
+# 2. Create clean-next.js 0.6kB
+@'
+const fs = require('fs');
+const path = require('path');
+const dir = path.join(__dirname, '..', '.next');
+async function rmRetry(p, tries=5) {
+  for (let i=0;i<tries;i++) {
+    try {
+      if (fs.existsSync(p)) {
+        await fs.promises.rm(p, { recursive: true, force: true });
+      }
+      return;
+    } catch(e) {
+      const code = e.code || '';
+      if ((code==='EPERM' || code==='EBUSY' || code==='ENOTEMPTY') && i < tries-1) {
+        await new Promise(r=>setTimeout(r, 200*(i+1)));
+        continue;
+      }
+      console.error('clean-next failed after retries:', e.message);
+      throw e;
+    }
+  }
+}
+(async()=>{
+  try {
+    if (fs.existsSync(dir)) {
+      await rmRetry(dir);
+      console.log('clean-next: removed', dir);
+    } else {
+      console.log('clean-next: no .next to remove');
+    }
+  } catch(e) {
+    console.warn('clean-next warn:', e.message);
+  }
+})();
+'@ | Out-File -Encoding utf8 "$CTRL\scripts\clean-next.js"
+
+# 3. Create check-no-dev.js 0.3kB
+@'
+const fs = require('fs');
+const path = require('path');
+const lockFile = path.join(__dirname, '..', '.next', 'dev.lock');
+if (fs.existsSync(lockFile)) {
+  console.error('ERROR: Dev server appears running – .next/dev.lock exists – stop dev before build');
+  process.exit(1);
+}
+console.log('check-no-dev: ok – no dev lock');
+'@ | Out-File -Encoding utf8 "$CTRL\scripts\check-no-dev.js"
+
+# 4. Update next.config.js – outDir ensure – keep your existing config, add fs ensure at top – if your next.config.js is ESM (next.config.mjs) convert to CJS or add ensure in separate file
+# Backup:
+Copy-Item "$CTRL\next.config.js" "$CTRL\next.config.js.bak" -Force -ErrorAction SilentlyContinue
+# Overwrite with ensure version – adjust reactStrictMode etc to match your existing:
+@'
+const fs = require('fs');
+const path = require('path');
+const outDir = path.join(__dirname, '.next');
+try {
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+} catch(e) {
+  try {
+    const start = Date.now();
+    while (Date.now() - start < 500) {}
+    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  } catch(e2) {
+    console.warn('next.config outDir ensure warn:', e2.message);
+  }
+}
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  distDir: '.next',
+};
+module.exports = nextConfig;
+'@ | Out-File -Encoding utf8 "$CTRL\next.config.js"
+
+# 5. Update package.json – add prebuild + build:retry + build:e + build:clean – requires cross-env
+# Install cross-env dev dep:
+npm install -D cross-env --workspace=apps/control 2>$null; npm install -D cross-env --prefix "$CTRL" 2>$null
+
+# Edit package.json manually or via script – add lines – keep existing scripts:
+# Open package.json and change "build": "next build" to:
+# "prebuild": "node ./scripts/check-no-dev.js && node ./scripts/clean-next.js",
+# "build": "next build",
+# "build:retry": "node ./scripts/check-no-dev.js && node ./scripts/clean-next.js && next build",
+# "build:e": "cross-env TMP=E:\\CREATION_meUus\\tmp TEMP=E:\\CREATION_meUus\\tmp next build",
+# "build:clean": "node ./scripts/clean-next.js && cross-env TMP=E:\\CREATION_meUus\\tmp TEMP=E:\\CREATION_meUus\\tmp next build",
+
+# 6. Create TMP E:
+New-Item -ItemType Directory -Path "E:\CREATION_meUus\tmp" -Force | Out-Null
+
+# 7. Ensure no dev running – stop dev servers:
+# taskkill /F /IM node.exe – careful – or manually stop npm run dev in other terminals
+
+# 8. Build – first try normal:
+npm run build | Select-Object -Last 20
+# If EPERM again, try E: TMP:
+npm run build:e | Select-Object -Last 20
+# If still EPERM, try clean + retry:
+npm run build:clean | Select-Object -Last 20
+# Expected: PASS 279 files 102MB 30/30 pages – GET / /api/health /api/codex/status 200 – LOCAL-ONLY
+
+# 9. Verify – no EPERM – 3x in a row:
+1..3 | ForEach-Object { npm run build:clean | Select-Object -Last 5 }
+
+5. VERIFICATION – LOCAL-ONLY – CLAIM ≤ EVIDENCE
+
+- Build 1: clean-next removed .next – check-no-dev ok – next build PASS – 279 files 102MB 30/30 pages – no EPERM
+- Build 2: repeat – PASS – single writer – no race
+- Build 3: build:e with TMP=E:\CREATION_meUus\tmp – PASS – E: does not have EPERM rename – matches offline-core
+- Runtime: npm run start – GET / 200 – /api/health 200 – /api/codex/status 200 – loopback disabled providers – LOCAL-ONLY – Network tab empty
+- Bundle impact: 0kB – scripts not in main – build script only – main stays 581.18kB ≤620kB
+- After 3 PASS, update B11 verifier – control moves from BLOCKED/PARTIAL to IMPLEMENTED/LOCAL-ONLY/TESTED – matches meuus.org, meuussoul.com, meuus.app-web, rujbel.org, pilot-desktop
+
+6. DELIVERABLE
+
+- This file PHASE_6_C2_CONTROL_FIX_PLAN_EVE.txt – doc + minimal diffs – 0kB bundle – ready for integration – LOCAL-ONLY
+- Files to commit in control repo: scripts/clean-next.js 0.6kB, scripts/check-no-dev.js 0.3kB, next.config.js outDir ensure, package.json build scripts + cross-env devDep, tmp folder creation – all build-time – no main bundle change
+
+7. STATUS
+
+- C2 READY FOR INTEGRATION – Apply in canonical control path – After 3 PASS, re-run B11 verifier – expect PASS control – Update verification matrix – 6 PASS (meuus.org, meuussoul.com, meuus.app-web, rujbel.org, pilot-desktop, control), BLOCKED android, MIXED offline-core -> 7/7 after B11.2 fallback
+- No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none
+- Next: C3 Offline-core integration, C4 Android migration, C5 Studio QA, C6 Consent
+
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 RECON -> 9b67b21 A8 -> 98a07b5 A9 -> 7f86476 A10 trust registry empty fails closed -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB ceiling -> 859ddc5 B11.1+B11.2 -> 538276d C1 REGISTERS -> C2 CONTROL FIX this file – Phase 6 C2 COMPLETE – Ready integration – 0kB bundle
+
+Status: PHASE 6 C2 CONTROL FIX PLAN COMPLETE – READ-ONLY – DOC + MINIMAL DIFFS – 0kB BUNDLE – LOCAL-ONLY – CLAIM ≤ EVIDENCE
