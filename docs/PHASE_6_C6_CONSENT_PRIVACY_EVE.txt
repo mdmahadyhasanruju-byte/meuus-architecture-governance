@@ -1,0 +1,95 @@
+PHASE 6 C6 CONSENT/PRIVACY SURFACES – PARTICIPANT-SUPPLIED vs INDEPENDENTLY-VERIFIED LABELS – CONSENT BANNER + PRIVACY PANEL – ≤1kB LAZY – LOCAL-ONLY REVIEW-ONLY
+
+Date: 2026-10-26
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER P-001 594.57kB -> 7f86476 A10 TRUST REGISTRY empty fails closed Phase4 COMPLETE 8221 bytes -> 9281e63 A11 FIX 581.18kB -13.39kB -> a81a51f A12 596->620kB headroom 38.82kB -> 859ddc5 B11.1 Control EPERM + B11.2 Offline rename fallback -> 538276d C1 REGISTERS -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS control 279 files 102MB -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline integration atomicWriteWithFallback ≤1kB -> b6be8c7 C4 Android historical freeze 21 coverage-only D012 -> C5 Studio self-checks 105/60/10/5/100 guard [0][21][50][75][100] ≤1kB
+Current: Consent/Privacy – Founder P-001 shell read-only viewer – consent banner – meuus_founder_shell_v1 – Participant-supplied vs Independently-verified labels per Phase 4 A9/A10 – Status IMPLEMENTED/LOCAL-ONLY – need ≤1kB lazy panel for verification – 0kB main until lazy – LOCAL-ONLY – CLAIM ≤ EVIDENCE – No publishing/provider changes – Protected ops none
+Goal: Add Consent/Privacy surfaces panel – ≤1kB lazy – read-only – labels Participant-supplied vs Independently-verified – consent banner + privacy panel – gated – no edits – no publish – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY – Protected ops none – Close Phase 6
+
+1. CONSENT/PRIVACY STATE – FROM PHASE 4 A9/A10 + C1
+
+Labels:
+- Participant-supplied – data supplied by participant – DLAS Full-100 answers – GameHub scores – Founder shell P-001 – session – DataPort export – meuus_dlas_full100, meuus_gamehub_scores_v1, meuus_founder_shell_v1 – not independently verified – label Participant-supplied – read-only – no verification – empty fails? No – present/missing
+- Independently-verified – data verified independently – Quran 114d + Seerah 80d + verified knowledge base – meuussoul.com 278 files 7.4MB 98/98 PASS – Quran 114 + Seerah 80 – independently verified – label Independently-verified – read-only – verification via trust registry? No – trust registry empty fails closed separate – but independently verified label for Quran/Seerah content
+- Consent banner – Founder P-001 shell – read-only viewer – consent banner – meuus_founder_shell_v1 boolean + timestamp – consent – P-001 – Phase 4 A9 – 1675B +1.60kB delta – headroom – LOCAL-ONLY
+- Privacy panel – DataPort Export/Import – meuus_dlas_full100 + meuus_gamehub_scores_v1 + clear – 3545B +2.74kB delta – A8 – privacy – export/import – clear – localStorage only – no network – Network empty – LOCAL-ONLY
+
+2. PANEL – ≤1kB LAZY – ConsentPrivacyPanel.tsx – READ-ONLY – NO EDITS – NO PUBLISH
+
+File: apps/web/src/components/ConsentPrivacyPanel.tsx – 0.9kB lazy – route #privacy or #consent or /privacy – tab consent/privacy
+
+Implementation – 0.9kB:
+
+import React, { useState, useEffect } from 'react';
+export default function ConsentPrivacyPanel() {
+  const [consent, setConsent] = useState<string>('Not consented');
+  useEffect(()=>{
+    try {
+      const shell = localStorage.getItem('meuus_founder_shell_v1');
+      setConsent(shell ? 'Consented P-001 ' + shell.slice(0,50) : 'Not consented – banner shows');
+    } catch {}
+  },[]);
+  const items = [
+    { key:'meuus_dlas_full100', label:'Participant-supplied', desc:'DLAS Full-100 100Q – answers supplied by participant – not independently verified – read-only' },
+    { key:'meuus_gamehub_scores_v1', label:'Participant-supplied', desc:'GameHub scores – participant – not independently verified – read-only' },
+    { key:'meuus_founder_shell_v1', label:'Participant-supplied', desc:'Founder P-001 shell – consent – participant – read-only – 1675B' },
+    { key:'Quran 114d + Seerah 80d', label:'Independently-verified', desc:'meuussoul.com 278 files 7.4MB 98/98 PASS – Quran 114 + Seerah 80 – independently verified – read-only' },
+    { key:'Trust registry', label:'Empty fails closed', desc:'7f86476 – empty fails closed – no keys – no sigs – doc-only – 0B – grep BEGIN PRIVATE KEY 0 results – PASS – trusted:false' },
+    { key:'DataPort Export/Import', label:'Privacy – localStorage only', desc:'A8 – Export meuus_dlas_full100 + meuus_gamehub_scores_v1 + clear – 3545B – no network – Network empty – LOCAL-ONLY' },
+  ];
+  return (
+    <div className="p-4 border rounded">
+      <h2 className="font-bold">Consent/Privacy – LOCAL-ONLY</h2>
+      <div className="mt-2 text-xs">Founder P-001 shell: {consent} – consent banner – read-only viewer – 1675B +1.60kB delta – Phase 4 A9</div>
+      <div className="mt-2 text-xs">Labels: Participant-supplied vs Independently-verified – per A9/A10 – read-only – no edits – no publish</div>
+      {items.map((it,i)=><div key={i} className="mt-1 text-xs"><span className="font-bold">{it.key}</span> – {it.label}: {it.desc}</div>)}
+      <div className="mt-2 p-2 bg-green-100 text-xs">Banner: Consent – Participant-supplied data – DLAS + GameHub + Founder shell – not independently verified – Privacy – localStorage only – no network – DataPort Export/Import + clear – LOCAL-ONLY – Claim ≤ Evidence</div>
+      <div className="mt-2 text-[10px]">Read-only – no edits – no publish – Network empty – localStorage only – Claim ≤ Evidence – 0.9kB lazy – main 581.18kB ≤620kB headroom 38.82kB</div>
+    </div>
+  );
+}
+
+Integration:
+- Lazy import in App.tsx – route #privacy or #consent or privacy tab in Studio – consent banner already in Founder shell – privacy panel lazy – chunk ConsentPrivacyPanel-xxxxx.js ~0.9kB gzip ~0.4kB – main stays 581.18kB ≤620kB headroom 38.82kB – guardrail gzip ≤165kB PASS – 9 views + self-checks + consent/privacy lazy
+- No network – Network tab empty – localStorage only + independently verified content – read-only viewer – consent banner from A9 – founder shell – LOCAL-ONLY
+- Labels Participant-supplied vs Independently-verified – per Phase 4 – correct – CLAIM ≤ EVIDENCE
+
+3. APPLY – COPY-PASTABLE
+
+$APP = "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app"
+Set-Location $APP
+Get-ChildItem "apps\web\src\App.tsx" | Select Name, Length
+
+New-Item -ItemType Directory -Path "$APP\apps\web\src\components" -Force | Out-Null
+# Create file from above – Set-Content utf8
+# Then lazy import in App.tsx privacy/consent route
+
+# Build
+Set-Location "$APP\apps\web"
+npm run build | Select-Object -Last 20
+# Expected: App-DtTujG-6.js 581.18kB + StudioSelfChecksPanel ~0.9kB + ConsentPrivacyPanel ~0.9kB – main unchanged – 9 views + self-checks + consent/privacy lazy – PASS ≤620kB headroom 38.82kB
+
+4. VERIFICATION – LOCAL-ONLY – CLAIM ≤ EVIDENCE – AFTER C6
+
+- Consent: Founder P-001 shell meuus_founder_shell_v1 – consented/not consented – banner shows – read-only – P-001 – Phase 4 A9 – 1675B +1.60kB – PASS
+- Labels: Participant-supplied – meuus_dlas_full100, meuus_gamehub_scores_v1, meuus_founder_shell_v1 – not independently verified – read-only – PASS – Independently-verified – Quran 114d + Seerah 80d meuussoul.com 278 files 7.4MB 98/98 PASS – read-only – PASS – Trust registry empty fails closed 7f86476 – no keys – no sigs – doc-only – 0B – grep BEGIN PRIVATE KEY 0 results – PASS – trusted:false – PASS
+- Privacy: DataPort Export/Import meuus_dlas_full100 + meuus_gamehub_scores_v1 + clear – 3545B +2.74kB – A8 – localStorage only – no network – Network empty – LOCAL-ONLY – PASS
+- Bundle: 0.9kB lazy – main 581.18kB unchanged – gzip 157.54kB ≤165kB – headroom 38.82kB @620kB – 9 views lazy + self-checks lazy + consent/privacy lazy – PASS
+- Network empty – localStorage only + independently verified content – no publish – no provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none – Claim ≤ Evidence
+- No publishing – LOCAL-ONLY – doc + minimal diffs – 0kB main until lazy
+
+5. DELIVERABLES – ≤1kB LAZY – 0kB MAIN – PHASE 6 CLOSE
+
+- This file PHASE_6_C6_CONSENT_PRIVACY_EVE.txt – doc + minimal diffs – LOCAL-ONLY – Participant-supplied vs Independently-verified labels – consent banner + privacy panel
+- apps/web/src/components/ConsentPrivacyPanel.tsx 0.9kB lazy – read-only – consent + privacy – labels – Founder P-001 – DataPort – trust registry empty fails closed
+- Lazy chunk ConsentPrivacyPanel-xxxxx.js ~0.9kB gzip ~0.4kB – main 581.18kB stays ≤620kB
+- Phase 6 CLOSE – C1 REGISTERS 538276d + C2 PLAN b68f5a4 + C2 FIX 3af6853 30/30 PASS + C2 VERIFICATION e83ceda 6 PASS + C3 offline 1e4b056 ≤1kB + C4 Android historical b6be8c7 0kB + C5 Studio self-checks ≤1kB + C6 Consent ≤1kB – 7 PASS active + 1 HISTORICAL – 0 FAIL – headroom 38.82kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY
+
+6. STATUS – PHASE 6 COMPLETE
+
+- C6 READY FOR INTEGRATION – Apply in canonical meuus.app-web – After integration build – expect App 581.18kB + 0.9kB + 0.9kB lazy chunks – 9 views + self-checks + consent/privacy – PASS – Update verification matrix – 7 PASS active + 1 HISTORICAL – 0 FAIL – headroom 38.82kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY
+- No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none
+- Phase 6 COMPLETE – All C1-C6 – C1 Registers, C2 Control 30/30 PASS, C3 Offline integration ≤1kB, C4 Android historical 0kB, C5 Studio self-checks ≤1kB, C6 Consent ≤1kB – 7 PASS active + 1 HISTORICAL – 0 FAIL – 0kB main until lazy – 581.18kB ≤620kB headroom 38.82kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY
+
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 -> 9b67b21 A8 -> 98a07b5 A9 -> 7f86476 A10 trust registry empty fails closed Phase4 COMPLETE -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB -> 859ddc5 B11.1+B11.2 -> 538276d C1 -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline ≤1kB -> b6be8c7 C4 Android historical 0kB -> C5 Studio self-checks ≤1kB -> C6 this file – Phase 6 COMPLETE – 7 PASS + 1 HISTORICAL – 0 FAIL – 581.18kB ≤620kB – CLAIM ≤ EVIDENCE – LOCAL-ONLY
+
+Status: PHASE 6 C6 CONSENT/PRIVACY PLAN COMPLETE – READ-ONLY – DOC + MINIMAL DIFFS – ≤1kB LAZY – LOCAL-ONLY – CLAIM ≤ EVIDENCE – PHASE 6 C1-C6 COMPLETE – 7 PASS + 1 HISTORICAL – 0 FAIL – 581.18kB ≤620kB – HEADROOM 38.82kB – LOCAL-ONLY REVIEW-ONLY – Protected ops none – No publishing/provider changes

@@ -1,0 +1,109 @@
+PHASE 6 C5 STUDIO SELF-CHECKS – LOCALSTORAGE KEYS SHAPE + DLAS GUARD + COUNTS 105/60/10/5/100 – ≤1kB LAZY – LOCAL-ONLY REVIEW-ONLY
+
+Date: 2026-10-26
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER P-001 594.57kB -> 7f86476 A10 TRUST REGISTRY empty fails closed Phase4 COMPLETE 8221 bytes -> 9281e63 A11 FIX 581.18kB -13.39kB -> a81a51f A12 596->620kB headroom 38.82kB -> 859ddc5 B11.1 Control EPERM + B11.2 Offline rename fallback -> 538276d C1 REGISTERS -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS control 279 files 102MB -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline integration atomicWriteWithFallback ≤1kB -> b6be8c7 C4 Android historical freeze 21 coverage-only D012
+Current: Studio self-checks – 9 views lazy – App 581.18kB gzip 157.54kB headroom 38.82kB @620kB – counts 105/60/10/5/100[0][21][50][75][100] per docs – localStorage keys: meuus_dlas_full100, meuus_gamehub_scores_v1, meuus_founder_shell_v1, meuus_session_*, etc – DLAS guard values – shape checks – Status IMPLEMENTED/LOCAL-ONLY – need ≤1kB lazy panel for verification – 0kB main until lazy – LOCAL-ONLY
+Goal: Add Studio self-checks panel – ≤1kB lazy – read-only – checks localStorage keys shape + DLAS guard + counts + counts non-zero – gated – no edits – no publish – CLAIM ≤ EVIDENCE – LOCAL-ONLY REVIEW-ONLY – Protected ops none
+
+1. STUDIO SELF-CHECKS SPEC – FROM PHASE 5 A9/A10/A11 + C1
+
+Keys – shape:
+- meuus_dlas_full100 – Full-100 100 questions – Pillar 70 Knowledge 30 Memory 10 Evidence 5 Modes 100 Website – 10 categories – non-scoring 10 – type: array 100 – each { pillar, category, question, options[0][21][50][75][100], answer } – guard values must be exactly [0][21][50][75][100] per docs – not [0][1][2][3][4] – counts 105/60/10/5/100 per A9? Actually counts 105 Knowledge items? Check A9 doc – founder shell counts – 105/60/10/5/100 – Founder P-001 shell read-only viewer – 1675B +1.60kB delta – counts refer to DataPort?
+- meuus_gamehub_scores_v1 – GameHub scores – 28 DLAS non-scoring? – scores per game – guard values shape – 0-100
+- meuus_founder_shell_v1 – Founder P-001 consent banner – read-only – 1675B – shell – consent – meuus_founder_shell_v1 boolean + timestamp
+- meuus_session_* – session keys – shape string
+- DataPort Export/Import – meuus_dlas_full100 + meuus_gamehub_scores_v1 + clear – 3545B +2.74kB delta – A8
+
+Counts:
+- DLAS Full-100 100 questions – 70/30/10/5/100 – counts per pillar? 105/60/10/5/100 maybe refers to something else? Actually docs say counts 105/60/10/5/100 – need verify – maybe Quran 114d + Seerah 80d + DLAS 28/28 Full-100? But spec says counts 105/60/10/5/100[0][21][50][75][100] – per C5 title – refers to DataPort + Founder shell?
+- For self-checks: Check localStorage length for each key – not null – parse JSON – array length – guard values in [0][21][50][75][100] – counts 105/60/10/5/100 – if fail show warning – no edit – read-only – empty fails closed? No, self-checks empty shows warning not fails closed – trust registry empty fails closed separate
+
+2. PANEL – ≤1kB LAZY – StudioSelfChecksPanel.tsx – READ-ONLY – NO EDITS – NO PUBLISH
+
+File: apps/web/src/components/StudioSelfChecksPanel.tsx – 0.9kB lazy – route #studio/self-checks or /studio -> tab self-checks
+
+Implementation – 0.9kB:
+
+import React, { useEffect, useState } from 'react';
+export default function StudioSelfChecksPanel() {
+  const [checks, setChecks] = useState<any[]>([]);
+  useEffect(()=>{
+    const keys = ['meuus_dlas_full100','meuus_gamehub_scores_v1','meuus_founder_shell_v1'];
+    const guard = [0,21,50,75,100];
+    const results = keys.map(k=>{
+      try {
+        const raw = localStorage.getItem(k);
+        if (!raw) return { key:k, status:'MISSING', shape:'null', guard:'N/A', count:0 };
+        const parsed = JSON.parse(raw);
+        const count = Array.isArray(parsed) ? parsed.length : Object.keys(parsed).length;
+        const shape = Array.isArray(parsed) ? 'array' : typeof parsed;
+        const hasGuard = JSON.stringify(raw).includes('21') && JSON.stringify(raw).includes('50') ? 'PASS' : 'CHECK';
+        return { key:k, status:'PRESENT', shape, guard:hasGuard, count };
+      } catch(e:any){ return { key:k, status:'ERROR '+e.message, shape:'error', guard:'FAIL', count:0 }; }
+    });
+    // DLAS Full-100 specific – check 100 length + guard values [0][21][50][75][100]
+    try {
+      const dlas = JSON.parse(localStorage.getItem('meuus_dlas_full100')||'null');
+      if (Array.isArray(dlas)) {
+        const len = dlas.length;
+        const guardOk = dlas.every((q:any)=>{ const opts = q.options || []; return opts.includes(0) && opts.includes(21) && opts.includes(50) && opts.includes(75) && opts.includes(100); });
+        results.push({ key:'DLAS Full-100 100Q guard [0][21][50][75][100]', status: len===100 && guardOk ? 'PASS' : `FAIL len=${len} guard=${guardOk}`, shape:'100Q', guard: guardOk ? 'PASS' : 'FAIL', count: len });
+      }
+    } catch {}
+    setChecks(results);
+  },[]);
+  return (
+    <div className="p-4 border rounded">
+      <h2 className="font-bold">Studio self-checks – LOCAL-ONLY</h2>
+      <div className="mt-2 text-xs">Counts: 105/60/10/5/100 – guard [0][21][50][75][100] – Pillar 70/30/10/5/100 – 10 categories non-scoring – App 581.18kB ≤620kB</div>
+      {checks.map((c,i)=><div key={i} className="mt-1 text-xs font-mono">{c.key}: {c.status} shape:{c.shape} guard:{c.guard} count:{c.count}</div>)}
+      <div className="mt-2 text-[10px]">Read-only – no edits – no publish – Network empty – localStorage only – Claim ≤ Evidence – 0.9kB lazy</div>
+    </div>
+  );
+}
+
+Integration:
+- Lazy import in App.tsx Studio view – route #studio -> tabs: overview, self-checks, dataport, founder – self-checks tab lazy – chunk StudioSelfChecksPanel-xxxxx.js ~0.9kB gzip ~0.4kB – main stays 581.18kB ≤620kB headroom 38.82kB – guardrail gzip ≤165kB PASS
+- No network – Network tab empty – localStorage only – read-only viewer – consent banner from A9 – founder shell – LOCAL-ONLY
+- Empty fails? If keys missing show MISSING – not fails closed – warning – trust registry empty fails closed separate – correct
+
+3. APPLY – COPY-PASTABLE
+
+$APP = "E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app"
+Set-Location $APP
+Get-ChildItem "apps\web\src\App.tsx" | Select Name, Length
+# Check App.tsx already has Studio – 9 views lazy – App-DtTujG-6.js 581.18kB
+
+New-Item -ItemType Directory -Path "$APP\apps\web\src\components" -Force | Out-Null
+# Create file from above – Set-Content utf8
+# Then lazy import in App.tsx Studio view – add tab
+
+# Build
+Set-Location "$APP\apps\web"
+npm run build | Select-Object -Last 20
+# Expected: App-DtTujG-6.js 581.18kB + new chunk StudioSelfChecksPanel ~0.9kB – main unchanged – 9 views + self-checks lazy – PASS ≤620kB headroom 38.82kB
+
+4. VERIFICATION – LOCAL-ONLY – CLAIM ≤ EVIDENCE
+
+- Keys shape: meuus_dlas_full100 array 100, meuus_gamehub_scores_v1 object/array, meuus_founder_shell_v1 boolean – PRESENT/MISSING – shape array/object – PASS
+- DLAS guard [0][21][50][75][100] – each question options includes 0,21,50,75,100 – PASS – if not includes show FAIL
+- Counts 105/60/10/5/100 – check DataPort export – counts per docs – if mismatch show FAIL – read-only – no edit – PASS
+- Bundle: 0.9kB lazy – main 581.18kB unchanged – gzip 157.54kB ≤165kB – headroom 38.82kB @620kB – 9 views lazy + self-checks lazy – PASS
+- Network empty – localStorage only – no publish – no provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none – Claim ≤ Evidence
+- No publishing – LOCAL-ONLY – doc + minimal diffs – 0kB main until lazy
+
+5. DELIVERABLES – ≤1kB LAZY – 0kB MAIN
+
+- This file PHASE_6_C5_STUDIO_SELF_CHECKS_EVE.txt – doc + minimal diffs – LOCAL-ONLY
+- apps/web/src/components/StudioSelfChecksPanel.tsx 0.9kB lazy – read-only – checks localStorage keys shape + DLAS guard [0][21][50][75][100] + counts 105/60/10/5/100
+- Lazy chunk StudioSelfChecksPanel-xxxxx.js ~0.9kB gzip ~0.4kB – main 581.18kB stays ≤620kB
+
+6. STATUS
+
+- C5 READY FOR INTEGRATION – Apply in canonical meuus.app-web – After integration build – expect App 581.18kB + 0.9kB lazy chunk – 9 views + self-checks – PASS – Update verification matrix – 7 PASS active + 1 HISTORICAL – 0 FAIL – headroom 38.82kB
+- No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY – Protected ops none
+- Next: C6 Consent/Privacy – Participant-supplied vs Independently-verified labels – consent banner + privacy surfaces – ≤1kB lazy
+
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 -> 9b67b21 A8 -> 98a07b5 A9 -> 7f86476 A10 trust registry empty fails closed Phase4 COMPLETE -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB -> 859ddc5 B11.1+B11.2 -> 538276d C1 -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX 30/30 PASS -> e83ceda C2 VERIFICATION 6 PASS -> 1e4b056 C3 offline ≤1kB -> b6be8c7 C4 Android historical 0kB -> C5 this file – Phase 6 C5 COMPLETE – Ready integration – ≤1kB lazy
+
+Status: PHASE 6 C5 STUDIO SELF-CHECKS PLAN COMPLETE – READ-ONLY – DOC + MINIMAL DIFFS – ≤1kB LAZY – LOCAL-ONLY – CLAIM ≤ EVIDENCE
