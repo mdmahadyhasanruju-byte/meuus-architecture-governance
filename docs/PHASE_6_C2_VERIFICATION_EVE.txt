@@ -1,0 +1,92 @@
+PHASE 6 C2 VERIFICATION – CONTROL APP EPERM FIX – 3x PASS – IMPLEMENTED/LOCAL-ONLY/TESTED – 0kB BUNDLE
+
+Date: 2026-10-26
+Control path: E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\00_DOMAIN_REPOSITORIES\03_meuus.app\apps\control
+Build tool: Next.js 15.5.22
+Code commit: 3af6853 fix(control): Phase 6 C2 EPERM mkdir .next – clean-next rmRetry + check-no-dev + outDir ensure + outputFileTracingRoot + TMP E: – 279 files 102MB 30/30 PASS – BOM fixed && – LOCAL-ONLY
+Gov commit: b68f5a4 docs(governance): Phase 6 C2 Control fix plan – clean-next.js rmRetry + check-no-dev + outDir ensure + TMP E: + Defender exclusion – 0kB bundle – LOCAL-ONLY
+Chain: 9281e63 A11 FIX 581.18kB -> a81a51f A12 596->620kB -> 859ddc5 B11.1+B11.2 -> 538276d C1 REGISTERS -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX
+
+1. FIXES APPLIED – 4 files – 0.6kB+0.3kB+0.6kB+0.1kB build-time only – main bundle stays App-DtTujG-6.js 581.18kB gzip 157.54kB headroom 38.82kB @620kB
+
+- scripts/clean-next.js 886B – rmRetry .next recursive force 5 tries 200ms*(i+1) backoff – handles EPERM EBUSY ENOTEMPTY – Defender lock – log clean-next: removed / no .next to remove – fail open warn
+- scripts/check-no-dev.js 333B – checks .next/dev.lock exists -> ERROR dev running stop dev before build exit 1 – else ok no dev lock – ensures single writer
+- next.config.js 588B patched to 750B – adds fs.mkdirSync .next recursive with 500ms busy-wait retry – distDir '.next' – outputFileTracingRoot path.join(__dirname, '../../') to silence multiple lockfiles warning – fixes infer workspace root warning about E:\...\03_meuus.app\package-lock.json + apps/control/package-lock.json
+- package.json – adds prebuild node check-no-dev && clean-next, build:retry check+clean+next build, build:e cross-env TMP=E:\CREATION_meUus\tmp TEMP=E:\... next build, build:clean clean + cross-env TMP E: – uses Node write utf8 no BOM – fixes SyntaxError Unexpected token '' BOM + \u0026 && – cross-env devDep added 426 packages
+- E:\CREATION_meUus\tmp folder created – Defender exclusion recommended for .next + tmp – E: does not have EPERM rename issue per offline-core E: 7/7 PASS vs C: 2/7 FAIL
+
+2. BUILD VERIFICATION – 3x PASS – LOCAL-ONLY
+
+Build 1 normal npm run build:
+✓ Compiled successfully
+Routes:
+ƒ /api/codex/proposals 179B 103kB
+ƒ /api/codex/proposals/[proposalId] 179B 103kB
+ƒ /api/codex/proposals/[proposalId]/artifact 179B 103kB
+ƒ /api/codex/proposals/[proposalId]/decision 179B 103kB
+ƒ /api/codex/proposals/[proposalId]/revalidate 179B 103kB
+ƒ /api/codex/proposals/[proposalId]/verify 179B 103kB
+ƒ /api/codex/propose 179B 103kB
+ƒ /api/codex/query 179B 103kB
+ƒ /api/codex/sandbox 179B 103kB
+ƒ /api/codex/sandbox/[runId]/evidence 179B 103kB
+ƒ /api/codex/sandbox/apply 179B 103kB
+ƒ /api/codex/sandbox/create 179B 103kB
+ƒ /api/codex/sandbox/eligibility 179B 103kB
+ƒ /api/codex/status 179B 103kB
+ƒ /api/deployment 179B 103kB
+ƒ /api/events 179B 103kB
+ƒ /api/health 179B 103kB
+ƒ /api/identity 179B 103kB
+ƒ /api/knowledge 179B 103kB
+ƒ /api/memory 179B 103kB
+ƒ /api/modes 179B 103kB
+ƒ /api/tools 179B 103kB
+○ /chat 3.76kB 110kB
+○ /codex 3.11kB 109kB
+○ /codex/proposals 1.52kB 107kB
+ƒ /codex/proposals/[proposalId] 1.78kB 108kB
+○ /codex/propose 3.4kB 109kB
+○ /codex/sandbox 2.42kB 108kB
+○ /modes 167B 106kB
+○ /system 1.83kB 108kB
+○ /website 167B 106kB
++ First Load JS 103kB chunks 46.3kB + 54.2kB + 1.99kB
+○ Static prerendered, ƒ Dynamic server-rendered on demand
+30/30 pages – 279 files 102MB – PASS
+
+Build 2 build:clean – cross-env TMP E:\CREATION_meUus\tmp – same 30/30 PASS – clean-next removed .next first – PASS
+
+Build 3,4,5 3x verify loop – each clean-next removed .next + compiled successfully + 30/30 – 3x PASS – no EPERM – single writer confirmed – no dev lock
+
+Before fix: EPERM mkdir .next 4 attempts FAIL – SyntaxError BOM Unexpected token '' – Missing script build:clean – 11 node processes holding .next lock
+After fix: 3x PASS – 0 EPERM – BOM fixed Node write utf8 no BOM – && correct – outputFileTracingRoot silences workspace root warning – TMP E: normalization – Defender exclusion ready
+
+3. B11 VERIFIER UPDATE – AFTER C2
+
+- meuus.org 128 files 18MB 29/29 PASS
+- meuussoul.com 278 files 7.4MB 98/98 PASS – Quran 114d + Seerah 80d
+- meuus.app-web 4 files 707kB DLAS 28/28 Full-100 non-scoring – App-DtTujG-6.js 581.18kB gzip 157.54kB PASS ≤620kB headroom 38.82kB – 9 views lazy
+- rujbel.org 57 files 31MB PASS
+- pilot-desktop 5 files 848KB PASS
+- control 30/30 pages 279 files 102MB PASS – PREVIOUSLY PARTIAL/BLOCKED – NOW IMPLEMENTED/LOCAL-ONLY/TESTED – C2 FIX 3af6853
+- android BLOCKED – Gradle 9.3.1 cache + Room fallbackToDestructiveMigration + exportSchema false + DLAS 21 vs Full-100 CONFLICT – Keep BLOCKED per A7 – C4 planned
+- offline-core E: 7/7 PASS C: 2/7 FAIL EPERM rename – B11.2 fallback ready – C3 planned
+
+6 PASS (was 5 PASS), 1 BLOCKED android, 1 MIXED offline-core -> 7/7 after C3 fallback
+
+4. DELIVERABLES – 0kB BUNDLE IMPACT
+
+- Governance: b68f5a4 PHASE_6_C2_CONTROL_FIX_PLAN_EVE.txt 13374 bytes – doc + minimal diffs – LOCAL-ONLY
+- Code: 3af6853 – scripts/clean-next.js 886B, check-no-dev.js 333B, next.config.js outDir ensure + outputFileTracingRoot, package.json build:clean + build:e + build:retry + prebuild – build-time only – main 581.18kB unchanged
+- This verification file PHASE_6_C2_VERIFICATION_EVE.txt
+
+5. NEXT
+
+- C3 Offline-core integration – Verify package panel in Pilot Desktop gated by trust registry empty fails closed – ≤1kB lazy – PHASE_6_C3_OFFLINE_INTEGRATION_EVE.txt
+- C4 Android historical migration – doc-only – freeze scored as historical non-comparable – coverage-only lens
+- C5 Studio self-checks – ≤1kB – localStorage keys shape + DLAS guard + counts 105/60/10/5/100
+- C6 Consent/Privacy surfaces – ≤1kB – Participant-supplied vs Independently-verified labels
+
+Status: PHASE 6 C2 COMPLETE – IMPLEMENTED/LOCAL-ONLY/TESTED – 30/30 PASS 3x – 0kB BUNDLE – CLAIM ≤ EVIDENCE
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 -> 9b67b21 A8 -> 98a07b5 A9 -> 7f86476 A10 trust registry empty fails closed Phase4 COMPLETE -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB -> 859ddc5 B11.1+B11.2 -> 538276d C1 REGISTERS -> b68f5a4 C2 PLAN -> 3af6853 C2 FIX PASS 279 files 30/30
