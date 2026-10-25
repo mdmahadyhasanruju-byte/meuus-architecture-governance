@@ -1,0 +1,87 @@
+PHASE 4 A7 DLAS RECONCILIATION – AUDIT MODE – LOCAL-ONLY – NON-DESTRUCTIVE
+
+Date: 2026-10-26
+Chain: b87ee80 A2 -> 62fef85 A3 -> 0fd974b A4 -> 40865d2 A5 -> 7947dae A6 CLOSED -> A7 RECON
+Build: 590.38 kB (590.23 kB) gzip 159.24 kB PASS ≤596 kB headroom 5.62 kB
+Keys: meuus_dlas_full100 (non-scoring 0/21/50/75/100) + meuus_gamehub_scores_v1 (local-only)
+
+1. CONTRACT STATEMENT – Full-100 as Source of Truth (SoT)
+- DLAS Full-100 is NON-SCORING coverage-only.
+- Values: 0 / 21 / 50 / 75 / 100 percent coverage portion per item.
+- Storage: localStorage meuus_dlas_full100 v1 { [id]: number } – LOCAL-ONLY – no network.
+- Languages: Phase Zero 21 = EN/BN/AR – Full-100 expands to 100 items EN/BN (AR placeholder) – 28/28 PASS.
+- UI: dlasGrid.ts 1063B + dlasGrid.css 914B + DLASStudioView.tsx 2249B + StudioHub.tsx 3324B – toggler cycles 0→21→50→75→100→0.
+- Scoring: DISABLED – saveScore() guards dlasFull100 – warns "use meuus_dlas_full100" – GameHub shows "coverage-only".
+- This contract is IMMUTABLE for Phase 4.
+
+2. EVIDENCE – Full-100 vs Android Historical (Blocked)
+Full-100 (Current, Active):
+- 100 items – non-scoring – coverage – EN/BN – 28/28 PASS – exportSchema v1 – localStorage only – no Room – no Gradle.
+- Verified: 4727B Book Zero 105 + 2762B Capability 60 + 462B Vocab 10 + 232B Pillars 5 + 4702B DLAS Full-100 = 8131B combined ≤8kB each.
+
+Android (Historical, Blocked, Do NOT use as SoT):
+- 21 rated items – composite /100 + 6 percentages (6 pillars?) – scored – historical.
+- Room v2 fallbackToDestructiveMigration – violates preservation – data loss on migration.
+- Demo seed sets founder 88/100 – synthetic – mixes demo + participant – separation needed.
+- Auto-remediation <80 – needs review – may auto-change scores.
+- Gradle 9.3.1 absent – build blocked – Android folder blocked until constraints resolved.
+- Status: BLOCKED – keep as historical evidence only – label non-comparable.
+
+3. DISCREPANCY LOG
+D1: Scored vs Non-scoring – Android 21 scored /100 vs Full-100 0/21/50/75/100 coverage – metric mismatch.
+D2: fallbackToDestructiveMigration – Room – destructive – violates preservation – must be removed.
+D3: Demo vs Participant – founder 88/100 seed is synthetic demo – not participant data – needs label "synthetic".
+D4: Composite /100 + 6 percentages vs coverage bands – not convertible to score – only mappable to reflection bands.
+D5: Language coverage – Android 21 EN/BN/AR vs Full-100 EN/BN – AR missing in Full-100 – needs AR placeholder noted.
+D6: Gradle/Room – Gradle 9.3.1 absent + Room v2 destructive – Android build blocked – keep blocked.
+D7: Auto-remediation <80 – automatic remediation – violates consent – needs manual review flag.
+
+4. NON-DESTRUCTIVE MIGRATION PLAN – LOCAL-ONLY – NO DATA LOSS
+Principle: Freeze Android scored data as historical, never write to Full-100 as scores.
+
+Step 1 – Freeze Android:
+- Keep Android 21 JSON as /docs/historical/dlas.android.21.scored.json – mark "HISTORICAL – NON-COMPARABLE – BLOCKED".
+- Never import Android scores into meuus_dlas_full100.
+
+Step 2 – One-way lens (reflection-only, never stored as scores):
+- Map Android 21 score to coverage band for reflection UI only:
+  0-20 → 0, 21-39 → 21, 40-59 → 50, 60-79 → 75, 80-100 → 100
+- Lens is read-only – displayed as "Android 21 reflection (historical)" – not saved to localStorage.
+- Code: function androidScoreToCoverage(score:number): 0|21|50|75|100 { if score<21 return 0; ... }
+
+Step 3 – Remove destructive migrations:
+- Android Room: remove fallbackToDestructiveMigration – use exportSchema true + autoMigrations.
+- Add migration test: ensure no data loss.
+- Keep Android blocked until fixed.
+
+Step 4 – Separate demo vs participant:
+- Demo seed founder 88/100 → label { synthetic: true, demo: true, id: "founder-demo", source: "seed", note: "synthetic 88/100 – not participant" }.
+- Participant data → { synthetic: false, participant: true } – separate localStorage keys: meuus_demo vs meuus_participant (future).
+
+Step 5 – Keep Full-100 SoT:
+- All new DLAS writes go to meuus_dlas_full100 only – values 0/21/50/75/100.
+- GameHub DLAS remains non-scoring – UI shows "coverage-only".
+
+Step 6 – Trust boundary:
+- Android remains BLOCKED – Gradle 9.3.1 absent – Room v2 – until fixed – no publish – no sync.
+
+5. VERIFICATION CHECKLIST – LOCAL-ONLY
+- Full-100 count 100 – PASS – 28/28 – EN/BN.
+- Android 21 count 21 – frozen – non-comparable – PASS.
+- DLAS toggler cycles 0/21/50/75/100 – persists meuus_dlas_full100 – PASS.
+- GameHub DLAS guard – saveScore blocks dlasFull100 – warns – PASS – Network tab empty.
+- No destructive migration in web – localStorage only – PASS.
+- Build ≤596 kB – 590.23 kB – PASS – headroom 5.77 kB.
+- StudioHub #studio – 7 views – hash routing – no new deps – PASS.
+
+6. DELIVERABLES
+- This file: PHASE_4_A7_DLAS_RECON_EVE.txt – text only – LOCAL-ONLY.
+- Next: A8 DataPort.tsx Export/Import UI for meuus_dlas_full100 + meuus_gamehub_scores_v1 (+clear) ≤2 kB.
+- Next: A9 Founder-first recovery shell read-only – P-001 – no edits.
+- Next: A10 Offline trust registry template Ed25519 – empty registry fails closed.
+
+7. RISKS / ROLLBACK
+- Very low – text only – no code change – no data change.
+- Rollback: delete this doc – no effect.
+
+Status: A7 AUDIT COMPLETE – READY FOR A8
