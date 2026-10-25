@@ -1,0 +1,28 @@
+A5 – GameHub 6 Loops Integration – LOCAL-ONLY – Wire 5 datasets – DLAS non-scoring guard
+
+Action: Prepare A5 GameHub 6-loops integration plan + drop-in code (LOCAL-ONLY) to wire Book Zero 105, Capability 60, Vocab 10, Pillars 5, and DLAS Full-100 into existing GameHub. DLAS remains non-scoring; other datasets use local-only scores.
+Why: A5 with local-only scores, budget ≤596 kB, deliverable text file
+Files:
+- apps/web/src/lib/gameHubDatasets.ts (~0.9 kB) – unified accessors – DATASETS, getDataset, getCounts
+- apps/web/src/lib/gameHubStore.ts (~1.1 kB) – local-only scores – key meuus_gamehub_scores_v1 – shape { v:1, scores: { [gameId]: { [datasetType]: { [itemId]: number } } } } – DLAS guard
+- apps/web/src/components/GameHubWire.tsx (~1.9 kB) – 6 games: recall, match, arrange, rate, reflect, review – wires to 5 datasets – DLAS non-scoring note
+
+Storage layout:
+- DLAS coverage: meuus_dlas_full100 (non-scoring, from A4) – 0/21/50/75/100
+- GameHub scores: meuus_gamehub_scores_v1 – local-only – separate from DLAS
+
+Budget: Expected added bundle size <3 kB when referenced; 0 kB delta if not imported (tree-shaken). Current 576.32 kB + A4 0 kB + A5 <3 kB = ~579 kB ≤596 kB PASS – headroom 23.68 kB -> remaining ~17 kB
+
+Verification:
+- counts: bookZero105 105, capability60 60, vocab10 10, pillars5 5, dlasFull100 100 – PASS
+- persistence: loadScores/saveScore/getScore/clearScores – localStorage only
+- no network calls – LOCAL-ONLY
+- DLAS non-scoring: guard in saveScore – warns + returns – UI shows coverage-only
+- accessibility: buttons with aria, keyboard
+
+Risks/Rollback:
+- Very low – local-only – rollback by removing 3 files + clear localStorage keys
+
+Evidence base: b87ee80 A2 + 62fef85 A3 + 0fd974b A4 + c8fa912 governance – build 576.32 kB – headroom 23.68 kB – target ≤596 kB
+
+Status: A5 READY – 8844 bytes Eve + React adapted
