@@ -1,0 +1,325 @@
+PHASE 5 A11 CODE-SPLIT – REGAIN 3-10kB HEADROOM – LOCAL-ONLY – ZERO BEHAVIOR CHANGE – 594.57kB -> ~586-591kB
+
+Date: 2026-10-26
+Current: App-CCQfXUlY.js 594.57kB gzip 160.41kB PASS ≤596kB headroom 1.43kB – 9 views – StudioHub #studio
+Goal: Main bundle -3 to -8kB → ~586-591kB → headroom 5-10kB – keep 596kB budget – no new deps – LOCAL-ONLY – Network empty
+Mode: Surgical – tiny diffs – dataset async + CSS co-location + no Studio utils in App root
+
+1. NEW FILE – gameHubDatasetsAsync.ts – ~0.6kB – async loader – dynamic import
+
+Path: apps/web/src/lib/gameHubDatasetsAsync.ts – create with @' '@
+
+Code:
+import type { DatasetType } from './gameHubDatasets';
+
+export async function getItemsAsync(ds: DatasetType) {
+  switch (ds) {
+    case 'bookZero105':
+      return (await import('../../data/bookZero105.json')).default as any[];
+    case 'capability60':
+      return (await import('../../data/capability60.json')).default as any[];
+    case 'vocab10':
+      return (await import('../../data/vocab10.json')).default as any[];
+    case 'pillars5':
+      return (await import('../../data/pillars5.json')).default as any[];
+    case 'dlasFull100':
+      return (await import('../../data/dlas.full100.json')).default as any[];
+    default:
+      return [];
+  }
+}
+
+// Counts stay sync for buttons – tiny – no JSON payload
+export const COUNTS = {
+  bookZero105: 105,
+  capability60: 60,
+  vocab10: 10,
+  pillars5: 5,
+  dlasFull100: 100,
+} as const;
+
+Note: Adjust import paths if your JSON lives at ../data/ or ../../data/ – check existing DATASETS file: it does import dlasData from '../../data/dlas.full100.json' – so use same prefix. If your files are named bookZero105.json etc, keep names; if they are book-zero etc, rename cases accordingly. This file is 0.6kB – adds one async chunk, removes large JSON from main.
+
+2. PATCH – DatasetPage.tsx – was 776B – now async – no top-level DATASETS import
+
+Before (sync):
+import { DATASETS } from '../../lib/gameHubDatasets';
+const items = DATASETS[view];
+
+After (async):
+import React, { useEffect, useState } from 'react';
+import { getItemsAsync } from '../../lib/gameHubDatasetsAsync';
+import type { DatasetType } from '../../lib/gameHubDatasets';
+
+Export: Use useEffect to load on view change – JSON loads only when route opened – main bundle shrinks.
+
+Full file to replace apps/web/src/views/DatasetPage.tsx (or wherever your DatasetPage lives – if inside StudioHub, apply same pattern inside StudioHub render):
+
+import React, { useEffect, useState } from 'react';
+import { getItemsAsync } from '../../lib/gameHubDatasetsAsync';
+import type { DatasetType } from '../../lib/gameHubDatasets';
+
+export function DatasetPage({ type }: { type: DatasetType }) {
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    getItemsAsync(type).then(arr => { if (alive) { setItems(arr); setLoading(false); } });
+    return () => { alive = false; };
+  }, [type]);
+  const isDLAS = type === 'dlasFull100';
+  if (loading) return <div style={{ padding: '12px', fontSize: '12px' }}>Loading {type}…</div>;
+  return (
+    <div style={{ padding: '12px' }}>
+      <h2>{type} ({items.length})</h2>
+      {isDLAS && <div style={{ fontSize: '12px', color: '#8a1b1b', margin: '6px 0' }}>Non-scoring: coverage only 0/21/50/75/100 - use DLAS Studio - key meuus_dlas_full100</div>}
+      <ul style={{ margin: 0, paddingLeft: '18px' }}>{items.map((it: any) => <li key={it.id}>{it.id}{it.title ? ' - ' + it.title : ''}</li>)}</ul>
+    </div>
+  );
+}
+export default DatasetPage;
+
+If DatasetPage is inline inside StudioHub.tsx (current 3996B version), apply same: replace const items = DATASETS[view] with useEffect+getItemsAsync – see full StudioHub patch below.
+
+3. PATCH – GameHubWire.tsx – was 3237B – currently imports DATASETS – switch to async for dataset counts only – keep game logic sync
+
+Before: import { DATASETS } from '../../lib/gameHubDatasets'; – pulls 5 JSONs into main
+
+After: import { COUNTS } from '../../lib/gameHubDatasetsAsync'; – counts only – JSON not in main – gameHub datasets loaded on demand inside game loops if needed.
+
+If GameHubWire needs actual items for games (Book Zero 105 etc), load them async inside useEffect similarly:
+
+import React, { useEffect, useState } from 'react';
+import { getItemsAsync } from '../../lib/gameHubDatasetsAsync';
+import type { DatasetType } from '../../lib/gameHubDatasets';
+// ... existing gameHub logic
+
+Inside component:
+const [bookZero, setBookZero] = useState<any[]>([]);
+useEffect(() => { getItemsAsync('bookZero105').then(setBookZero); }, []);
+
+Or if GameHubWire already uses local gameHubDatasets.ts counts only, just replace import with COUNTS – main bundle shrinks by size of JSONs (~8kB combined).
+
+Exact patch for GameHubWire.tsx (apply via @' '@):
+
+Replace top:
+import { DATASETS } from '../../lib/gameHubDatasets';
+with:
+import { COUNTS, getItemsAsync } from '../../lib/gameHubDatasetsAsync';
+
+And where you used DATASETS.bookZero105.length etc, use COUNTS.bookZero105 – and where you need items, use async state as above.
+
+Full minimal diff (keep your existing game logic intact – only change import lines + add async loaders where items array used):
+
+--- GameHubWire.tsx ---
+- import { DATASETS, type DatasetType } from '../../lib/gameHubDatasets';
++ import { COUNTS, getItemsAsync } from '../../lib/gameHubDatasetsAsync';
++ import type { DatasetType } from '../../lib/gameHubDatasets';
+  // keep rest
+  // inside component add:
+  const [dsItems, setDsItems] = useState<Record<string, any[]>>({});
+  useEffect(() => {
+    (async () => {
+      const [bz, cap, voc, pil, dlas] = await Promise.all([
+        getItemsAsync('bookZero105'),
+        getItemsAsync('capability60'),
+        getItemsAsync('vocab10'),
+        getItemsAsync('pillars5'),
+        getItemsAsync('dlasFull100'),
+      ]);
+      setDsItems({ bookZero105: bz, capability60: cap, vocab10: voc, pillars5: pil, dlasFull100: dlas });
+    })();
+  }, []);
+  // then use dsItems[view] ?? []
+
+This removes 8131B JSON from main bundle – they become separate chunks loaded on demand when #studio opened.
+
+4. PATCH – StudioHub.tsx – 3996B -> ~3400B main + lazy chunks – CSS co-location + lazy views
+
+Goal: Ensure view-specific CSS stays in view, and Studio views are not imported at App root – they already are not – App.tsx only imports StudioHub – good.
+
+CSS co-location: DLASStudioView.tsx already has import '../../styles/dlasGrid.css'; – keep it there – remove any global import of dlasGrid.css from App.tsx or index.css if present – check apps/web/src/App.css – should NOT import dlasGrid.css – keep inside DLASStudioView only – so CSS chunk goes with DLAS route.
+
+Minify duplicate strings: In StudioHub, TITLES and note "Non-scoring: coverage only..." appears twice (once in DatasetPage, once inline) – keep only once inside DLAS path – move note inside DLASStudioView – already there – remove duplicate from StudioHub inline render – saves ~100B.
+
+Full new StudioHub.tsx with async dataset loading + lazy views (React.lazy + Suspense) – surgical – saves main bundle:
+
+Use React.lazy for heavy views – they become separate chunks – main bundle only has shell + buttons:
+
+import React, { useState, Suspense, lazy } from 'react';
+import { COUNTS } from '../../lib/gameHubDatasetsAsync';
+import { IS_DLAS_STUDIO, IS_BOOK_ZERO, IS_CAPABILITY, IS_VOCAB, IS_PILLARS } from '../../lib/flags';
+const DLASStudioView = lazy(() => import('./DLASStudioView'));
+const GameHubWire = lazy(() => import('./GameHubWire'));
+const DataPort = lazy(() => import('./DataPort'));
+const FounderShellView = lazy(() => import('./FounderShellView'));
+// Dataset async view – use DatasetPage async loader inside
+import { getItemsAsync } from '../../lib/gameHubDatasetsAsync';
+import type { DatasetType } from '../../lib/gameHubDatasets';
+
+Type View = 'dlas' | 'gamehub' | 'port' | 'founder' | DatasetType;
+
+Add DatasetAsyncView component inside StudioHub file:
+
+function DatasetAsyncView({ type }: { type: DatasetType }) {
+  const [items, setItems] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  React.useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    getItemsAsync(type).then(arr => { if (alive) { setItems(arr); setLoading(false); } });
+    return () => { alive = false; };
+  }, [type]);
+  if (loading) return <div style={{ padding: '12px', fontSize: '12px' }}>Loading {type}…</div>;
+  const isDLAS = type === 'dlasFull100';
+  return (
+    <div style={{ padding: '12px' }}>
+      <h2>{type} ({items.length})</h2>
+      {isDLAS && <div style={{ fontSize: '12px', color: '#8a1b1b', margin: '6px 0' }}>Non-scoring: coverage only 0/21/50/75/100 - key meuus_dlas_full100</div>}
+      <ul style={{ margin: 0, paddingLeft: '18px' }}>{items.map((it: any) => <li key={it.id}>{it.id}{it.title ? ' - ' + it.title : ''}</li>)}</ul>
+    </div>
+  );
+}
+
+Render with Suspense:
+
+<Suspense fallback={<div style={{ padding: '12px', fontSize: '12px' }}>Loading view…</div>}>
+  {view === 'dlas' && <DLASStudioView />}
+  {view === 'gamehub' && <GameHubWire />}
+  {view === 'port' && <DataPort />}
+  {view === 'founder' && <FounderShellView />}
+  {['bookZero105','capability60','vocab10','pillars5','dlasFull100'].includes(view) && <DatasetAsyncView type={view as DatasetType} />}
+</Suspense>
+
+Buttons use COUNTS instead of DATASETS[..].length:
+
+<button>DLAS Studio ({COUNTS.dlasFull100})</button>
+etc – for bookZero105 use COUNTS.bookZero105 – keeps counts without JSON in main.
+
+This change: Main bundle no longer contains 5 JSONs (8131B) + defers 4 view components (~9kB) to lazy chunks – main bundle drops ~3-8kB – Studio chunks loaded only on #studio.
+
+5. VERIFICATION STEPS
+
+npm run build --workspace=apps/web | Select-Object -Last 6
+
+Expected:
+- Before: App-CCQfXUlY.js 594.57kB gzip 160.41kB
+- After: App-*.js ~586-591kB gzip ~158-160kB – PASS ≤596kB – headroom 5-10kB
+- Chunks: DLASStudioView-*.js ~3kB, GameHubWire-*.js ~4kB, DataPort-*.js ~2kB, FounderShellView-*.js ~1kB, plus 5 JSON chunks (bookZero105, capability60, vocab10, pillars5, dlasFull100) as separate assets – loaded on demand
+- Test: http://127.0.0.1:5173/#studio – click DLAS Studio – grid 100 cells 0/21/50/75/100 – persists meuus_dlas_full100 – click GameHub 6 – scores meuus_gamehub_scores_v1 – Data Port Export/Import/Clear – Founder P-001 read-only – 5 dataset lists load async – Network tab: only local chunks, no external fetch – LOCAL-ONLY
+
+6. RISKS
+
+Very low – only import paths change – JSON now async – game logic unchanged – DLAS non-scoring contract intact – meuus_dlas_full100 and meuus_gamehub_scores_v1 keys unchanged – no PII – no network – empty trust registry still fails closed.
+
+7. POWER SHELL APPLY – COPY-PASTABLE – 3 FILES
+
+# Step 1 – create async loader
+@'
+import type { DatasetType } from './gameHubDatasets';
+
+export async function getItemsAsync(ds: DatasetType) {
+  switch (ds) {
+    case 'bookZero105':
+      return (await import('../../data/bookZero105.json')).default as any[];
+    case 'capability60':
+      return (await import('../../data/capability60.json')).default as any[];
+    case 'vocab10':
+      return (await import('../../data/vocab10.json')).default as any[];
+    case 'pillars5':
+      return (await import('../../data/pillars5.json')).default as any[];
+    case 'dlasFull100':
+      return (await import('../../data/dlas.full100.json')).default as any[];
+    default:
+      return [];
+  }
+}
+
+export const COUNTS = {
+  bookZero105: 105,
+  capability60: 60,
+  vocab10: 10,
+  pillars5: 5,
+  dlasFull100: 100,
+} as const;
+'@ | Out-File -Encoding utf8 "apps/web/src/lib/gameHubDatasetsAsync.ts"
+
+# Step 2 – replace StudioHub.tsx with lazy + async version (full file – 9 views – 5-10kB headroom regain)
+@'
+import React, { useState, Suspense, lazy, useEffect } from 'react';
+import { COUNTS, getItemsAsync } from '../../lib/gameHubDatasetsAsync';
+import type { DatasetType } from '../../lib/gameHubDatasets';
+import { IS_DLAS_STUDIO, IS_BOOK_ZERO, IS_CAPABILITY, IS_VOCAB, IS_PILLARS } from '../../lib/flags';
+
+const DLASStudioView = lazy(() => import('./DLASStudioView'));
+const GameHubWire = lazy(() => import('./GameHubWire'));
+const DataPort = lazy(() => import('./DataPort'));
+const FounderShellView = lazy(() => import('./FounderShellView'));
+
+type View = 'dlas' | 'gamehub' | 'port' | 'founder' | DatasetType;
+
+function DatasetAsyncView({ type }: { type: DatasetType }) {
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    getItemsAsync(type).then(arr => { if (alive) { setItems(arr); setLoading(false); } });
+    return () => { alive = false; };
+  }, [type]);
+  if (loading) return <div style={{ padding: '12px', fontSize: '12px' }}>Loading {type}...</div>;
+  const isDLAS = type === 'dlasFull100';
+  return (
+    <div style={{ padding: '12px' }}>
+      <h2>{type} ({items.length})</h2>
+      {isDLAS && <div style={{ fontSize: '12px', color: '#8a1b1b', margin: '6px 0' }}>Non-scoring: coverage only 0/21/50/75/100 - key meuus_dlas_full100</div>}
+      <ul style={{ margin: 0, paddingLeft: '18px' }}>{items.map((it: any) => <li key={it.id}>{it.id}{it.title ? ' - ' + it.title : ''}</li>)}</ul>
+    </div>
+  );
+}
+
+export function StudioHub() {
+  const [view, setView] = useState<View>('dlas');
+  return (
+    <div className="min-h-screen bg-slate-50 p-4">
+      <div className="max-w-5xl mx-auto">
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px', borderBottom: '1px solid #eee', paddingBottom: '8px' }}>
+          <button type="button" onClick={() => setView('dlas')} disabled={!IS_DLAS_STUDIO} style={{ fontWeight: view==='dlas'?'bold':'normal' }}>DLAS Studio ({COUNTS.dlasFull100})</button>
+          <button type="button" onClick={() => setView('gamehub')} style={{ fontWeight: view==='gamehub'?'bold':'normal' }}>GameHub 6</button>
+          <button type="button" onClick={() => setView('port')} style={{ fontWeight: view==='port'?'bold':'normal', background: view==='port'?'#eef':'transparent' }}>Data Port</button>
+          <button type="button" onClick={() => setView('founder')} style={{ fontWeight: view==='founder'?'bold':'normal', background: view==='founder'?'#efe':'transparent' }}>Founder P-001</button>
+          <button type="button" onClick={() => setView('bookZero105')} disabled={!IS_BOOK_ZERO} style={{ fontWeight: view==='bookZero105'?'bold':'normal' }}>Book Zero {COUNTS.bookZero105}</button>
+          <button type="button" onClick={() => setView('capability60')} disabled={!IS_CAPABILITY} style={{ fontWeight: view==='capability60'?'bold':'normal' }}>Capability {COUNTS.capability60}</button>
+          <button type="button" onClick={() => setView('vocab10')} disabled={!IS_VOCAB} style={{ fontWeight: view==='vocab10'?'bold':'normal' }}>Vocab {COUNTS.vocab10}</button>
+          <button type="button" onClick={() => setView('pillars5')} disabled={!IS_PILLARS} style={{ fontWeight: view==='pillars5'?'bold':'normal' }}>Pillars {COUNTS.pillars5}</button>
+          <button type="button" onClick={() => setView('dlasFull100')} disabled={!IS_DLAS_STUDIO} style={{ fontWeight: view==='dlasFull100'?'bold':'normal' }}>DLAS List {COUNTS.dlasFull100}</button>
+          <button type="button" onClick={() => { window.location.hash=''; window.location.reload(); }} style={{ marginLeft: 'auto' }}>Exit Studio</button>
+        </div>
+        <Suspense fallback={<div style={{ padding: '12px', fontSize: '12px' }}>Loading view...</div>}>
+          {view === 'dlas' && <DLASStudioView />}
+          {view === 'gamehub' && <GameHubWire />}
+          {view === 'port' && <DataPort />}
+          {view === 'founder' && <FounderShellView />}
+          {(['bookZero105','capability60','vocab10','pillars5','dlasFull100'] as DatasetType[]).includes(view as DatasetType) && <DatasetAsyncView type={view as DatasetType} />}
+        </Suspense>
+        <p style={{ fontSize: '11px', color: '#666', marginTop: '12px' }}>LOCAL-ONLY - Scores meuus_gamehub_scores_v1 - Coverage meuus_dlas_full100 non-scoring 0/21/50/75/100 - Build target up to 596kB</p>
+      </div>
+    </div>
+  );
+}
+export default StudioHub;
+'@ | Out-File -Encoding utf8 "apps/web/src/components/studio/StudioHub.tsx"
+
+# Step 3 – build
+npm run build --workspace=apps/web | Select-Object -Last 8
+
+Expected: App-*.js ~586-591kB PASS – headroom 5-10kB – chunks for DLAS, GameHub, DataPort, Founder + 5 JSON async
+
+8. DELIVERABLE AFTER BUILD
+
+- Main bundle drops to ~586-591kB – PASS ≤596kB – headroom restored
+- Studio routes lazy – still 9 views – DLAS 0/21/50/75/100 – GameHub local-only – DataPort Export/Import/Clear – Founder P-001 read-only – 5 datasets async – LOCAL-ONLY
+- Next: Commit as Phase 5 A11 code-split – push – then optional A12 budget raise to 620kB if still tight
+
+Status: PATCHES READY – APPLY – BUILD – VERIFY – COMMIT
