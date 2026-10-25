@@ -1,0 +1,125 @@
+PHASE 6 C1 CONTINUITY REGISTERS – READ-ONLY – INVENTORY-BACKED – FOUNDER-FIRST P-001 SHELL PRESERVED – LOCAL-ONLY REVIEW-ONLY CLAIM ≤ EVIDENCE
+
+Date: 2026-10-26
+Workspace root: E:\CREATION_meUus
+Build current: App-DtTujG-6.js 581.18kB gzip 157.54kB 1.84s – headroom 14.82kB @596kB / 38.82kB @620kB – 9 views lazy – LOCAL-ONLY
+Ceilings: 596kB original, 620kB approved a81a51f – guardrails gzip ≤165kB route-lazy
+Chain: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER 594.57kB -> 7f86476 A10 TRUST REGISTRY template empty fails closed -> 9281e63 A11 FIX 581.18kB -13.39kB -> a81a51f A12 596->620kB -> 859ddc5 B11.1+B11.2 fixes 0kB bundle
+B11 verifier: PASS 5 targets, PARTIAL control, BLOCKED android, MIXED offline-core – LOCAL-ONLY REVIEW-ONLY
+
+1. SOURCE-OF-TRUTH REGISTER – SoT per domain – non-scoring vs scored separation
+
+Domain: meuus.app web – DLAS
+- SoT: DLAS Full-100 non-scoring – coverage only 0/21/50/75/100 – key meuus_dlas_full100 – localStorage – 100 items – EN/BN – 28/28 PASS
+- Historical: Android DLAS 21 rated – scored – CONFLICT – BLOCKED – fallbackToDestructiveMigration() exportSchema false – must not be compared to Full-100 – frozen as historical – read-only lens mapping to coverage bands planned (Phase 6 C4)
+- File: apps/web/src/data/dlas.full100.json 4702B – 100 items – source for DLASStudioView + dlas.full100-BCsYIFnC.js chunk 2.53kB gzip 0.30kB
+- Guard: No scores stored in web – non-scoring contract – values in [0,21,50,75,100] only – verified in DLASStudioView toggler
+
+Domain: meuus.app web – GameHub
+- SoT: GameHub 6 loops – wire 105+60+10+5+100 – local-only scores meuus_gamehub_scores_v1 – localStorage – no network – 6 games – IMPLEMENTED/LOCAL-ONLY
+- Files: bookZero.105.json 4727B -> bookZero.105-p0gwY7Ja.js 2.45kB gzip 0.31kB, capability.60.json 2762B -> capability.60-JkZzy_0J.js 1.47kB gzip 0.21kB, vocab.10.json 462B -> vocab.10-Cb0SpPwi.js 0.27kB gzip 0.11kB, pillars.5.json 232B, dlas.full100.json 4702B – combined 8131B originally in main, now lazy chunks – counts 105/60/10/5/100 via COUNTS
+- GameHubWire-hUeeVOEh.js 3.16kB gzip 1.42kB lazy
+
+Domain: meuus.app web – DataPort
+- SoT: Export/Import/Clear – keys meuus_dlas_full100 + meuus_gamehub_scores_v1 + meuus_founder_shell_v1 – exportSchema v1 – LOCAL-ONLY – no destructive migration
+- File: DataPort.tsx 3545B -> DataPort-uUu9Pt3V.js 2.57kB gzip 1.25kB lazy – 8 views -> 9 views after Founder
+- Verification: Export JSON includes v, keys, synthetic flags – Import validates shape – Clear removes only meuus_* keys – no other LS touched – Network tab empty
+
+Domain: meuus.app web – Founder P-001
+- SoT: FounderShellView.tsx 1675B -> FounderShellView-C8xYaO90.js 1.43kB gzip 0.78kB lazy – read-only viewer – key meuus_founder_shell_v1 – consent banner placeholder – P-001 synthetic/demo unless marked participant – No edits – No publish – No PII changes – LOCAL-ONLY
+- Path future: apps/web/src/data/founder.p001.json – import-light read-only – not yet populated – empty shows instructions: localStorage.setItem('meuus_founder_shell_v1', JSON.stringify({v:1, id:'P-001', status:'recovery-shell', synthetic:true}))
+- Access: http://127.0.0.1:5173/#studio -> Founder P-001
+
+Domain: Trust Registry
+- SoT: PHASE_4_A10_TRUST_REGISTRY_EVE.txt 8221 bytes – Ed25519 template – algo Ed25519 – policy fail-closed-empty – registry.issuers[] pubKey BASE64URL placeholder 44 chars – artifacts[] hash SHA256 placeholder + signature placeholder 86 chars – revocations[] – audit.log – empty registry fails closed – no keys generated – no signatures – doc-only – 0B bundle
+- File: docs/trust.registry.template.json (future) – empty fails closed – verifyArtifact() pseudocode – trusted:false reason:empty-registry-fails-closed
+- Audit: trust.audit.template.json – checks: registry-not-empty fail-closed, no-destructive-migration pass, dlas-non-scoring pass, gamehub-local-only pass, founder-synthetic-label pass, build-budget pass 581.18kB ≤620kB, network-tab-empty pass
+- Status: IMPLEMENTED/DOC-ONLY/NOT_INTEGRATED – ready for offline hardware key generation – privKey never in repo
+
+Domain: meuus.org
+- Build: PASS bun run build 128 files 18MB – Typecheck PASS – Unit tests 29/29 PASS – Status IMPLEMENTED/LOCAL-ONLY/TESTED – Tagline "Start with clarity. Move with care."
+
+Domain: meuussoul.com
+- Build: PASS npm run build 278 files 7.4MB – Typecheck PASS – Render tests 98/98 PASS – Status IMPLEMENTED/LOCAL-ONLY/TESTED – Principle Knowledge Before Action – LearningHub Quran 114d + Seerah 80d
+
+Domain: rujbel.org
+- Build: PASS 57 files 31MB – Status IMPLEMENTED/LOCAL-ONLY – Governance: Footer link only on first three domains
+
+Domain: pilot desktop
+- Build: PASS electron-vite 5 files 848KB – Note: Unpackaged shell, not signed installer, offline not integrated in original worktree – Status IMPLEMENTED/LOCAL-ONLY/NOT_RELEASED – future C3 offline integration optional Verify package panel gated by trust-registry
+
+Domain: meuus.app control
+- Build: FAIL EPERM mkdir .next (4 attempts) – Workaround Node 22.23.2 + shim-retry PASS 279 files 102MB 30/30 pages – Runtime GET / /api/health /api/codex/status 200 loopback disabled providers – Status BLOCKED/PARTIAL/LOCAL-ONLY – Fix B11.1 clean-next.js + retry + TMP E: + Defender exclusion – 0kB bundle until integrated – deliverable PHASE_5_B11_1_CONTROL_EPERM_FIX_EVE.txt
+
+Domain: android
+- Build: BLOCKED Gradle 9.3.1 cache missing – Room v2 fallbackToDestructiveMigration() exportSchema false – DLAS 21 rated vs Full-100 non-scoring CONFLICT – Status BLOCKED/HISTORICAL – Plan C4 freeze scored as historical non-comparable, coverage-only read lens, remove destructive migrations, enable exportSchema – doc-only – no work until cache available
+
+Domain: offline core
+- Tests: 7/7 PASS on E: root, 2/7 FAIL on C: EPERM rename – Features: signature-verifier gating, safe path/symlink rejection, free-space preflight, SHA256 verification, versioned staging + atomic writes – Empty registry fails closed correct – Status IMPLEMENTED/TESTED/NOT_INTEGRATED – Fix B11.2 atomicWriteWithFallback rename retry 3x -> copy+fsync+unlink + mkdir recursive – 0.8kB patch – maintains empty fails closed – doc PHASE_5_B11_2_OFFLINE_CORE_RENAME_FALLBACK_EVE.txt
+
+2. PROFILE REGISTER – FOUNDER-FIRST P-001 SHELL PRESERVED
+
+Profile: P-001 Founder – meUus founder – recovery-shell – synthetic/demo unless marked participant
+- ID: P-001 – status: recovery-shell – synthetic:true – v:1 – key meuus_founder_shell_v1 – LOCAL-ONLY
+- Consent: Banner placeholder in FounderShellView – "P-001 is synthetic/demo unless marked participant – No edits – No publish – No PII changes – Read-only viewer" – future participant separation – real P-001 JSON at apps/web/src/data/founder.p001.json – import-light read-only
+- Storage: localStorage meuus_founder_shell_v1 – no PII – no network – Network tab empty – DataPort exports it – Clear removes it
+- Trust: Issuer id issuer-001 label meuus-founder-P-001 role founder – pubKey placeholder – status active – no private key in repo – offline hardware future
+- Access: #studio -> Founder P-001 – shows No evidence expected key + instructions if empty – shows JSON read-only if present
+- Preservation: Profile register keeps P-001 shell as first entry – Founder-first – no other profiles yet – stub where unknown – no new claims
+
+Other profiles: None yet – placeholder – future participants separated from synthetic/demo – consent required – not implemented – stub
+
+3. DECISION REGISTER – Decisions made – Claim ≤ Evidence – LOCAL-ONLY
+
+D001: DLAS non-scoring contract – 0/21/50/75/100 coverage only – not scored – meuus_dlas_full100 – Decision: Keep web non-scoring – Android 21 rated frozen as historical non-comparable – SoT Full-100 – Evidence: DLASStudioView 2299B toggler 0→21→50→75→100 – 28/28 PASS – Phase 3 A4 + A6 CLOSED 207f483 590.38kB
+D002: GameHub local-only – 6 loops – scores meuus_gamehub_scores_v1 localStorage – no network – Decision: No Supabase for scores – LOCAL-ONLY – Evidence: GameHubWire 3237B -> 3.16kB chunk – Phase 3 A5 40865d2 <3kB
+D003: DataPort Export/Import/Clear – non-destructive – exportSchema v1 – Decision: No fallbackToDestructiveMigration in web – Evidence: DataPort 3545B -> 2.57kB – Phase 4 A8 9b67b21 592.97kB
+D004: Founder P-001 read-only – synthetic/demo label – no edits – Decision: Viewer only – consent banner – Evidence: FounderShellView 1675B -> 1.43kB – Phase 4 A9 98a07b5 594.57kB headroom 1.43kB
+D005: Trust registry empty fails closed – Ed25519 – no keys – Decision: Template doc-only – empty = deny all – Evidence: PHASE_4_A10_TRUST_REGISTRY_EVE.txt 8221 bytes – 7f86476 Phase 4 COMPLETE – 0B bundle
+D006: Code-split A11 – datasets async + lazy Studio views – COUNTS not JSON in main – Decision: Regain headroom – 594.57kB -> 581.18kB -13.39kB – Evidence: App-DtTujG-6.js 581.18kB gzip 157.54kB 1.84s – chunks vocab.10 0.27kB etc – 9281e63 FIX – headroom 14.82kB @596kB
+D007: Budget raise A12 – 596kB -> 620kB – Decision: Governance doc-only – guardrails gzip ≤165kB route-lazy – Rationale: Studio growth + P-001 real + verifier ≤1kB – Evidence: a81a51f – headroom 38.82kB (620-581.18) – current 581.18kB PASS both ceilings
+D008: Control EPERM mkdir .next – Decision: Mitigation clean-next.js + retry + TMP E: + single writer + Defender exclusion – 0kB bundle – Evidence: B11.1 4260 bytes – 859ddc5 – workaround Node 22.23.2 PASS 279 files
+D009: Offline core rename EPERM – Decision: Fallback copy+fsync+unlink + retry loops + versioned staging – maintain empty fails closed + signature-verifier + safe path + SHA256 + free-space – Evidence: B11.2 4774 bytes – 859ddc5 – E: 7/7 PASS C: 2/7 FAIL -> expected 7/7 both after fallback
+D010: Android BLOCKED – Decision: Keep BLOCKED until Gradle 9.3.1 cache + Room migration fix – freeze scored as historical – coverage-only lens – Evidence: B11 verifier BLOCKED – A7 recon 57e1538 590.23kB
+D011: LOCAL-ONLY REVIEW-ONLY – Claim ≤ Evidence – Decision: No publishing/provider changes without separate auth – All builds LOCAL-ONLY – Network tab empty – Evidence: All targets review-only mode – protected ops none
+
+4. RECOVERY MAP – How to recover from zero – LOCAL-ONLY – no network
+
+Step 0: Clone repos – meuus-app-ai (9281e63) + meuus-architecture-governance (859ddc5)
+Step 1: Install – pnpm install – Node 22.23.2 recommended (control workaround)
+Step 2: Build web – npm run build --workspace=apps/web – expect App-DtTujG-6.js 581.18kB gzip 157.54kB PASS ≤620kB – chunks lazy – if fails Could not resolve GameHubWire check ../GameHubWire + ../data/dot-names
+Step 3: Run dev – http://127.0.0.1:5173/#studio – 9 views – DLAS 100 cells 0/21/50/75/100 persists meuus_dlas_full100 – GameHub 6 persists meuus_gamehub_scores_v1 – DataPort Export/Import/Clear – Founder P-001 read-only – test: localStorage.setItem('meuus_founder_shell_v1', JSON.stringify({v:1, id:'P-001', status:'recovery-shell', synthetic:true})) reload
+Step 4: Supabase – if Failed to fetch – check .env.local placeholder – replace with real URL + anon key – or use #studio without auth
+Step 5: Control – if EPERM mkdir .next – run scripts/clean-next.js + set TMP=E:\CREATION_meUus\tmp + ensure dev not running + Defender exclusion .next – then npm run build – expect 279 files 102MB 30/30 pages
+Step 6: Offline core – run tests on E: root – 7/7 PASS – on C: if EPERM rename – apply atomicWriteWithFallback – copy+fsync+unlink – expect 7/7 PASS – empty fails closed
+Step 7: Trust registry – load PHASE_4_A10_TRUST_REGISTRY_EVE.txt – empty registry verifyArtifact returns trusted:false reason:empty-registry-fails-closed – PASS – no keys in repo – grep BEGIN PRIVATE KEY 0 results
+Step 8: Verify builds – meuus.org bun run build 128 files 18MB 29/29, meuussoul.com npm run build 278 files 7.4MB 98/98, rujbel.org 57 files 31MB, pilot-desktop electron-vite 5 files 848KB – all LOCAL-ONLY
+Step 9: Android – keep BLOCKED – do not build until Gradle 9.3.1 cache + Room fix – document as historical
+
+5. RISKS/BLOCKERS REGISTER
+
+R001: Bundle ceiling – Was 1.43kB headroom at 594.57kB – Mitigated A11 FIX regained 13.39kB -> 14.82kB @596kB / 38.82kB @620kB – Current 581.18kB PASS – Guardrail route-lazy + gzip ≤165kB – Risk LOW now – Monitor future Studio features >2kB must be lazy
+R002: Control EPERM mkdir .next – 4 attempts FAIL – Workaround Node 22.23.2 + shim-retry PASS – Mitigation B11.1 clean-next.js + retry + TMP E: – Risk MEDIUM – Windows Defender + OneDrive lock – Requires manual exclusion – Not in main bundle – Fix ready 0kB
+R003: Offline core C: EPERM rename 2/7 FAIL – E: PASS – Mitigation B11.2 fallback copy+fsync+unlink – Risk MEDIUM – Sandbox FS semantics – Fix ready 0.8kB NOT_INTEGRATED – Maintains atomic guarantees + empty fails closed
+R004: Android BLOCKED – Gradle 9.3.1 cache missing + Room fallbackToDestructiveMigration + exportSchema false + DLAS 21 vs Full-100 CONFLICT – Risk HIGH if unblocked without fix – Mitigation Keep BLOCKED per A7 – Plan C4 freeze scored as historical + coverage lens + remove destructive + exportSchema true – Doc-only – No work until cache
+R005: Supabase placeholder – Failed to fetch – Risk LOW – Mitigation Replace .env.local with real URL + anon key or use #studio without auth – Documented
+R006: Founder P-001 synthetic vs participant – Risk MEDIUM – Consent banner placeholder – Mitigation Read-only viewer + synthetic:true label + future participant separation + no edits – No PII – LOCAL-ONLY
+R007: Trust registry empty – Risk LOW – Empty fails closed correct – Mitigation Template doc-only – No keys – No sigs – Verify empty returns trusted:false – Future offline hardware signing
+R008: Data loss – destructive migration – Risk HIGH if Room fallbackToDestructiveMigration used in web – Mitigation Decision D003 + A7 recon – web uses localStorage only – exportSchema v1 – no fallbackToDestructiveMigration – Verified no destructive code in web – Android still has it – BLOCKED
+
+6. NEXT-ACTIONS REGISTER – No new claims – stub where unknown – LOCAL-ONLY
+
+N001: C1 COMPLETE – This file PHASE_6_C1_REGISTERS_EVE.txt – read-only inventory-backed – Founder-first – deliverable – 0B bundle – Phase 6 C1 CLOSED
+N002: C2 Control app unblock integration – Apply B11.1 mitigation in canonical path – outDir ensure + single writer – Deliverable PHASE_6_C2_CONTROL_FIX_PLAN_EVE.txt + minimal diffs – 0kB bundle – After integration re-run B11 verifier expect PASS control
+N003: C3 Offline-core integration – Add optional Verify package panel in Pilot Desktop gated by trust-registry status – empty fails closed – Deliverable PHASE_6_C3_OFFLINE_INTEGRATION_EVE.txt + tiny patch ≤1kB lazy – Keep NOT_INTEGRATED until approval
+N004: C4 Android historical migration – Freeze scored model as historical non-comparable – coverage-only read lens – remove fallbackToDestructiveMigration – enable exportSchema – Deliverable PHASE_6_C4_ANDROID_MIGRATION_EVE.txt doc-only – Keep BLOCKED until Gradle cache
+N005: C5 Studio self-checks – Add lightweight in-app QA: localStorage keys presence/shape meuus_dlas_full100 meuus_gamehub_scores_v1 meuus_founder_shell_v1, DLAS non-scoring guard values in [0,21,50,75,100], dataset counts 105/60/10/5/100 – Deliverable PHASE_6_C5_STUDIO_QA_EVE.txt + tiny patch ≤1kB – Keeps 581.18kB ≤620kB
+N006: C6 Consent/Privacy surfaces – Add explicit Participant-supplied vs Independently-verified labels in Studio views – no data changes – Deliverable PHASE_6_C6_CONSENT_PRIVACY_EVE.txt + tiny patch ≤1kB – LOCAL-ONLY
+N007: Verify builds target all – runTypecheck true runTests true – Expected: 5 PASS, control PARTIAL->PASS after C2, android BLOCKED, offline-core 7/7 both after B11.2 – Update verification matrix
+N008: No publishing/provider changes without separate auth – Protected ops none – LOCAL-ONLY REVIEW-ONLY – Claim ≤ Evidence – Continue
+
+Budgets: Current 581.18kB headroom 14.82kB @596kB / 38.82kB @620kB – All proposed ≤1kB route-lazy – LOCAL-ONLY – Docs only or tiny patch
+
+Chain final: 207f483 Phase3 CLOSED 590.38kB -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER 594.57kB -> 7f86476 A10 TRUST REGISTRY empty fails closed -> 9281e63 A11 FIX 581.18kB -13.39kB -> a81a51f A12 596->620kB -> 859ddc5 B11.1+B11.2 fixes 0kB -> C1 REGISTERS this file – Phase 6 C1 COMPLETE – Ready C2/C3/C4/C5/C6
+
+Status: PHASE 6 C1 REGISTERS COMPLETE – READ-ONLY – INVENTORY-BACKED – FOUNDER-FIRST – NO NEW CLAIMS – STUB WHERE UNKNOWN – LOCAL-ONLY – CLAIM ≤ EVIDENCE
