@@ -1,0 +1,150 @@
+PHASE 4 A10 OFFLINE TRUST REGISTRY TEMPLATE – LOCAL-ONLY – READ-ONLY – FAILS CLOSED
+
+Date: 2026-10-26
+Chain: 7947dae A6 CLOSED 590.38kB -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER 594.57kB -> A10 TRUST REGISTRY DOC-ONLY
+Build: 594.57kB gzip 160.41kB PASS ≤596kB headroom 1.43kB – NO CODE CHANGE FOR A10 – TEXT ONLY
+Mode: LOCAL-ONLY – No network – No keys generated – No signatures – Empty registry fails closed
+
+1. GOAL
+- Create offline Ed25519 trust-registry template and audit-core plan for meUus.
+- Empty registry must fail closed (no trust = no action).
+- No key generation, no private keys, no signatures in this doc – template only.
+- Fits Phase 4 LOCAL-ONLY constraint – Network tab empty.
+
+2. CONTRACT
+- Registry is LOCAL-ONLY – stored as JSON at governance layer, not in app bundle.
+- App bundle remains ≤596kB – A10 adds 0B to bundle – doc only at D:\MEUUS_ECOSYSTEM\_governance-publish\docs\PHASE_4_A10_TRUST_REGISTRY_EVE.txt and E:\CREATION_meUus\Powershell output\PHASE_4_A10_TRUST_REGISTRY_EVE.txt
+- Trust decisions are offline – no fetch – no Supabase – no network.
+- Empty registry = deny all.
+
+3. Ed25519 TRUST REGISTRY TEMPLATE (JSON Schema – Text Only – No Keys)
+
+File: trust.registry.template.json (to be created in governance – not in app)
+{
+  "v": 1,
+  "createdAt": "ISO-8601",
+  "algo": "Ed25519",
+  "policy": "fail-closed-empty",
+  "registry": {
+    "issuers": [
+      {
+        "id": "issuer-001",
+        "label": "meUus-founder-P-001",
+        "pubKey": "BASE64URL-ED25519-PUBKEY-PLACEHOLDER-44CHARS-NO-REAL-KEY",
+        "status": "active|revoked",
+        "role": "founder|auditor|recovery",
+        "addedAt": "ISO-8601",
+        "notes": "synthetic/demo unless marked participant"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": "dlas-full100-v1",
+        "type": "dataset",
+        "hash": "SHA256-HEX-PLACEHOLDER",
+        "signedBy": "issuer-001",
+        "signature": "BASE64URL-ED25519-SIG-PLACEHOLDER-86CHARS-NO-REAL-SIG",
+        "verified": false,
+        "status": "empty-fails-closed"
+      }
+    ],
+    "revocations": []
+  },
+  "audit": {
+    "lastAuditAt": null,
+    "auditLog": []
+  }
+}
+
+Rules:
+- pubKey must be 32-byte Ed25519 public key encoded base64url – 44 chars with padding – placeholder only in template.
+- signature must be 64-byte Ed25519 signature encoded base64url – 86-88 chars – placeholder only.
+- No private keys ever stored – private keys remain offline in founder hardware – never in repo.
+- Empty registry: if registry.issuers.length == 0 OR registry.artifacts.length == 0 → all verifications FAIL CLOSED – return { trusted: false, reason: "empty-registry-fails-closed" }.
+- Revoked issuers: if issuer.status == "revoked" → all artifacts signedBy revoked issuer → FAIL CLOSED.
+- Hash mismatch → FAIL CLOSED.
+
+4. EMPTY FAILS CLOSED LOGIC (Pseudocode – LOCAL-ONLY – No Network)
+
+function verifyArtifact(artifactId: string, registry: TrustRegistry): { trusted: boolean, reason: string } {
+  if (!registry || !registry.registry || registry.registry.issuers.length === 0) {
+    return { trusted: false, reason: "empty-registry-fails-closed – no issuers" };
+  }
+  const artifact = registry.registry.artifacts.find(a => a.id === artifactId);
+  if (!artifact) {
+    return { trusted: false, reason: "empty-registry-fails-closed – artifact not found" };
+  }
+  if (registry.registry.revocations.includes(artifact.signedBy)) {
+    return { trusted: false, reason: "revoked-issuer-fails-closed" };
+  }
+  const issuer = registry.registry.issuers.find(i => i.id === artifact.signedBy);
+  if (!issuer || issuer.status === "revoked") {
+    return { trusted: false, reason: "issuer-revoked-fails-closed" };
+  }
+  // Offline hash check – SHA256 – local only
+  // const computedHash = sha256(localFileBytes);
+  // if (computedHash !== artifact.hash) return { trusted: false, reason: "hash-mismatch-fails-closed" };
+  // Ed25519 verify – offline – no network – using noble-ed25519 or tweetnacl – local only
+  // if (!ed25519.verify(artifact.signature, artifact.hash, issuer.pubKey)) return { trusted: false, reason: "sig-invalid-fails-closed" };
+  // If registry is template with placeholders → always fail closed until real keys/hashes populated
+  return { trusted: false, reason: "template-placeholders-fails-closed – populate real pubKey/sig/hash to verify" };
+}
+
+5. AUDIT-CORE PLAN – LOCAL-ONLY – READ-ONLY
+
+Goal: Offline audit trail – no PII – no network – local JSON log.
+
+File: trust.audit.template.json
+{
+  "v": 1,
+  "auditId": "audit-001",
+  "scope": ["dlas-full100", "gamehub-scores", "founder-P-001"],
+  "checks": [
+    { "check": "registry-not-empty", "status": "fail-closed", "expected": "registry.issuers.length >0" },
+    { "check": "no-destructive-migration", "status": "pass", "expected": "no fallbackToDestructiveMigration in web – localStorage only" },
+    { "check": "dlas-non-scoring", "status": "pass", "expected": "meuus_dlas_full100 values in [0,21,50,75,100] only" },
+    { "check": "gamehub-local-only", "status": "pass", "expected": "meuus_gamehub_scores_v1 localStorage only – no network" },
+    { "check": "founder-synthetic-label", "status": "pass", "expected": "synthetic:true for demo – participant separated" },
+    { "check": "build-budget", "status": "pass", "expected": "App-*.js ≤596kB – current 594.57kB – headroom 1.43kB" },
+    { "check": "network-tab-empty", "status": "pass", "expected": "StudioHub #studio – no fetch – LOCAL-ONLY" }
+  ],
+  "result": "fail-closed-if-any-check-fails",
+  "loggedAt": "ISO-8601",
+  "auditor": "issuer-001",
+  "signature": "PLACEHOLDER"
+}
+
+Audit Steps:
+1. Load trust.registry.template.json – if empty → FAIL CLOSED – log.
+2. Verify DLAS Full-100 – 100 items – values 0/21/50/75/100 – 28/28 PASS – EN/BN – meuus_dlas_full100.
+3. Verify GameHub – 6 loops – local-only – meuus_gamehub_scores_v1 – no network.
+4. Verify Founder P-001 – read-only – synthetic label – meuus_founder_shell_v1 – no edits.
+5. Verify Build – App-*.js ≤596kB – current 594.57kB – gzip 160.41kB – PASS – headroom 1.43kB.
+6. Verify No Destructive Migration – web uses localStorage – exportSchema v1 – no Room fallbackToDestructiveMigration.
+7. Log result – offline – JSON – no PII – append to trust.audit.log.json.
+
+6. KEY MANAGEMENT – NO KEYS GENERATED IN THIS DOC
+- Generation (future, offline, hardware): ed25519 keypair generated offline on founder device – pubKey exported – privKey never leaves device – never in repo – never in cloud.
+- Storage: privKey in encrypted offline vault – pubKey in registry.issuers[].pubKey.
+- Rotation: new issuer id + new pubKey + old issuer status=revoked + revocation entry + audit log.
+- Signing (future, offline): hash artifact SHA256 offline → sign hash with privKey offline → signature base64url → place in registry.artifacts[].signature.
+- Verification: offline – app or governance script – no network – using Ed25519 verify – fails closed if empty.
+
+7. DELIVERABLES FOR A10
+- This file: PHASE_4_A10_TRUST_REGISTRY_EVE.txt – text only – 0B bundle impact – LOCAL-ONLY – fails closed.
+- Next files (future, not in this phase, still doc-only):
+  - docs/trust.registry.template.json (empty – fails closed)
+  - docs/trust.audit.template.json (empty – fails closed)
+  - scripts/verify-trust.mjs (offline verifier – local only – optional – ≤1kB if added in Phase 5 after budget reset)
+- No code added to apps/web/src in A10 – keeps 594.57kB ≤596kB.
+
+8. VERIFICATION – LOCAL-ONLY
+- Registry empty → verifyArtifact returns trusted:false reason:empty-registry-fails-closed – PASS – fails closed.
+- Build remains 594.57kB – no code change – PASS – headroom 1.43kB.
+- No private keys in repo – grep for "BEGIN PRIVATE KEY" → 0 results – PASS.
+- No signatures verified yet – template placeholders – always fails closed – PASS – safe.
+- Network tab empty for StudioHub #studio – 9 views – DLAS 100, GameHub 6, DataPort, Founder P-001, 5 datasets – PASS.
+
+Status: A10 TEMPLATE COMPLETE – DOC-ONLY – EMPTY FAILS CLOSED – READY FOR PHASE 5 BUDGET RESET OR CODE-SPLIT
+
+Chain: 7947dae A6 590.38kB CLOSED -> 57e1538 A7 RECON 590.23kB -> 9b67b21 A8 DATAPORT 592.97kB -> 98a07b5 A9 FOUNDER 594.57kB -> A10 TRUST REGISTRY TEMPLATE DOC-ONLY 594.57kB – Phase 4 COMPLETE
