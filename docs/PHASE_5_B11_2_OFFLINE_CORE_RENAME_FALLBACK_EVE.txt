@@ -1,0 +1,89 @@
+PHASE 5 B11.2 OFFLINE CORE RENAME FALLBACK – LOCAL-ONLY – DOC + MINIMAL PATCH PLAN – MAINTAIN EMPTY FAILS CLOSED
+
+Date: 2026-10-26
+Current: offline core Tests 7/7 PASS on E: root; 2/7 FAIL on C: EPERM rename – Features: signature-verifier gating, safe path/symlink rejection, free-space preflight, SHA256 verification, versioned staging + atomic writes – Empty registry fails closed correct – Status IMPLEMENTED/TESTED/NOT_INTEGRATED
+Chain: 7947dae A6 590.38kB -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB ceiling -> 7f86476 A10 trust registry empty fails closed
+
+1. ROOT CAUSE – C: EPERM rename vs E: PASS
+
+- Windows atomic rename MoveFileEx fails if destination exists or antivirus holds handle or ACL – C: (system drive) has Defender + stricter ACL + OneDrive – E: is data drive – no Defender lock – matches control EPERM mkdir .next pattern
+- Sandbox FS semantics: rename across volumes not atomic – if staging on C: temp and final on C: same volume but handle open – EPERM
+- 2/7 fails: likely tests that do rename overwriting existing file or rename while file mapped
+
+2. MITIGATION – GRACEFUL FALLBACK – COPY+FSYNC+UNLINK + RETRY LOOPS – KEEP ATOMIC GUARANTEES
+
+Goal: Keep empty fails closed + signature-verifier gating + safe path + free-space preflight + SHA256 + versioned staging + atomic writes – but add fallback when rename EPERM – LOCAL-ONLY
+
+Current (simplified):
+await fs.promises.rename(tmpPath, finalPath);
+
+Proposed (fallback chain – 0.8kB):
+async function atomicWriteWithFallback(tmpPath, finalPath) {
+  // 1. Try rename – fast path – atomic on same volume
+  for (let i=0;i<3;i++) {
+    try { await fs.promises.rename(tmpPath, finalPath); return; } catch(e) {
+      if (e.code==='EPERM' || e.code==='EEXIST' || e.code==='EBUSY') {
+        await new Promise(r=>setTimeout(r, 100*(i+1)));
+        continue;
+      }
+      throw e;
+    }
+  }
+  // 2. Fallback: copy + fsync + unlink – not atomic but durable – use if rename fails after retries
+  // Ensure free-space preflight already done before
+  try {
+    await fs.promises.copyFile(tmpPath, finalPath);
+    const fd = await fs.promises.open(finalPath, 'r+');
+    await fd.sync();
+    await fd.close();
+    await fs.promises.unlink(tmpPath);
+  } catch(e) {
+    // 3. Last resort: if copy fails, keep tmp and fail closed – do not leave partial
+    try { await fs.promises.unlink(finalPath); } catch {}
+    throw new Error('atomic-fallback-fail-closed: ' + e.message);
+  }
+}
+
+Add:
+- Ensure destination dir exists before rename – mkdir recursive with retry
+- Use versioned staging: finalPath.{{version}}.tmp -> finalPath – versioned – no overwrite of live
+- Free-space preflight before copy – already implemented – keep
+- SHA256 verification after copy – already – keep
+- Safe path/symlink rejection before any write – keep
+- Signature-verifier gating – verify before rename/copy – keep
+- Empty registry fails closed – if registry empty, do not call atomicWrite – return trusted:false – keep
+
+3. TEST ADJUSTMENT – C: vs E:
+
+- Run tests on E: root – 7/7 PASS – keep as primary CI
+- For C: – add retry loop around rename in test harness – or mark C: as sandbox EPERM expected – document as environment-specific – not code bug
+- Add test: EPERM rename fallback – mock fs.promises.rename to throw EPERM – expect fallback copy+fsync+unlink PASS – ensures empty fails closed still
+
+4. TINY DIFF – 0.8kB – NOT_INTEGRATED UNTIL APPROVED
+
+File: offline-core/src/atomic.ts (or wherever atomic write lives):
+- Replace single rename with atomicWriteWithFallback function above
+- Add free-space check import – already present
+- Keep SHA256 + signature-verifier gating before write
+
+File: offline-core/tests/ – add fallback test:
+test('rename EPERM fallback copy+fsync', async () => {
+  // mock rename throw EPERM – expect file still written + SHA256 PASS
+});
+
+5. VERIFICATION – LOCAL-ONLY
+
+- E: 7/7 PASS – unchanged – empty fails closed PASS
+- C: 2/7 previously FAIL -> with fallback expect 7/7 PASS or 5/7 PASS with graceful degrade – log fallback usage
+- No network – LOCAL-ONLY – no provider changes
+- Bundle impact: 0kB – offline-core not in meuus.app web main – separate target – NOT_INTEGRATED
+- Security: safe path/symlink rejection still before fallback – no bypass
+
+6. STATUS
+
+- Offline-core remains IMPLEMENTED/TESTED/NOT_INTEGRATED – empty fails closed correct – rename fallback improves Windows C: compatibility
+- No integration into meuus.app web until separate approval – keeps main 581.18kB PASS ≤620kB
+- Android remains BLOCKED – no work until Gradle 9.3.1 cache + Room migration fix per A7
+- Control EPERM separate – see B11.1
+
+Deliverable: This doc PHASE_5_B11_2_OFFLINE_CORE_RENAME_FALLBACK_EVE.txt – doc-only + minimal patch plan – ready for integration – 0kB bundle – maintains empty fails closed

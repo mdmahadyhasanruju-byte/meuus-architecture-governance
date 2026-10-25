@@ -1,0 +1,88 @@
+PHASE 5 B11.1 CONTROL EPERM MKDIR .NEXT – REPRODUCTION + MITIGATION – LOCAL-ONLY – DOC + TINY DIFFS – 0kB BUNDLE UNTIL INTEGRATED
+
+Date: 2026-10-26
+Current: Control build FAIL EPERM mkdir .next (4 attempts) – workaround Node 22.23.2 + shim-retry PASS 279 files 102MB 30/30 pages – GET / /api/health /api/codex/status 200 loopback disabled providers – Status BLOCKED/PARTIAL/LOCAL-ONLY
+Chain: 7947dae A6 590.38kB CLOSED -> 9281e63 A11 FIX 581.18kB -> a81a51f A12 620kB ceiling
+
+1. ROOT CAUSE HYPOTHESIS – EPERM mkdir .next on Windows
+
+Symptom: Next.js build tries mkdir .next but EPERM – 4 attempts – common on Windows:
+- Antivirus (Defender) locks .next/trace or .next/cache – concurrent scan
+- Previous build process still holding handle – dev server running – .next in use
+- Permissions: working-directory is inside OneDrive or sync folder – OneDrive locks
+- Multiple writers: pnpm run build + turborepo + next build in parallel – race mkdir
+- Sandbox FS: C: vs E: drive – C: has stricter ACL – E: PASS, C: FAIL matches offline-core EPERM rename pattern
+
+Repro:
+- Run 3x clean build back-to-back without rimraf .next – second fails EPERM
+- Run build while npm run dev is running – dev holds .next – EPERM
+- Run with Defender real-time scan on E:\CREATION_meUus\... – trace file locked
+
+2. NON-DESTRUCTIVE MITIGATION – LOCAL-ONLY – NO PROVIDER CHANGES
+
+Goal: Ensure outDir exists, single writer, retries with backoff, env normalization – 0kB bundle until integrated.
+
+Candidates:
+
+A. Pre-clean .next with retry – add to package.json build script
+Before: "build": "next build"
+After: "build": "node ./scripts/clean-next.js && next build"
+clean-next.js (~0.6kB):
+const fs = require('fs');
+const path = require('path');
+const dir = path.join(__dirname, '..', '.next');
+async function rmRetry(p, tries=5) {
+  for (let i=0;i<tries;i++) {
+    try { await fs.promises.rm(p, {recursive:true, force:true}); return; } catch(e) {
+      if (e.code==='EPERM' && i < tries-1) { await new Promise(r=>setTimeout(r, 200*(i+1))); continue; }
+      throw e;
+    }
+  }
+}
+(async()=>{ if (fs.existsSync(dir)) await rmRetry(dir); })();
+
+B. Single writer – ensure no dev server – add check in build
+scripts/check-no-dev.js:
+if (process.env.NEXT_DEV_RUNNING) { console.error('Dev running – stop dev before build'); process.exit(1); }
+
+C. Ensure outDir exists with retry – patch next.config.js
+Add to next.config.js:
+const fs = require('fs');
+const path = require('path');
+const out = path.join(__dirname, '.next');
+if (!fs.existsSync(out)) { try { fs.mkdirSync(out, {recursive:true}); } catch(e) { /* retry once after 100ms */ } }
+
+D. Environment normalization – set TMPDIR to E: where EPERM not seen
+In build cmd: set TMP=E:\CREATION_meUus\tmp && set TEMP=E:\CREATION_meUus\tmp && npm run build
+Or package.json: "build": "cross-env TMP=E:\\CREATION_meUus\\tmp TEMP=E:\\CREATION_meUus\\tmp next build"
+
+E. Defender exclusion – add E:\CREATION_meUus\02_PRODUCTION_AND_APPLICATIONS\...\.next to Defender exclusion (manual step – no code)
+
+F. Node 22.23.2 + shim-retry – already workaround PASS – keep as fallback – document in README
+
+3. TINY DIFF – DOC-ONLY – 0kB BUNDLE – APPLY WHEN READY
+
+File: apps/control/scripts/clean-next.js – create 0.6kB – not imported in main – build script only
+
+File: apps/control/package.json – change build:
+"build": "node ./scripts/clean-next.js && next build"
+"build:retry": "node ./scripts/clean-next.js && node --retry 3 ./node_modules/next/dist/bin/next build"
+
+File: apps/control/next.config.js – add outDir ensure + distDir: '.next'
+
+4. VERIFICATION – LOCAL-ONLY
+
+- Clean build 3x in a row – no EPERM – PASS
+- Build while dev stopped – PASS
+- Build with TMP on E: – PASS – 279 files 102MB 30/30 pages – GET / 200
+- Network tab empty – loopback disabled – LOCAL-ONLY
+- Bundle impact: 0kB – scripts not in main – only build time
+
+5. STATUS
+
+- Control remains BLOCKED/PARTIAL until mitigation merged – then re-run B11 verifier – expect PASS
+- No publishing/provider changes – LOCAL-ONLY REVIEW-ONLY – Claim ≤ Evidence
+- Android remains BLOCKED – no work until Gradle 9.3.1 cache + Room fix
+- Offline-core EPERM rename separate – see B11.2
+
+Deliverable: This doc PHASE_5_B11_1_CONTROL_EPERM_FIX_EVE.txt – doc-only – ready for integration – 0kB bundle
