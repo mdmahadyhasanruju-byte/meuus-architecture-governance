@@ -1,0 +1,40 @@
+A2 Scaffold — bounded action record (to save as both TXT files)
+
+Action: Add feature flags and skeleton views for Phase 3
+Why: Gate new features and allow UI scaffolding without data; preserve size headroom; LOCAL-ONLY
+Evidence: Phase 2 P2 CLOSED FINAL b7642b9 VERIFIED – 9 PASS + build 576.32 kB 1.83s 1561 modules PASS – chain 269457e+3e50484+7056c35+20d78c7
+
+Files to create/modify (no data yet):
+- apps/web/src/lib/flags.ts
+- apps/web/src/components/studio/DLASStudioView.tsx
+- apps/web/src/components/studio/BookZeroView.tsx
+- apps/web/src/components/studio/CapabilityView.tsx
+- apps/web/src/components/studio/VocabView.tsx
+- apps/web/src/components/studio/PillarsView.tsx
+- apps/web/src/components/studio/index.ts (barrel, optional)
+
+Expected outcome:
+- Five minimal views exist and compile; not yet wired to routes
+- Feature flags exported and can be used to gate future UI
+- No data included; no new deps; LOCAL-ONLY; build size unchanged (files not imported yet)
+
+Verification:
+- Files present at the above paths
+- Project compiles if any view is imported in a local dev sandbox
+- No network calls in code
+
+Risks/Rollback:
+- Minimal risk; pure additive scaffold
+- Rollback: delete the created files or revert the flags additions
+
+Size budget:
+- As long as views are not imported, bundlers will tree-shake; delta ~0 kB
+- If imported in dev-only areas, each view is ≤ 0.3 kB raw TSX (pre-bundle)
+- Current: 576.32 kB – headroom 23.68 kB – target ≤596 kB – PASS
+
+Next actions:
+- A3: Generate compact JSON stubs (DLAS100/Book105/Cap60/Vocab10/Pillars5) within the 8 kB table budget
+- A4: Implement DLAS grid toggler + local storage
+- A5: GameHub 6 loops, local-only scores
+
+Status: A2 SCAFFOLD READY – LOCAL-ONLY – 2026-10-26
