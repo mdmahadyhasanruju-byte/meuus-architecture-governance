@@ -1,0 +1,9 @@
+{
+  "state_date": "2026-08-23",
+  "project_ref": "vmugbtmgzpxlnnqyxore",
+  "mode": "READ_ONLY",
+  "profiles_name_match_query": "Assib OR Musfikur",
+  "matches": 0,
+  "mutation": false,
+  "interpretation": "No direct production profile mapping by full_name was found. Historical/pilot Soul evidence remains a separate evidence layer."
+}
